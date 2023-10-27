@@ -15,21 +15,22 @@ public class ApplicationStarter {
 
     private static String[][] collectStudentsData(int numberOfStudents) {
         String[][] students = new String[numberOfStudents][SUBJECTS.length];
-        for (int i = 1; i <= numberOfStudents; i++) {
-            System.out.println("Enter information about student #" + i);
-            String studentName = "";
+        String studentName = "";
+        for (int i = 0; i < numberOfStudents; i++) {
+            System.out.println("Enter information about student #" + (i+1));
             while (studentName.isEmpty()) {
                 System.out.println("Student's name: ");
                 studentName = scanner.next();
             }
             students[i][NAME_INDEX] = studentName;
+            studentName = "";
             for (int j = 1; j <= SUBJECTS.length; j++) {
                 float grade = DEFAULT_GRADE;
                 while(grade < 0 || grade > 100) {
                     System.out.println(SUBJECTS[j-1] + " Grade (0-100): ");
                     grade = scanner.nextFloat();
                 }
-                students[i][j] = String.valueOf(grade);
+                students[i][j-1] = String.valueOf(grade);
             }
         }
         return students;
@@ -40,6 +41,6 @@ public class ApplicationStarter {
             System.out.println("Error: The application have no arguments");
             System.exit(1);
         }
-        System.out.println(collectStudentsData(Integer.parseInt(args[0])));
+        String[][] studentsData = collectStudentsData(Integer.parseInt(args[0]));
     }
 }
