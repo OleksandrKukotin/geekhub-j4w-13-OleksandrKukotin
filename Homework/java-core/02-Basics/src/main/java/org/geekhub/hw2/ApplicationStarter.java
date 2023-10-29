@@ -66,5 +66,6 @@ public class ApplicationStarter {
         String[][] studentsData = collectStudentsData(Integer.parseInt(args[0]));
         printAveragesByStudents(studentsData);
         printAveragesBySubjects(studentsData);
+        scanner.close();
     }
 }
