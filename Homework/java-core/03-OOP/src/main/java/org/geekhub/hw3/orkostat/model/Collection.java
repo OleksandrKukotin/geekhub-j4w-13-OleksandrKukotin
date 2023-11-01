@@ -1,4 +1,4 @@
-package org.geekhub.hw3.orcostat.model;
+package org.geekhub.hw3.orkostat.model;
 
 public interface Collection {
 

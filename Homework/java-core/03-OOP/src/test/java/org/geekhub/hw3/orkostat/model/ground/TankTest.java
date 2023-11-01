@@ -1,8 +1,8 @@
-package org.geekhub.hw3.orcostat.model.ground;
+package org.geekhub.hw3.orkostat.model.ground;
 
-import org.geekhub.hw3.orcostat.model.Collection;
-import org.geekhub.hw3.orcostat.model.Orc;
-import org.geekhub.hw3.orcostat.model.SimpleCollection;
+import org.geekhub.hw3.orkostat.model.Collection;
+import org.geekhub.hw3.orkostat.model.Ork;
+import org.geekhub.hw3.orkostat.model.SimpleCollection;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,7 +29,7 @@ class TankTest {
     @Test
     void tank_can_have_some_equipage() {
         Tank tank = new Tank(3);
-        tank.putOrc(new Orc());
+        tank.putOrk(new Ork());
 
         int size = tank.getEquipage().size();
 
@@ -37,11 +37,11 @@ class TankTest {
     }
 
     @Test
-    void should_not_put_orc_when_same_orc_put_again() {
+    void should_not_put_ork_when_same_ork_put_again() {
         Tank tank = new Tank(3);
-        Orc orc = new Orc();
-        tank.putOrc(orc);
-        tank.putOrc(orc);
+        Ork ork = new Ork();
+        tank.putOrk(ork);
+        tank.putOrk(ork);
 
         int size = tank.getEquipage().size();
 
@@ -51,11 +51,11 @@ class TankTest {
     @Test
     void tank_equipage_cannot_be_more_than_technical_max() {
         Tank tank = new Tank(3);
-        tank.putOrc(new Orc());
-        tank.putOrc(new Orc());
-        tank.putOrc(new Orc());
+        tank.putOrk(new Ork());
+        tank.putOrk(new Ork());
+        tank.putOrk(new Ork());
 
-        boolean sit = tank.putOrc(new Orc());
+        boolean sit = tank.putOrk(new Ork());
 
         assertFalse(sit);
         assertEquals(3, tank.getEquipage().size());
@@ -66,7 +66,7 @@ class TankTest {
         Tank tank = new Tank(3);
         Driver driver = new Driver(new SimpleCollection(DriverLicenseCategory.B, DriverLicenseCategory.BE));
 
-        tank.putOrc(driver);
+        tank.putOrk(driver);
 
         assertEquals(1, tank.getEquipage().size());
         Driver actualDriver = (Driver) tank.getEquipage().getElements()[0];
@@ -81,8 +81,8 @@ class TankTest {
     @Test
     void shoot() {
         Tank tank = new Tank(3);
-        tank.putOrc(new Driver());
-        tank.putOrc(new Orc());
+        tank.putOrk(new Driver());
+        tank.putOrk(new Ork());
 
         String shoot = tank.shoot();
 
@@ -101,9 +101,9 @@ class TankTest {
     @Test
     void destroy_non_empty() {
         Tank tank = new Tank(3);
-        tank.putOrc(new Driver());
-        tank.putOrc(new Orc());
-        tank.putOrc(new Orc());
+        tank.putOrk(new Driver());
+        tank.putOrk(new Ork());
+        tank.putOrk(new Ork());
 
         String result = tank.destroy();
 
