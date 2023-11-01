@@ -1,4 +1,4 @@
-package org.geekhub.hw3.orcostat.model.air;
+package org.geekhub.hw3.orkostat.model.air;
 
 
 import org.junit.jupiter.api.Test;

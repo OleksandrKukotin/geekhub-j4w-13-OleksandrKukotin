@@ -1,10 +1,10 @@
-package org.geekhub.hw3.orcostat.model.ground;
+package org.geekhub.hw3.orkostat.model.ground;
 
-import org.geekhub.hw3.orcostat.model.Collection;
-import org.geekhub.hw3.orcostat.model.Orc;
-import org.geekhub.hw3.orcostat.model.SimpleCollection;
+import org.geekhub.hw3.orkostat.model.Collection;
+import org.geekhub.hw3.orkostat.model.Ork;
+import org.geekhub.hw3.orkostat.model.SimpleCollection;
 
-public class Driver extends Orc {
+public class Driver extends Ork {
 
     private final Collection licenseCategories;
 
