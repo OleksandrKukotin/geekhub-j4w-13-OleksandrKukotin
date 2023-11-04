@@ -20,8 +20,8 @@ public class Tank implements Technique {
         if (equipage.size() + 1 > capacity) {
             return false;
         }
-        for (Object member: equipage.getElements()) {
-            if (member.equals(ork)){
+        for (Object member : equipage.getElements()) {
+            if (member.equals(ork)) {
                 return false;
             }
         }
