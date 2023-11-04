@@ -15,8 +15,11 @@ public class Aircraft implements Technique {
 
     @Override
     public String destroy() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Destroyed!");
         Pilot pilot = (Pilot) equipage.getElements()[0];
-        return "Destroyed!" + pilot.scream();
+        stringBuilder.append(pilot.scream());
+        return stringBuilder.toString();
     }
 
     @Override
