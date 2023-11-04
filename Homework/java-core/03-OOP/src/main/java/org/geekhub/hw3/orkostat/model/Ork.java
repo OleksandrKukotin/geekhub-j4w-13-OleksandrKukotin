@@ -7,6 +7,7 @@ public class Ork {
     public Ork() {
         this.price = 10_000;
     }
+
     public Ork(int price) {
         this.price = price;
     }
