@@ -50,6 +50,7 @@ allprojects {
         rules {
             disable(
                     'java:S107', // Allow constructors with more than 7 parameters
+                    'java:S1643', // Temporary Allow String concatenation in loop
                     'java:S3776', // Allow methods with more than 15 lines
                     'java:S1135', // Allow TODO comments
                     'java:S2094' // Allow empty classes for homeworks
