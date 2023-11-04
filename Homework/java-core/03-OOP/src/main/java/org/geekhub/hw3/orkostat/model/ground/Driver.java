@@ -6,19 +6,19 @@ import org.geekhub.hw3.orkostat.model.SimpleCollection;
 
 public class Driver extends Ork {
 
-    private final Collection licenseCategories;
+    private final SimpleCollection driverLicenseCategories;
 
     public Driver() {
-        this(new SimpleCollection());
+        this(new SimpleCollection(DriverLicenseCategory.B));
     }
 
-    public Driver(Collection licenseCategories) {
+    public Driver(SimpleCollection categories) {
         super(15_000);
-        this.licenseCategories = licenseCategories;
+        driverLicenseCategories = categories;
     }
 
     public Collection getLicenseCategories() {
-        return licenseCategories;
+        return driverLicenseCategories;
     }
 
     @Override

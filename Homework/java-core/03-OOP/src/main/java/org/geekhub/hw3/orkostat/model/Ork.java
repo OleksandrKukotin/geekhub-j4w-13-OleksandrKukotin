@@ -11,7 +11,7 @@ public class Ork {
         this.price = price;
     }
 
-    protected String scream() {
+    public String scream() {
         return "Aaaaaa!";
     }
 
