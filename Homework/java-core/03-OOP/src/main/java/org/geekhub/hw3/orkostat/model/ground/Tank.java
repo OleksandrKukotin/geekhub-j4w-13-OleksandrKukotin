@@ -15,7 +15,6 @@ public class Tank implements Technique {
         this.capacity = capacity;
     }
 
-    @Override
     public boolean putOrk(Ork ork) {
         if (equipage.size() + 1 > capacity) {
             return false;
@@ -27,17 +26,6 @@ public class Tank implements Technique {
         }
         equipage.add(ork);
         return true;
-    }
-
-    @Override
-    public String destroy() {
-        StringBuilder sounds = new StringBuilder();
-        sounds.append("Destroyed!");
-        for (Object member : equipage.getElements()) {
-            Ork ork = (Ork) member;
-            sounds.append(ork.scream());
-        }
-        return sounds.toString();
     }
 
     @Override
