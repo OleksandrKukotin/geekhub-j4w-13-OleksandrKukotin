@@ -22,13 +22,13 @@ public class Pilot extends Ork {
     }
 
     public Pilot() {
+        super(20_000);
         flewHours = 0;
-        setPrice(20_000);
     }
 
     public Pilot(int flewHours) {
+        super(20_000);
         this.flewHours = flewHours;
-        setPrice(20_000);
     }
 
     @Override
