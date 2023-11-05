@@ -26,18 +26,6 @@ public class Ship implements Technique {
     }
 
     @Override
-    public String destroy() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Destroyed!");
-        for (Object seaman : equipage.getElements()) {
-            if (seaman instanceof Ork ork) {
-                stringBuilder.append(ork.scream());
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    @Override
     public Collection getEquipage() {
         return equipage;
     }
@@ -52,7 +40,6 @@ public class Ship implements Technique {
         return "BOOM!";
     }
 
-    @Override
     public boolean putOrk(Ork ork) {
         if (equipage.size() + 1 > capacity) {
             return false;
