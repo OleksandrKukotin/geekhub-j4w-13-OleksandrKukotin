@@ -7,7 +7,7 @@ import org.geekhub.hw3.orkostat.model.Technique;
 
 public class Ship implements Technique {
 
-    private SimpleCollection equipage;
+    private final SimpleCollection equipage;
     private final int capacity;
 
     public Ship(Admiral admiral, int capacity) {

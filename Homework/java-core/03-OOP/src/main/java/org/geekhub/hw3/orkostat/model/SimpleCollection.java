@@ -1,7 +1,8 @@
 package org.geekhub.hw3.orkostat.model;
 
 public class SimpleCollection implements Collection {
-    private Object[] elements;
+
+    private final Object[] elements;
 
     private static final int DEFAULT_CAPACITY = 6;
     private int size;
