@@ -4,7 +4,7 @@ import org.geekhub.hw3.orkostat.model.Ork;
 
 public class Pilot extends Ork {
 
-    private int flewHours;
+    private final int flewHours;
 
     public Pilot() {
         super(20_000);
