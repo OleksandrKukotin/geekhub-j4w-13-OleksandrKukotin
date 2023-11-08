@@ -3,17 +3,37 @@ package org.geekhub.hw4;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 public class CollectionExpander implements Expander {
     @Override
     public double getMinValue(Collection<? extends Number> collection) {
-        return 0.0;
+        if (collection.isEmpty()) {
+            return Double.MAX_VALUE;
+        }
+        Set<Double> sortedCollection = new TreeSet<>();
+        for (Number number : collection) {
+            sortedCollection.add(number.doubleValue());
+        }
+        return sortedCollection.iterator().next();
     }
 
     @Override
     public double getMaxValue(Collection<? extends Number> collection) {
-        return 0.0;
+        if (collection.isEmpty()) {
+            return Double.MAX_VALUE;
+        }
+        Set<Double> sortedCollection = new TreeSet<>();
+        for (Number number : collection) {
+            sortedCollection.add(number.doubleValue());
+        }
+        double max = Double.MIN_VALUE;
+        for (Double value : sortedCollection) {
+            max = value;
+        }
+        return max;
     }
 
     @Override
@@ -22,7 +42,7 @@ public class CollectionExpander implements Expander {
     }
 
     @Override
-    public String join(Collection<?> collection,  char delimiter) {
+    public String join(Collection<?> collection, char delimiter) {
         return null;
     }
 
