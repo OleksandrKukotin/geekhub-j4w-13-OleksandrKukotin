@@ -1,6 +1,8 @@
 package org.geekhub.hw4;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +25,7 @@ public class CollectionExpander implements Expander {
     @Override
     public double getMaxValue(Collection<? extends Number> collection) {
         if (collection.isEmpty()) {
-            return Double.MAX_VALUE;
+            return Double.MIN_VALUE;
         }
         Set<Double> sortedCollection = new TreeSet<>();
         for (Number number : collection) {
@@ -38,12 +40,35 @@ public class CollectionExpander implements Expander {
 
     @Override
     public double getSum(Collection<? extends Number> collection) {
-        return 0.0;
+        if (collection.isEmpty()) {
+            return 0.0;
+        }
+        double sum = 0;
+        List<Double> arrayToSum = new ArrayList<>();
+        for (Number number : collection) {
+            arrayToSum.add(number.doubleValue());
+        }
+        for (Double number : arrayToSum) {
+            sum += number;
+        }
+        return sum;
     }
 
     @Override
     public String join(Collection<?> collection, char delimiter) {
-        return null;
+        if (collection.isEmpty()) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        List<Object> elements = new ArrayList<>(collection);
+        Iterator iterator = elements.iterator();
+        while (iterator.hasNext()) {
+            result.append(iterator.next().toString());
+            if (iterator.hasNext()) {
+                result.append(delimiter);
+            }
+        }
+        return result.toString();
     }
 
     @Override
