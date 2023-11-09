@@ -2,7 +2,11 @@ package org.geekhub.hw4;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,27 +77,47 @@ public class CollectionExpander implements Expander {
 
     @Override
     public List<Double> reversed(List<? extends Number> collection) {
-        return null;
+        List<Double> collectionToReverse = new ArrayList<>();
+        for (Number number : collection) {
+            collectionToReverse.add(number.doubleValue());
+        }
+        Collections.reverse(collectionToReverse);
+        return collectionToReverse;
     }
 
     @Override
     public List<List<Object>> chunked(Collection<?> collection, int amount) {
+        List<List<Object>> resultingList = new ArrayList<>();
         return null;
     }
 
     @Override
     public List<?> dropElements(List<?> list, Object criteria) {
-        return null;
+        List<?> resultingList = new ArrayList<>(list);
+        if (criteria instanceof Integer index) {
+            resultingList.remove(index.intValue());
+        } else {
+            while (resultingList.contains(criteria)) {
+                resultingList.remove(criteria);
+            }
+        }
+        return resultingList;
     }
 
     @Override
     public <T> List<T> getClassList(T t) {
-        return null;
+        List<T> resultingList = new ArrayList<>();
+        resultingList.add(t);
+        return resultingList;
     }
 
     @Override
     public <T> List<T> removeDuplicatesAndNull(List<T> collection) {
-        return null;
+        Set<T> duplicatesCleaner = new LinkedHashSet<>(collection);
+        while (duplicatesCleaner.contains(null)) {
+            duplicatesCleaner.remove(null);
+        }
+        return new ArrayList<>(duplicatesCleaner);
     }
 
     @Override
@@ -103,6 +127,7 @@ public class CollectionExpander implements Expander {
 
     @Override
     public <T, U> Map<T, U> merge(Map<T, U> map1, Map<T, U> map2) {
+        Map<T, U> resultingMap = new HashMap<>();
         return null;
     }
 
