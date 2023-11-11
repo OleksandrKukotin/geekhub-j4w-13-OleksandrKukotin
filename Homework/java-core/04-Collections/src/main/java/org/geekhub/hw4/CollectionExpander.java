@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class CollectionExpander implements Expander {
         }
         StringBuilder result = new StringBuilder();
         List<Object> elements = new ArrayList<>(collection);
-        Iterator iterator = elements.iterator();
+        Iterator<Object> iterator = elements.iterator();
         while (iterator.hasNext()) {
             result.append(iterator.next().toString());
             if (iterator.hasNext()) {
@@ -88,7 +89,18 @@ public class CollectionExpander implements Expander {
     @Override
     public List<List<Object>> chunked(Collection<?> collection, int amount) {
         List<List<Object>> resultingList = new ArrayList<>();
-        return null;
+        for (int i = 0; i < amount; i++) {
+            ArrayList<Object> items = new ArrayList<>();
+            int count = collection.size() % amount;
+            for (int j = 0; j < collection.size() / amount; j++) {
+                items.add(collection.toArray()[j * 3 + i]);
+            }
+            if (i < count) {
+                items.add(collection.toArray()[collection.size() - count + i]);
+            }
+            resultingList.add(new LinkedList<>(items));
+        }
+        return resultingList;
     }
 
     @Override
@@ -122,22 +134,46 @@ public class CollectionExpander implements Expander {
 
     @Override
     public <T> Map<T, Collection<T>> grouping(Collection<T> collection) {
-        return null;
+        Map<T, Collection<T>> resultingMap = new HashMap<>();
+        for (T element : collection) {
+            resultingMap.computeIfAbsent(element, k -> new ArrayList<>()).add(element);
+        }
+        return resultingMap;
     }
 
     @Override
     public <T, U> Map<T, U> merge(Map<T, U> map1, Map<T, U> map2) {
-        Map<T, U> resultingMap = new HashMap<>();
-        return null;
+        map1.putAll(map2);
+        return map1;
     }
 
     @Override
     public <T, U> Map<T, U> applyForNull(Map<T, U> map, U defaultValue) {
-        return null;
+        for (Map.Entry<T, U> entry : map.entrySet()) {
+            U value = entry.getValue();
+            if (value == null) {
+                entry.setValue(defaultValue);
+            }
+        }
+        return map;
     }
 
-    @Override
     public <T> Collection<T> collectingList(Map<T, T> map1, Map<T, T> map2) {
-        return null;
+        Collection<T> resultingList = new ArrayList<>();
+        ArrayList<T> values = new ArrayList<>(map1.values());
+        ArrayList<T> keys = new ArrayList<>(map2.keySet());
+        for (int i = 0; i < map2.size(); i++) {
+            if (values.contains(keys.get(i))) {
+                resultingList.add(keys.get(i));
+            }
+        }
+        values = new ArrayList<>(map2.values());
+        keys = new ArrayList<>(map1.keySet());
+        for (int i = 0; i < map1.size(); i++) {
+            if (values.contains(keys.get(i))) {
+                resultingList.add(keys.get(i));
+            }
+        }
+        return new HashSet<>(resultingList);
     }
 }
