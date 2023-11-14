@@ -15,16 +15,17 @@ import java.util.TreeSet;
 
 
 public class CollectionExpander implements Expander {
+
     @Override
     public double getMinValue(Collection<? extends Number> collection) {
         if (collection.isEmpty()) {
             return Double.MAX_VALUE;
         }
-        Set<Double> sortedCollection = new TreeSet<>();
+        TreeSet<Double> sortedCollection = new TreeSet<>();
         for (Number number : collection) {
             sortedCollection.add(number.doubleValue());
         }
-        return sortedCollection.iterator().next();
+        return sortedCollection.first();
     }
 
     @Override
@@ -32,15 +33,11 @@ public class CollectionExpander implements Expander {
         if (collection.isEmpty()) {
             return Double.MIN_VALUE;
         }
-        Set<Double> sortedCollection = new TreeSet<>();
+        TreeSet<Double> sortedCollection = new TreeSet<>();
         for (Number number : collection) {
             sortedCollection.add(number.doubleValue());
         }
-        double max = Double.MIN_VALUE;
-        for (Double value : sortedCollection) {
-            max = value;
-        }
-        return max;
+        return sortedCollection.last();
     }
 
     @Override
@@ -49,12 +46,8 @@ public class CollectionExpander implements Expander {
             return 0.0;
         }
         double sum = 0;
-        List<Double> arrayToSum = new ArrayList<>();
         for (Number number : collection) {
-            arrayToSum.add(number.doubleValue());
-        }
-        for (Double number : arrayToSum) {
-            sum += number;
+            sum += number.doubleValue();
         }
         return sum;
     }
@@ -89,14 +82,15 @@ public class CollectionExpander implements Expander {
     @Override
     public List<List<Object>> chunked(Collection<?> collection, int amount) {
         List<List<Object>> resultingList = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
+        final Object[] collectionArray = collection.toArray();
+        for (int chunk = 0; chunk < amount; chunk++) {
             ArrayList<Object> items = new ArrayList<>();
-            int count = collection.size() % amount;
+            int chunkSize = collection.size() % amount;
             for (int j = 0; j < collection.size() / amount; j++) {
-                items.add(collection.toArray()[j * 3 + i]);
+                items.add(collectionArray[j * amount + chunk]);
             }
-            if (i < count) {
-                items.add(collection.toArray()[collection.size() - count + i]);
+            if (chunk < chunkSize) {
+                items.add(collectionArray[collection.size() - chunkSize + chunk]);
             }
             resultingList.add(new LinkedList<>(items));
         }
@@ -105,15 +99,22 @@ public class CollectionExpander implements Expander {
 
     @Override
     public List<?> dropElements(List<?> list, Object criteria) {
-        List<?> resultingList = new ArrayList<>(list);
         if (criteria instanceof Integer index) {
-            resultingList.remove(index.intValue());
+            dropElementByIndex(list, index);
         } else {
-            while (resultingList.contains(criteria)) {
-                resultingList.remove(criteria);
-            }
+            dropElementsByObject(list, criteria);
         }
-        return resultingList;
+        return list;
+    }
+
+    private static void dropElementByIndex(List<?> list, int index) {
+        list.remove(index);
+    }
+
+    private static void dropElementsByObject(List<?> list, Object targetObject) {
+        while (list.contains(targetObject)) {
+            list.remove(targetObject);
+        }
     }
 
     @Override
@@ -126,9 +127,7 @@ public class CollectionExpander implements Expander {
     @Override
     public <T> List<T> removeDuplicatesAndNull(List<T> collection) {
         Set<T> duplicatesCleaner = new LinkedHashSet<>(collection);
-        while (duplicatesCleaner.contains(null)) {
-            duplicatesCleaner.remove(null);
-        }
+        duplicatesCleaner.remove(null);
         return new ArrayList<>(duplicatesCleaner);
     }
 
@@ -159,21 +158,19 @@ public class CollectionExpander implements Expander {
     }
 
     public <T> Collection<T> collectingList(Map<T, T> map1, Map<T, T> map2) {
-        Collection<T> resultingList = new ArrayList<>();
-        ArrayList<T> values = new ArrayList<>(map1.values());
-        ArrayList<T> keys = new ArrayList<>(map2.keySet());
-        for (int i = 0; i < map2.size(); i++) {
-            if (values.contains(keys.get(i))) {
-                resultingList.add(keys.get(i));
-            }
-        }
-        values = new ArrayList<>(map2.values());
-        keys = new ArrayList<>(map1.keySet());
-        for (int i = 0; i < map1.size(); i++) {
-            if (values.contains(keys.get(i))) {
-                resultingList.add(keys.get(i));
-            }
-        }
+        List<T> resultingList = new ArrayList<>();
+        resultingList.addAll(processMapKeys(map1.keySet(), map2.values()));
+        resultingList.addAll(processMapKeys(map2.keySet(), map1.values()));
         return new HashSet<>(resultingList);
+    }
+
+    private <T> List<T> processMapKeys(Set<T> mapKeys, Collection<T> othersMapValues) {
+        List<T> elements = new ArrayList<>();
+        for (T key : mapKeys) {
+            if (othersMapValues.contains(key)) {
+                elements.add(key);
+            }
+        }
+        return elements;
     }
 }
