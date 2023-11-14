@@ -13,9 +13,9 @@
     - Ork types
         1. `Ork`
         2. `Driver`
-           - has driver license
+            - has driver license
         3. `Pilot`
-           - has flew hours score
+            - has flew hours score
         4. ...TODO...
     - Cost a bit
         - default cost is Lada Vesta Sport price
