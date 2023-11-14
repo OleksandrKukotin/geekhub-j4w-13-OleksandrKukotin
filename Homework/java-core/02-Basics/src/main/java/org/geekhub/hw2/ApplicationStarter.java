@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class ApplicationStarter {
 
-    private static final String[] SUBJECTS = {"Memology", "Cybersport", "History"};
-    private static final int NUMBER_OF_SUBJECTS = SUBJECTS.length;
     public static final int DEFAULT_GRADE = -1;
     public static final int NAME_INDEX = 0;
+    private static final String[] SUBJECTS = {"Memology", "Cybersport", "History"};
+    private static final int NUMBER_OF_SUBJECTS = SUBJECTS.length;
 
     public static void main(String[] args) {
         if (args.length == 0) {

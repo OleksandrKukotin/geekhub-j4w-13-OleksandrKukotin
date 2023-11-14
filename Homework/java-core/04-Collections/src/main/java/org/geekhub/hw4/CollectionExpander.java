@@ -16,6 +16,16 @@ import java.util.TreeSet;
 
 public class CollectionExpander implements Expander {
 
+    private static void dropElementByIndex(List<?> list, int index) {
+        list.remove(index);
+    }
+
+    private static void dropElementsByObject(List<?> list, Object targetObject) {
+        while (list.contains(targetObject)) {
+            list.remove(targetObject);
+        }
+    }
+
     @Override
     public double getMinValue(Collection<? extends Number> collection) {
         if (collection.isEmpty()) {
@@ -105,16 +115,6 @@ public class CollectionExpander implements Expander {
             dropElementsByObject(list, criteria);
         }
         return list;
-    }
-
-    private static void dropElementByIndex(List<?> list, int index) {
-        list.remove(index);
-    }
-
-    private static void dropElementsByObject(List<?> list, Object targetObject) {
-        while (list.contains(targetObject)) {
-            list.remove(targetObject);
-        }
     }
 
     @Override
