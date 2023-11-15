@@ -57,7 +57,8 @@ allprojects {
                     'java:S3776', // Allow methods with more than 15 lines
                     'java:S1135', // Allow TODO comments
                     'java:S2094', // Allow empty classes for homeworks
-                    'java:S3457'
+                    'java:S1452', // Allow generic wildcards types in return type
+                    'java:S125' // Allow commented sections of code
             )
         }
     }
