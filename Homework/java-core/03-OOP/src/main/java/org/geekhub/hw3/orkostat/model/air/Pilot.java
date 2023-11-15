@@ -21,21 +21,6 @@ public class Pilot extends Ork {
         return "Hell!";
     }
 
-    public Pilot() {
-        super(20_000);
-        flewHours = 0;
-    }
-
-    public Pilot(int flewHours) {
-        super(20_000);
-        this.flewHours = flewHours;
-    }
-
-    @Override
-    public String scream() {
-        return "Hell!";
-    }
-
     public int getFlewHours() {
         return flewHours;
     }
