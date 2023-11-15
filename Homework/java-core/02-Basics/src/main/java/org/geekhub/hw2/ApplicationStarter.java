@@ -27,7 +27,7 @@ public class ApplicationStarter {
             String studentName = "";
             System.out.println("Enter information about student #" + (i + 1));
             while (studentName.isEmpty()) {
-                System.out.printf("Student's name: ");
+                System.out.printf(String.format("Student's name:%s", " "));
                 studentName = scanner.nextLine();
             }
             students[i][NAME_INDEX] = studentName;
@@ -41,7 +41,7 @@ public class ApplicationStarter {
         for (int i = 1; i <= NUMBER_OF_SUBJECTS; i++) {
             float grade = DEFAULT_GRADE;
             while (grade < 0 || grade > 100) {
-                System.out.printf(SUBJECTS[i - 1] + " Grade (0-100): ");
+                System.out.printf(String.format("%s Grade (0-100): ", SUBJECTS[i - 1]));
                 grade = scanner.nextFloat();
             }
             studentData[i] = String.valueOf(grade);
@@ -51,7 +51,7 @@ public class ApplicationStarter {
     private static void printAveragesByStudents(String[][] data) {
         System.out.println("Average grades for Each Student: ");
         for (int i = 0; i < data.length; i++) {
-            System.out.printf(data[i][NAME_INDEX] + ": ");
+            System.out.printf(String.format("%s: ", data[i][NAME_INDEX]));
             System.out.println(calculateAverageForStudent(data[i]));
         }
         System.out.println();
@@ -68,7 +68,7 @@ public class ApplicationStarter {
     private static void printAveragesBySubjects(String[][] data) {
         System.out.println("Average grades For Each Subject: ");
         for (int i = 1; i <= NUMBER_OF_SUBJECTS; i++) {
-            System.out.printf(SUBJECTS[i - 1] + ": ");
+            System.out.printf(String.format("%s: ", SUBJECTS[i - 1]));
             System.out.println(calculateAverageForSubject(data, i));
         }
         System.out.println();
