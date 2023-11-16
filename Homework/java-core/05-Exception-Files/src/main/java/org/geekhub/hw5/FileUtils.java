@@ -1,38 +1,73 @@
 package org.geekhub.hw5;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class FileUtils {
 
-    //TODO-2 Add a constructor to make it impossible to create an instance of the class
+    public FileUtils() {
+        // Add something here if there will be some fields in the class
+    }
 
     public static List<String> readAllLines(String file) {
-        //TODO-3 write code here AND REMOVE THIS MESSAGE
+        return file.lines().toList();
     }
 
     public static void createDirectories(Path path) {
-        //TODO-4 write code here AND REMOVE THIS MESSAGE
+        try {
+            Files.createDirectory(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void writeToFile(Path path, byte[] content) {
-        //TODO-5 write code here AND REMOVE THIS MESSAGE
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.WRITE)) {
+            for (byte character : content) {
+                writer.write(character);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void copyToFile(InputStream inputStream, Path path) {
-        //TODO-6 write code here AND REMOVE THIS MESSAGE
+        try {
+            writeToFile(path, inputStream.readAllBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void createFileIfNotExists(Path path) {
-       //TODO-7 write code here AND REMOVE THIS MESSAGE
+        if (Files.notExists(path)) {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void deleteDirectories(String directory) {
-      //TODO-8 write code here AND REMOVE THIS MESSAGE
+        try {
+            Files.deleteIfExists(Paths.get(directory));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void deleteIfExists(Path path) {
-      //TODO-9 write code here AND REMOVE THIS MESSAGE
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
