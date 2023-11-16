@@ -1,5 +1,9 @@
 package org.geekhub.hw5;
 
+import org.geekhub.hw5.exception.FileException;
+import org.geekhub.hw5.exception.FileExistException;
+import org.geekhub.hw5.exception.LimitSizeException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -32,20 +36,23 @@ public class Downloader {
     }
 
     public void download(String pathToPlaylist) {
-        List<String> linesFromPlaylist = readAllLines(pathToPlaylist);
+        try {
+            List<String> linesFromPlaylist = readAllLines(pathToPlaylist);
+            linesFromPlaylist.forEach(lineFromPlaylist -> {
+                String[] split = lineFromPlaylist.split(PLAYLIST_DELIMITER);
+                URL url = getUrl(split[split.length - 1]);
+                String filename = String.format("%s%s", split[split.length - 2].strip(), FILE_EXTENSION);
+                Path pathToFile = Path.of(mainDirectory, getDirectoriesToFile(split));
 
-        linesFromPlaylist.forEach(lineFromPlaylist -> {
-            String[] split = lineFromPlaylist.split(PLAYLIST_DELIMITER);
-            URL url = getUrl(split[split.length - 1]);
-            String filename = String.format("%s%s", split[split.length - 2].strip(), FILE_EXTENSION);
-            Path pathToFile = Path.of(mainDirectory, getDirectoriesToFile(split));
+                if (isValid(url, pathToFile, filename)) {
+                    createDirectories(pathToFile);
 
-            if (isValid(url, pathToFile, filename)) {
-                createDirectories(pathToFile);
-
-                //TODO-16 Use method for saving content to file AND REMOVE THIS MESSAGE
-            }
-        });
+                    //TODO-16 Use method for saving content to file AND REMOVE THIS MESSAGE
+                }
+            });
+        } catch (FileException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveToFile(URL url, Path pathToFile, String filename) {
@@ -71,13 +78,14 @@ public class Downloader {
             return new URL(url);
         } catch (MalformedURLException e) {
             //TODO-18 write code here AND REMOVE THIS MESSAGE
+            return null;
         }
     }
 
     private boolean isValid(URL url, Path pathToFile, String filename) {
         try {
             return contentValidator.isValid(url, pathToFile.toString(), filename);
-        } catch (IOException | LimitSizeException | ContentLengthNotKnownException e) {
+        } catch (IOException | LimitSizeException e) {
             String message = e.getMessage();
             //TODO-19 Use method for writting message to log file AND REMOVE THIS MESSAGE
             return false;

@@ -1,12 +1,13 @@
 package org.geekhub.hw5;
 
+import org.geekhub.hw5.exception.FileException;
+
 import static org.geekhub.hw5.FileUtils.deleteDirectories;
 
 public class MusicDownloader {
 
     public static void main(String[] args) {
-        //TODO-1 Replace path-to-playlist.txt with the correct path to playlist.txt
-        String pathToPlaylist = "path-to-playlist.txt";
+        String pathToPlaylist = ClassLoader.getSystemResource("playlist.txt").getPath();
         String pathToLogFile = "log.txt";
         String mainDirectory = "library";
         int maxFileSize = 10485760;
@@ -16,6 +17,10 @@ public class MusicDownloader {
 
         downloader.download(pathToPlaylist);
 
-        deleteDirectories(mainDirectory);
+        try {
+            deleteDirectories(mainDirectory);
+        } catch (FileException e) {
+            e.printStackTrace();
+        }
     }
 }
