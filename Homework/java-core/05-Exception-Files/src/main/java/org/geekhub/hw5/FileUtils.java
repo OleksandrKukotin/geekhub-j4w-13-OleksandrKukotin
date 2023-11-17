@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class FileUtils {
     }
 
     public static List<String> readAllLines(String file) throws FileException {
-        final Path path = Paths.get(file);
+        final Path path = Path.of(file);
         if (Files.notExists(path)) {
             throw new FileException("File doesn't exist!");
         }
@@ -70,7 +69,7 @@ public class FileUtils {
     }
 
     public static void deleteDirectories(String directory) throws FileException {
-        final Path directoryPath = Paths.get(directory);
+        final Path directoryPath = Path.of(directory);
         if (Files.notExists(directoryPath)) {
             throw new FileException("File doesn't exist!");
         }
