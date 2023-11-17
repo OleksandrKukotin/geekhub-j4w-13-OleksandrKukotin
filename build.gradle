@@ -24,6 +24,8 @@ allprojects {
 
     build.dependsOn checkstyleMain
     build.dependsOn sonarlintMain
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
 
     idea {
         module {
