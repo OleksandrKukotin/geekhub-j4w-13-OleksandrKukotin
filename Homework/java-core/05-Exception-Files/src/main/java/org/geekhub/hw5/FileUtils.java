@@ -10,12 +10,12 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FileUtils {
 
-    // TODO: replace all printStackTrace() calls with correct handling
-    public FileUtils() {
-        // Add something here if there will be some fields in the class
+    private FileUtils() {
+
     }
 
     public static List<String> readAllLines(String file) throws FileException {
@@ -73,8 +73,8 @@ public class FileUtils {
         if (Files.notExists(directoryPath)) {
             throw new FileException("File doesn't exist!");
         }
-        try {
-            List<Path> nestedFiles = Files.walk(directoryPath).toList();
+        try (Stream<Path> walker = Files.walk(directoryPath)) {
+            List<Path> nestedFiles = walker.toList();
             for (Path filePath : nestedFiles) {
                 if (filePath.equals(directoryPath)) {
                     continue;

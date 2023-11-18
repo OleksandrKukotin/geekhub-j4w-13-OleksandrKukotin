@@ -7,6 +7,7 @@ import static org.geekhub.hw5.FileUtils.deleteDirectories;
 public class MusicDownloader {
 
     public static void main(String[] args) {
+
         String pathToPlaylist = ClassLoader.getSystemResource("playlist.txt").getPath();
         String pathToLogFile = "log.txt";
         String mainDirectory = "library";
