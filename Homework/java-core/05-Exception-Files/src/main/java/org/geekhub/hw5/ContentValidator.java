@@ -21,16 +21,11 @@ public class ContentValidator {
     }
 
     public boolean isValid(URL url, String pathToFile, String filename)
-        throws FileExistException, LimitSizeException, ContentLengthNotKnownException {
-        try {
-            final URLConnection urlConnection = url.openConnection();
-            int contentLength = urlConnection.getContentLength();
-            hasContent(contentLength, url);
-            validateContentLength(contentLength, url);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        throws LimitSizeException, IOException {
+        final URLConnection urlConnection = url.openConnection();
+        int contentLength = urlConnection.getContentLength();
+        hasContent(contentLength, url);
+        validateContentLength(contentLength, url);
 
         isExistFile(pathToFile, filename, url);
 
