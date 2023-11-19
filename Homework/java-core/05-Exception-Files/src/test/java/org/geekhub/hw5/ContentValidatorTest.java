@@ -1,6 +1,6 @@
 package org.geekhub.hw5;
 
-import org.geekhub.hw5.exception.ContentLengthNotKnownException;
+import org.geekhub.hw5.exception.InvalidContentLengthException;
 import org.geekhub.hw5.exception.FileExistException;
 import org.geekhub.hw5.exception.LimitSizeException;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class ContentValidatorTest {
 
     @Test
     void isValidWhenLinkWithContentShouldReturnTrue()
-        throws LimitSizeException, ContentLengthNotKnownException, FileExistException, IOException {
+        throws LimitSizeException, InvalidContentLengthException, FileExistException, IOException {
         ContentValidator validator = new ContentValidator(MAX_FILE_SIZE);
         URL url = new URL(PATH_TO_FILE);
 
@@ -35,7 +35,7 @@ class ContentValidatorTest {
         ContentValidator validator = new ContentValidator(MAX_FILE_SIZE);
         URL url = new URL("http://test");
 
-        ContentLengthNotKnownException exception = assertThrows(ContentLengthNotKnownException.class, () ->
+        InvalidContentLengthException exception = assertThrows(InvalidContentLengthException.class, () ->
             validator.isValid(url, null, FILE_NAME));
 
         String expectedMessage = "Cannot download file from url: http://test\n";
