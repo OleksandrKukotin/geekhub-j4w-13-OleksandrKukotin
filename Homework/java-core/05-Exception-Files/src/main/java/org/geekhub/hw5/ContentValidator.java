@@ -1,6 +1,6 @@
 package org.geekhub.hw5;
 
-import org.geekhub.hw5.exception.ContentLengthNotKnownException;
+import org.geekhub.hw5.exception.InvalidContentLengthException;
 import org.geekhub.hw5.exception.FileExistException;
 import org.geekhub.hw5.exception.LimitSizeException;
 
@@ -21,7 +21,7 @@ public class ContentValidator {
     }
 
     public boolean isValid(URL url, String pathToFile, String filename)
-        throws LimitSizeException, IOException {
+        throws IOException {
         final URLConnection urlConnection = url.openConnection();
         int contentLength = urlConnection.getContentLength();
         hasContent(contentLength, url);
@@ -32,14 +32,14 @@ public class ContentValidator {
         return true;
     }
 
-    private void hasContent(int contentLength, URL url) throws ContentLengthNotKnownException {
+    private void hasContent(int contentLength, URL url) throws InvalidContentLengthException {
         if (contentLength == CONTENT_LENGTH_IS_NOT_KNOWN) {
-            throw new ContentLengthNotKnownException(String.join(" ", "Cannot download file from url:",
+            throw new InvalidContentLengthException(String.join(" ", "Cannot download file from url:",
                 url.toString() + "\n"));
         }
     }
 
-    private void validateContentLength(int contentLength, URL url) throws LimitSizeException {
+    private void validateContentLength(int contentLength, URL url) {
         if (contentLength > maxFileSize) {
             throw new LimitSizeException(String.join(" ", "Failed to download from url:",
                 url.toString(), "over", String.valueOf(maxFileSize)) + "\n");
