@@ -34,22 +34,22 @@ public class ContentValidator {
 
     private void hasContent(int contentLength, URL url) throws InvalidContentLengthException {
         if (contentLength == CONTENT_LENGTH_IS_NOT_KNOWN) {
-            throw new InvalidContentLengthException(String.join(" ", "Cannot download file from url:",
-                url.toString() + "\n"));
+            String exceptionMessage = "Cannot download file from url: %s\n";
+            throw new InvalidContentLengthException(String.format(exceptionMessage , url.toString()));
         }
     }
 
     private void validateContentLength(int contentLength, URL url) {
         if (contentLength > maxFileSize) {
-            throw new LimitSizeException(String.join(" ", "Failed to download from url:",
-                url.toString(), "over", String.valueOf(maxFileSize)) + "\n");
+            String exceptionMessage = "Failed to download from url: %s over %d\n";
+            throw new LimitSizeException(String.format(exceptionMessage, url.toString(), maxFileSize));
         }
     }
 
     private void isExistFile(String pathToFile, String filename, URL url) throws FileExistException {
         if (Files.exists(Path.of(pathToFile, filename))) {
-            throw new FileExistException(String.join(": ", "File you trying to work with " +
-                "is already exist", url.toString()));
+            String exceptionMessage = "File you trying to work with (%s) is already exist";
+            throw new FileExistException(String.format(exceptionMessage, pathToFile+filename));
         }
     }
 }
