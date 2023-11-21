@@ -2,13 +2,12 @@ package org.geekhub.hw5;
 
 import org.geekhub.hw5.exception.FileException;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,8 +23,7 @@ public class FileUtils {
             throw new FileException("File doesn't exist!");
         }
         try {
-            String fileContent = Files.readString(path);
-            return List.of(fileContent.split("\n"));
+            return Files.readAllLines(path);
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -41,10 +39,8 @@ public class FileUtils {
     }
 
     public static void writeToFile(Path path, byte[] content) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.WRITE)) {
-            for (byte character : content) {
-                writer.write(character);
-            }
+        try {
+            Files.write(path, content);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,23 +65,14 @@ public class FileUtils {
     }
 
     public static void deleteDirectories(String directory) throws FileException {
-        final Path directoryPath = Path.of(directory);
+        Path directoryPath = Path.of(directory);
         if (Files.notExists(directoryPath)) {
             throw new FileException("File doesn't exist!");
         }
+
         try (Stream<Path> walker = Files.walk(directoryPath)) {
-            List<Path> nestedFiles = walker.toList();
-            for (Path filePath : nestedFiles) {
-                if (filePath.equals(directoryPath)) {
-                    continue;
-                }
-                if (Files.isDirectory(filePath)) {
-                    deleteDirectories(filePath.toString());
-                } else {
-                    deleteIfExists(filePath);
-                }
-            }
-            deleteIfExists(directoryPath);
+            walker.sorted(Comparator.reverseOrder())
+                .forEach(FileUtils::deleteIfExists);
         } catch (IOException e) {
             e.printStackTrace();
         }
