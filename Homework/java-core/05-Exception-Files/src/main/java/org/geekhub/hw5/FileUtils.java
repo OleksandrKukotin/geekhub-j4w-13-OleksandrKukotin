@@ -72,17 +72,23 @@ public class FileUtils {
 
         try (Stream<Path> walker = Files.walk(directoryPath)) {
             walker.sorted(Comparator.reverseOrder())
-                .forEach(FileUtils::deleteIfExists);
+                .forEach(path -> {
+                    try {
+                        deleteIfExists(path);
+                    } catch (FileException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileException("Something went wrong");
         }
     }
 
-    public static void deleteIfExists(Path path) {
+    public static void deleteIfExists(Path path) throws FileException {
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileException("Something went wrong with file you tried to delete");
         }
     }
 }

@@ -2,7 +2,6 @@ package org.geekhub.hw5;
 
 import org.geekhub.hw5.exception.FileException;
 import org.geekhub.hw5.exception.FileExistException;
-import org.geekhub.hw5.exception.LimitSizeException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,10 +86,9 @@ public class Downloader {
             return contentValidator.isValid(url, pathToFile.toString(), filename);
         } catch (FileExistException e) {
             FileUtils.writeToFile(pathToLogFile, e.getMessage().getBytes());
-            return true;
-        } catch (LimitSizeException | IOException e) {
+        } catch (IOException e) {
             FileUtils.writeToFile(pathToLogFile, e.getMessage().getBytes());
-            return false;
         }
+        return false;
     }
 }
