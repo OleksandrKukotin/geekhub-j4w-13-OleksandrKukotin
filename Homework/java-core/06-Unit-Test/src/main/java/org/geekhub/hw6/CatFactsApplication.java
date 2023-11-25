@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 
 public class CatFactsApplication {
 
-    private static final String CAT_FACT_API_URL = "https://catfact.ninja/fact";
     public static final int FILE_NAME_PROGRAM_ARGUMENT = 0;
+    public static final int TIME_ARGUMENT = 1;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -18,6 +18,7 @@ public class CatFactsApplication {
         HttpClient httpClient = HttpClientBuilder.create().build();
         CatFactsApiService apiService = new CatFactsApiService(httpClient);
         FileService fileService = new FileService(Paths.get(args[FILE_NAME_PROGRAM_ARGUMENT]));
-        fileService.writeToFile(apiService.getDataFromApi(CAT_FACT_API_URL));
+        SchedulerService scheduler = new SchedulerService(apiService, fileService, Integer.parseInt(args[TIME_ARGUMENT]));
+        scheduler.start();
     }
 }

@@ -13,15 +13,16 @@ import java.net.URISyntaxException;
 
 public class CatFactsApiService {
 
+    private static final String CAT_FACT_API_URL = "https://catfact.ninja/fact";
     private final HttpClient httpClient;
 
     public CatFactsApiService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
-    public byte[] getDataFromApi(String link) {
+    public byte[] getDataFromApi() {
         try {
-            URI uri = new URI(link);
+            URI uri = new URI(CAT_FACT_API_URL);
             HttpUriRequest request = new HttpGet(uri);
             HttpResponse response = httpClient.execute(request);
             return response.getEntity().getContent().readAllBytes();

@@ -19,10 +19,6 @@ public class FileService {
 
     public void writeToFile(byte[] data) {
         if (createFile()) {
-            if (isDuplication(data)) {
-                System.out.println("It's duplicate :/");
-                return;
-            }
             try {
                 byte[] dataWithNewLine = new String(data, StandardCharsets.UTF_8).concat("\n").getBytes();
                 Files.write(this.filePath, dataWithNewLine, StandardOpenOption.APPEND);
@@ -47,7 +43,7 @@ public class FileService {
         }
     }
 
-    private boolean isDuplication(byte[] data) {
+    public boolean isDuplication(byte[] data) {
         try {
             List<String> readFacts = Files.readAllLines(filePath);
             String dataToCheck = new String(data, StandardCharsets.UTF_8);
