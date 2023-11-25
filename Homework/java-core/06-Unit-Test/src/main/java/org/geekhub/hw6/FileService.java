@@ -10,6 +10,7 @@ import java.util.List;
 
 public class FileService {
 
+    private static final int MAX_LINES_IN_FILE = 20;
     private final Path filePath;
 
     public FileService(Path filePath) {
@@ -42,9 +43,12 @@ public class FileService {
         }
     }
 
-    public boolean isDuplication(String data) {
+    public boolean isDuplicationOrLinesOverflow(String data) {
         try {
             List<String> readFacts = Files.readAllLines(filePath);
+            if (readFacts.size() > MAX_LINES_IN_FILE) {
+                return true;
+            }
             for (String line : readFacts) {
                 if (line.contains(data)) {
                     return true;

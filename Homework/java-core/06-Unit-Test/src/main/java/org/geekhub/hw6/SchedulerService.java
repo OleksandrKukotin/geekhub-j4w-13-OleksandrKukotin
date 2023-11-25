@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 public class SchedulerService {
 
     private static final String END_MESSAGE = "I don't know any new facts";
+    public static final int MAX_TRIES_NUMBER = 5;
     private final CatFactsApiService catFactsApiService;
     private final FileService fileService;
     private final int timeInterval;
@@ -26,7 +27,7 @@ public class SchedulerService {
         while (isRunning) {
             try {
                 fetchAndWriteCatFact();
-                if (triesCounter > 5) {
+                if (triesCounter > MAX_TRIES_NUMBER) {
                     writeMessageAndStopApp();
                 }
                 Thread.sleep(TimeUnit.SECONDS.toMillis(timeInterval));
@@ -38,7 +39,7 @@ public class SchedulerService {
 
     private void fetchAndWriteCatFact() {
         String catFactData = catFactsApiService.getDataFromApi();
-        if (fileService.isDuplication(catFactData)) {
+        if (fileService.isDuplicationOrLinesOverflow(catFactData)) {
             triesCounter++;
             return;
         }
