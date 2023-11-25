@@ -1,5 +1,6 @@
 package org.geekhub.hw6;
 
+import com.google.gson.Gson;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -22,7 +23,8 @@ public class CatFactsApplication {
             .setConnectionRequestTimeout(1500)
             .build();
         CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
-        CatFactsApiService apiService = new CatFactsApiService(httpClient);
+        DataParserService parser = new DataParserService(new Gson());
+        CatFactsApiService apiService = new CatFactsApiService(httpClient, parser);
         FileService fileService = new FileService(Paths.get(args[FILE_NAME_PROGRAM_ARGUMENT]));
         SchedulerService scheduler = new SchedulerService(apiService, fileService, Integer.parseInt(args[TIME_ARGUMENT]));
         scheduler.start();

@@ -37,7 +37,7 @@ public class SchedulerService {
     }
 
     private void fetchAndWriteCatFact() {
-        byte[] catFactData = catFactsApiService.getDataFromApi();
+        String catFactData = catFactsApiService.getDataFromApi();
         if (fileService.isDuplication(catFactData)) {
             triesCounter++;
             return;
@@ -46,7 +46,7 @@ public class SchedulerService {
     }
 
     private void writeMessageAndStopApp() {
-        fileService.writeToFile(END_MESSAGE.getBytes());
+        fileService.writeToFile(END_MESSAGE);
         stop();
     }
 

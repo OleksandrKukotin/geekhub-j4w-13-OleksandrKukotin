@@ -1,8 +1,5 @@
 package org.geekhub.hw6;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -17,20 +14,20 @@ public class CatFactsApiService {
 
     private static final String CAT_FACT_API_URL = "https://catfact.ninja/fact";
     private final CloseableHttpClient httpClient;
+    private final DataParserService parser;
 
-    public CatFactsApiService(CloseableHttpClient httpClient) {
+    public CatFactsApiService(CloseableHttpClient httpClient, DataParserService parser) {
         this.httpClient = httpClient;
+        this.parser = parser;
     }
 
-    public byte[] getDataFromApi() {
+    public String getDataFromApi() {
         try {
             URI uri = new URI(CAT_FACT_API_URL);
             HttpUriRequest request = new HttpGet(uri);
             try (CloseableHttpResponse response = httpClient.execute(request)){
-                return response.getEntity().getContent().readAllBytes();
+                return parser.parseJsonAsCatFactString(response.getEntity().getContent().readAllBytes());
             }
-        } catch (ClientProtocolException e) {
-            throw new ApiExecutionException(e.getMessage(), e);
         } catch (URISyntaxException | IOException e) {
             throw new ApiExecutionException(e.getMessage(), e);
         }

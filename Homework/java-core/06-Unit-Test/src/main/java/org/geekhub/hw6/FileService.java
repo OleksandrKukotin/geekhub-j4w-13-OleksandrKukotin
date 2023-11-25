@@ -3,7 +3,6 @@ package org.geekhub.hw6;
 import org.geekhub.hw6.exception.WriteToFileException;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -17,10 +16,10 @@ public class FileService {
         this.filePath = filePath;
     }
 
-    public void writeToFile(byte[] data) {
+    public void writeToFile(String data) {
         if (createFile()) {
             try {
-                byte[] dataWithNewLine = new String(data, StandardCharsets.UTF_8).concat("\n").getBytes();
+                byte[] dataWithNewLine = data.concat("\n").getBytes();
                 Files.write(this.filePath, dataWithNewLine, StandardOpenOption.APPEND);
             } catch (IOException e) {
                 throw new WriteToFileException("I/O error occurred during writing data to file", e);
@@ -43,12 +42,11 @@ public class FileService {
         }
     }
 
-    public boolean isDuplication(byte[] data) {
+    public boolean isDuplication(String data) {
         try {
             List<String> readFacts = Files.readAllLines(filePath);
-            String dataToCheck = new String(data, StandardCharsets.UTF_8);
             for (String line : readFacts) {
-                if (line.contains(dataToCheck)) {
+                if (line.contains(data)) {
                     return true;
                 }
             }
