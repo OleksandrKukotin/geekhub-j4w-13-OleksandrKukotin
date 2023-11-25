@@ -1,38 +1,39 @@
 package org.geekhub.hw6;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
+import com.google.gson.Gson;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.geekhub.hw6.exception.ApiExecutionException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CatFactsApiServiceTest {
 
+    private static final String PROPER_URL = "https://catfact.ninja/fact";
+
+    @Mock
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+    @Mock
+    DataParserService parser = new DataParserService(new Gson());
+
+    @BeforeEach
+    void setUp() {
+        CatFactsApiService apiService = new CatFactsApiService(httpClient, parser, PROPER_URL);
+    }
+
     @Test
-    void testCatFactsApiService() throws IOException {
-        // Set up your dependencies and class instance
-        CloseableHttpClient httpClientMock = mock(CloseableHttpClient.class);
-        DataParserService parserMock = mock(DataParserService.class);
-        CatFactsApiService catFactsApiService = new CatFactsApiService(httpClientMock, parserMock);
+    void getDataFromApi_withCatFactsApi_shouldReturnNotNull() {
+        CatFactsApiService apiService = new CatFactsApiService(httpClient, parser, PROPER_URL);
+        assertNotNull(apiService.getDataFromApi());
+    }
 
-        // Mock the behavior of your dependencies
-        when(httpClientMock.execute(any(HttpUriRequest.class)))
-                .thenReturn(mock(CloseableHttpResponse.class));
-        when(parserMock.parseJsonAsCatFactString(any(byte[].class)))
-                .thenReturn("MockedCatFact");
-
-        // Execute the method you want to test
-        String catFact = catFactsApiService.getDataFromApi();
-
-        // Verify and assert the result
-        assertEquals("MockedCatFact", catFact);
-        verify(httpClientMock, atLeastOnce()).execute(any(HttpUriRequest.class));
-        verify(parserMock, atLeastOnce()).parseJsonAsCatFactString(any(byte[].class));
-
-        // Additional assertions based on your specific logic
+    @Test
+    void getDataFromApi_withWrongUrl_shouldThrowURISyntaxException() {
+        CatFactsApiService apiService = new CatFactsApiService(httpClient, parser, "42");
+        assertThrows(ApiExecutionException.class, apiService::getDataFromApi);
     }
 }
