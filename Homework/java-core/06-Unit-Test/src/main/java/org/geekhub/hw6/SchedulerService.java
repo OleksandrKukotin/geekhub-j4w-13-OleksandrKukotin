@@ -53,4 +53,8 @@ public class SchedulerService {
     public void stop() {
         isRunning = false;
     }
+
+    public boolean getRunningState() {
+        return isRunning;
+    }
 }

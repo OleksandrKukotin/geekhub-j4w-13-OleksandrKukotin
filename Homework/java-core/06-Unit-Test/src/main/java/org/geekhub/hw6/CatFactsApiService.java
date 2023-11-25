@@ -25,7 +25,7 @@ public class CatFactsApiService {
         try {
             URI uri = new URI(CAT_FACT_API_URL);
             HttpUriRequest request = new HttpGet(uri);
-            try (CloseableHttpResponse response = httpClient.execute(request)){
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
                 return parser.parseJsonAsCatFactString(response.getEntity().getContent().readAllBytes());
             }
         } catch (URISyntaxException | IOException e) {

@@ -18,10 +18,10 @@ public class CatFactsApplication {
             throw new IllegalArgumentException(exceptionMessage);
         }
         RequestConfig config = RequestConfig.custom()
-            .setConnectTimeout(1500)
-            .setSocketTimeout(1500)
-            .setConnectionRequestTimeout(1500)
-            .build();
+                .setConnectTimeout(1500)
+                .setSocketTimeout(1500)
+                .setConnectionRequestTimeout(1500)
+                .build();
         CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
         DataParserService parser = new DataParserService(new Gson());
         CatFactsApiService apiService = new CatFactsApiService(httpClient, parser);
