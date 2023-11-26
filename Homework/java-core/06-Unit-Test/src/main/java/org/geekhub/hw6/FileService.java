@@ -3,6 +3,7 @@ package org.geekhub.hw6;
 import org.geekhub.hw6.exception.WriteToFileException;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -45,7 +46,7 @@ public class FileService {
 
     public boolean isDuplicationOrLinesOverflow(String data) {
         try {
-            List<String> readFacts = Files.readAllLines(filePath);
+            List<String> readFacts = Files.readAllLines(this.filePath, StandardCharsets.UTF_8);
             if (readFacts.size() > MAX_LINES_IN_FILE) {
                 return true;
             }
@@ -56,7 +57,7 @@ public class FileService {
             }
             return false;
         } catch (IOException e) {
-            return false;
+            return true;
         }
     }
 }
