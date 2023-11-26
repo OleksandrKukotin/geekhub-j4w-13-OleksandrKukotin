@@ -36,8 +36,8 @@ class DataParserServiceTest {
     void parseJsonAsCatFactString_withJsonThatHavent_Fact_shouldThrowNullPointerException() {
         DataParserService dataParserService = new DataParserService(gson);
 
-        String data = "{\"notFact\":\"MockedCatFact\"}";
+        byte[] data = "{\"notFact\":\"MockedCatFact\"}".getBytes();
 
-        assertThrows(NullPointerException.class, () -> dataParserService.parseJsonAsCatFactString(data.getBytes()));
+        assertThrows(NullPointerException.class, () -> dataParserService.parseJsonAsCatFactString(data);
     }
 }

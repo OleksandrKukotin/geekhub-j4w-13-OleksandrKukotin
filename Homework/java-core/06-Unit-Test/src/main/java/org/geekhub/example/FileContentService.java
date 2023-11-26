@@ -24,7 +24,7 @@ public class FileContentService {
 
         var statusCode = fileContent.getStatusLine().getStatusCode();
         if (statusCode != 200) {
-            throw new FileContentException(String.format("Invalid status Code: " + statusCode));
+            throw new FileContentException(String.format("Invalid status Code: %d", statusCode));
         }
 
         try (var inputStream = fileContent.getEntity().getContent()) {

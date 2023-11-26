@@ -1,5 +1,6 @@
 package org.geekhub.hw5;
 
+import org.geekhub.hw5.exception.DeleteDirectoryException;
 import org.geekhub.hw5.exception.FileException;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class FileUtils {
                     try {
                         deleteIfExists(path);
                     } catch (FileException e) {
-                        throw new RuntimeException(e);
+                        throw new DeleteDirectoryException(e.getMessage(), e);
                     }
                 });
         } catch (IOException e) {

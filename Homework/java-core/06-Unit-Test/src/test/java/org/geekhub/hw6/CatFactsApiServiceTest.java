@@ -10,7 +10,7 @@ import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CatFactsApiServiceTest {
+class CatFactsApiServiceTest {
 
     private static final String PROPER_URL = "https://catfact.ninja/fact";
 

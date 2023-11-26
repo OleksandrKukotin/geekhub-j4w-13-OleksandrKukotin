@@ -60,7 +60,8 @@ allprojects {
                     'java:S1135', // Allow TODO comments
                     'java:S2094', // Allow empty classes for homeworks
                     'java:S1452', // Allow generic wildcards types in return type
-                    'java:S125' // Allow commented sections of code
+                    'java:S125', // Allow commented sections of code
+                    'java:6218' // Allow not overridden Equals() in records
             )
         }
     }
