@@ -7,11 +7,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileService {
 
-    private static final int MAX_LINES_IN_FILE = 20;
     private final Path filePath;
 
     public FileService(Path filePath) {
@@ -19,7 +19,7 @@ public class FileService {
     }
 
     public void writeToFile(String data) {
-        if (createFile()) {
+        if (isFileExist()) {
             try {
                 byte[] dataWithNewLine = data.concat("\n").getBytes();
                 Files.write(this.filePath, dataWithNewLine, StandardOpenOption.APPEND);
@@ -31,33 +31,24 @@ public class FileService {
         }
     }
 
-    private boolean createFile() {
-        if (Files.exists(filePath)) {
-            return true;
-        } else {
+    private boolean isFileExist() {
+        if (!Files.exists(filePath)) {
             try {
                 Files.createFile(filePath);
-                return true;
             } catch (IOException e) {
+                System.out.println(e.getMessage());
                 return false;
             }
         }
+        return true;
     }
 
-    public boolean isDuplicationOrLinesOverflow(String data) {
+    public List<String> getActualLines() {
         try {
-            List<String> readFacts = Files.readAllLines(this.filePath, StandardCharsets.UTF_8);
-            if (readFacts.size() > MAX_LINES_IN_FILE) {
-                return true;
-            }
-            for (String line : readFacts) {
-                if (line.contains(data)) {
-                    return true;
-                }
-            }
-            return false;
+            return Files.readAllLines(filePath, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            return true;
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
         }
     }
 }

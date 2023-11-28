@@ -15,10 +15,10 @@ class CatFactsApiServiceTest {
     private static final String PROPER_URL = "https://catfact.ninja/fact";
 
     @Mock
-    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    Gson parser = new Gson();
 
     @Mock
-    DataParserService parser = new DataParserService(new Gson());
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
     @BeforeEach
     void setUp() {
