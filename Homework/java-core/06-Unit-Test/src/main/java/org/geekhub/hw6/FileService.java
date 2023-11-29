@@ -24,14 +24,14 @@ public class FileService {
                 byte[] dataWithNewLine = data.concat("\n").getBytes();
                 Files.write(this.filePath, dataWithNewLine, StandardOpenOption.APPEND);
             } catch (IOException e) {
-                throw new WriteToFileException("I/O error occurred during writing data to file", e);
+                throw new WriteToFileException(e.getMessage(), e);
             }
         } else {
-            throw new WriteToFileException("I/O error occurred during creating file", new IOException());
+            throw new WriteToFileException("I/O error occurred during creating or writing data to file", new IOException());
         }
     }
 
-    private boolean isFileExist() {
+    public boolean isFileExist() {
         if (!Files.exists(filePath)) {
             try {
                 Files.createFile(filePath);
