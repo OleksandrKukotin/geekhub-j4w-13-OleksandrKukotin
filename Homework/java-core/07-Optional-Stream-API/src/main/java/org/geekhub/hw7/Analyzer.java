@@ -3,9 +3,11 @@ package org.geekhub.hw7;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Analyzer implements TransactionAnalyzer {
 
@@ -17,6 +19,9 @@ public class Analyzer implements TransactionAnalyzer {
 
     @Override
     public Optional<Transaction> getBiggestTransactionInCategory(String category) {
+        if (transactions.isEmpty()) {
+            return Optional.empty();
+        }
         return transactions.stream()
             .filter(transaction -> transaction.category().equals(category))
             .max(Comparator.comparingDouble(Transaction::amount));
@@ -24,9 +29,11 @@ public class Analyzer implements TransactionAnalyzer {
 
     @Override
     public double getTotalSpentForDate(LocalDate date) {
+        if (transactions.isEmpty()) {
+            return 0.0;
+        }
         return transactions.stream()
-            .filter(transaction -> transaction.date().equals(date))
-            .count();
+                .filter(transaction -> transaction.date().equals(date)).mapToDouble(Transaction::amount).sum();
     }
 
     @Override
@@ -39,17 +46,26 @@ public class Analyzer implements TransactionAnalyzer {
 
     @Override
     public Map<String, Double> getSpentAmountByCategory() {
-        return null;
+        if (transactions.isEmpty()) {
+            return new HashMap<>();
+        }
+        return transactions.stream()
+            .sorted()
+            .collect(Collectors.toMap(Transaction::category, Transaction::amount, Double::sum));
     }
 
     @Override
     public Optional<LocalDate> getDateWithMostExpenses() {
+        if (transactions.isEmpty()) {
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 
     @Override
     public Map<String, Double> getAverageSpendingPerCategory() {
-        return null;
+        return transactions.stream()
+            .collect(Collectors.toMap(Transaction::category, Transaction::amount));
     }
 
     @Override
