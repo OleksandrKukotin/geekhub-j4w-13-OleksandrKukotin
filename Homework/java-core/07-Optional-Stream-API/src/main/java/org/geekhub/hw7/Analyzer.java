@@ -64,17 +64,26 @@ public class Analyzer implements TransactionAnalyzer {
 
     @Override
     public Map<String, Double> getAverageSpendingPerCategory() {
+        if (transactions.isEmpty()) {
+            return new HashMap<>();
+        }
         return transactions.stream()
             .collect(Collectors.toMap(Transaction::category, Transaction::amount));
     }
 
     @Override
     public Optional<String> getMostPopularCategory() {
+        if (transactions.isEmpty()) {
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 
     @Override
     public Map<String, Double> getCategoryWiseDistribution() {
+        if (transactions.isEmpty()) {
+            return new HashMap<>();
+        }
         return null;
     }
 }

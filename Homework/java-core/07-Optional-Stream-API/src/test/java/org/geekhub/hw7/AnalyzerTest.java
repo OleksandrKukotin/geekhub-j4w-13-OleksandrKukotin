@@ -20,7 +20,14 @@ public class AnalyzerTest {
     private static final String THIRD_CATEGORY = "Entertainment";
 
     @Test
-    void GetBiggestTransactionInCategory() {
+    void getBiggestTransactionInCategory_withEmptyCollection_shouldReturnEmptyOptional() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(Optional.empty(), analyzer.getBiggestTransactionInCategory(FIRST_CATEGORY));
+    }
+
+    @Test
+    void getBiggestTransactionInCategory() {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MAX),
             new Transaction(10.0, FIRST_CATEGORY, LocalDate.MAX),
@@ -37,47 +44,14 @@ public class AnalyzerTest {
     }
 
     @Test
-    void GetBiggestTransactionInCategory_withEmptyCollection_shouldReturnEmptyOptional() {
+    void getTotalSpentForDate_withEmptyCollection_shouldReturnZero() {
         TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
 
-        assertEquals(Optional.empty(), analyzer.getBiggestTransactionInCategory(FIRST_CATEGORY));
+        assertEquals(0.0, analyzer.getTotalSpentForDate(LocalDate.now()));
     }
 
     @Test
-    void testGetSpentAmountByCategory() {
-        List<Transaction> transactions = Arrays.asList(
-            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
-            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
-            new Transaction(50.0, FIRST_CATEGORY, LocalDate.MAX),
-            new Transaction(30.0, THIRD_CATEGORY, LocalDate.MAX),
-            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX)
-        );
-
-        TransactionAnalyzer analyzer = new Analyzer(transactions);
-
-        Map<String, Double> expectedMap = new HashMap<>();
-        expectedMap.put(SECOND_CATEGORY, 150.0);
-        expectedMap.put(FIRST_CATEGORY, 50.0);
-        expectedMap.put(THIRD_CATEGORY, 30.0);
-
-        assertEquals(expectedMap, analyzer.getSpentAmountByCategory());
-    }
-
-    @Test
-    void testGetDateWithMostExpenses() {
-        List<Transaction> transactions = Arrays.asList(
-            new Transaction(50.0, FIRST_CATEGORY, LocalDate.now()),
-            new Transaction(30.0, FIRST_CATEGORY, LocalDate.MAX),
-            new Transaction(20.0, FIRST_CATEGORY, LocalDate.MIN)
-        );
-
-        TransactionAnalyzer analyzer = new Analyzer(transactions);
-
-        assertEquals(LocalDate.now(), analyzer.getDateWithMostExpenses().get());
-    }
-
-    @Test
-    void testGetTotalSpentForDate() {
+    void getTotalSpentForDate() {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(50.0, SECOND_CATEGORY, LocalDate.MIN),
             new Transaction(50.0, SECOND_CATEGORY, LocalDate.MIN),
@@ -98,7 +72,14 @@ public class AnalyzerTest {
     }
 
     @Test
-    void testGetTransactionsByCategoryAndDate() {
+    void getTransactionsByCategoryAndDate_withEmptyCollection_shouldReturnEmptyList() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(new ArrayList<>(), analyzer.getTransactionsByCategoryAndDate(SECOND_CATEGORY, LocalDate.now()));
+    }
+
+    @Test
+    void getTransactionsByCategoryAndDate() {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MIN),
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MIN),
@@ -116,7 +97,61 @@ public class AnalyzerTest {
     }
 
     @Test
-    void testGetAverageSpendingPerCategory() {
+    void getSpentAmountByCategory_withEmptyCollection_shouldReturnEmptyMap() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(new HashMap<>(), analyzer.getSpentAmountByCategory());
+    }
+
+    @Test
+    void getSpentAmountByCategory() {
+        List<Transaction> transactions = Arrays.asList(
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, FIRST_CATEGORY, LocalDate.MAX),
+            new Transaction(30.0, THIRD_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX)
+        );
+
+        TransactionAnalyzer analyzer = new Analyzer(transactions);
+
+        Map<String, Double> expectedMap = new HashMap<>();
+        expectedMap.put(SECOND_CATEGORY, 150.0);
+        expectedMap.put(FIRST_CATEGORY, 50.0);
+        expectedMap.put(THIRD_CATEGORY, 30.0);
+
+        assertEquals(expectedMap, analyzer.getSpentAmountByCategory());
+    }
+
+    @Test
+    void getDateWithMostExpenses_withEmptyCollection_shouldReturnEmptyOptional() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(Optional.empty(), analyzer.getDateWithMostExpenses());
+    }
+
+    @Test
+    void getDateWithMostExpenses() {
+        List<Transaction> transactions = Arrays.asList(
+            new Transaction(50.0, FIRST_CATEGORY, LocalDate.now()),
+            new Transaction(30.0, FIRST_CATEGORY, LocalDate.MAX),
+            new Transaction(20.0, FIRST_CATEGORY, LocalDate.MIN)
+        );
+
+        TransactionAnalyzer analyzer = new Analyzer(transactions);
+
+        assertEquals(LocalDate.now(), analyzer.getDateWithMostExpenses().get());
+    }
+
+    @Test
+    void getAverageSpendingPerCategory_withEmptyCollection_shouldReturnEmptyMap() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(new HashMap<>(), analyzer.getAverageSpendingPerCategory());
+    }
+
+    @Test
+    void getAverageSpendingPerCategory() {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MIN),
             new Transaction(40.0, SECOND_CATEGORY, LocalDate.MIN),
@@ -135,7 +170,14 @@ public class AnalyzerTest {
     }
 
     @Test
-    void testGetMostPopularCategory() {
+    void getMostPopularCategory_withEmptyCollection_shouldReturnEmptyOptional() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(Optional.empty(), analyzer.getMostPopularCategory());
+    }
+
+    @Test
+    void getMostPopularCategory() {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(10.0, FIRST_CATEGORY, LocalDate.now()),
             new Transaction(10.0, FIRST_CATEGORY, LocalDate.now()),
@@ -151,7 +193,14 @@ public class AnalyzerTest {
     }
 
     @Test
-    void testGetCategoryWiseDistribution() {
+    void getCategoryWiseDistribution_withEmptyCollection_shouldReturnEmptyMap() {
+        TransactionAnalyzer analyzer = new Analyzer(new ArrayList<>());
+
+        assertEquals(new HashMap<>(), analyzer.getCategoryWiseDistribution());
+    }
+
+    @Test
+    void getCategoryWiseDistribution() {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.now()),
             new Transaction(30.0, SECOND_CATEGORY, LocalDate.now()),
