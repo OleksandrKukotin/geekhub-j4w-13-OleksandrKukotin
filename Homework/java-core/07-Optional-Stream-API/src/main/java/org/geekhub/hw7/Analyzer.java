@@ -84,7 +84,11 @@ public class Analyzer implements TransactionAnalyzer {
         if (transactions.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.empty();
+        Map<String, Long> transactionsByCategory = transactions.stream()
+            .collect(Collectors.groupingBy(Transaction::category, Collectors.counting()));
+        return transactionsByCategory.entrySet().stream()
+            .max(Map.Entry.comparingByValue())
+            .map(Map.Entry::getKey);
     }
 
     @Override

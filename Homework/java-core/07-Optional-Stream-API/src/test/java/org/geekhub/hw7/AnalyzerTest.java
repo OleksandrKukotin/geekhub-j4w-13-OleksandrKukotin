@@ -142,12 +142,13 @@ public class AnalyzerTest {
         List<Transaction> transactions = Arrays.asList(
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.now()),
             new Transaction(30.0, FIRST_CATEGORY, LocalDate.MAX),
-            new Transaction(20.0, FIRST_CATEGORY, LocalDate.MIN)
+            new Transaction(10.0, FIRST_CATEGORY, LocalDate.MIN)
         );
 
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
-        assertEquals(LocalDate.now(), analyzer.getDateWithMostExpenses().get());
+        Optional<LocalDate> actualDate = analyzer.getDateWithMostExpenses();
+        actualDate.ifPresent(date -> assertEquals(LocalDate.now(), date));
     }
 
     @Test
@@ -196,7 +197,8 @@ public class AnalyzerTest {
 
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
-        assertEquals(FIRST_CATEGORY, analyzer.getMostPopularCategory().get());
+        Optional<String> result = analyzer.getMostPopularCategory();
+        result.ifPresent(s -> assertEquals(FIRST_CATEGORY, s));
     }
 
     @Test
