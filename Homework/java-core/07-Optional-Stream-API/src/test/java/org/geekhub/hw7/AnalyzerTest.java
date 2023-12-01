@@ -1,11 +1,13 @@
 package org.geekhub.hw7;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -117,12 +119,15 @@ public class AnalyzerTest {
 
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
-        Map<String, Double> expectedMap = new HashMap<>();
-        expectedMap.put(FIRST_CATEGORY, 50.0);
+        Map<String, Double> expectedMap = new LinkedHashMap<>();
         expectedMap.put(SECOND_CATEGORY, 150.0);
         expectedMap.put(THIRD_CATEGORY, 60.0);
+        expectedMap.put(FIRST_CATEGORY, 50.0);
 
-        assertEquals(expectedMap, analyzer.getSpentAmountByCategory());
+        Map<String, Double> actualMap = analyzer.getSpentAmountByCategory();
+
+        assertEquals(expectedMap, actualMap);
+        Assertions.assertThat(actualMap).containsExactlyEntriesOf(expectedMap);
     }
 
     @Test

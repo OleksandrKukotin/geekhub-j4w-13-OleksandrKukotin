@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,9 +50,11 @@ public class Analyzer implements TransactionAnalyzer {
         if (transactions.isEmpty()) {
             return new HashMap<>();
         }
-        return transactions.stream()
-            .sorted()
+        Map<String, Double> totalAmountByCategory = transactions.stream()
             .collect(Collectors.toMap(Transaction::category, Transaction::amount, Double::sum));
+        return totalAmountByCategory.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
     }
 
     @Override
