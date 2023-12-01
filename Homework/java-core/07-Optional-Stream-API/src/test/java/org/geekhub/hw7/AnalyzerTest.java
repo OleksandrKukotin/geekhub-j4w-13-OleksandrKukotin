@@ -169,7 +169,7 @@ public class AnalyzerTest {
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
         Map<String, Double> expectedMap = new HashMap<>();
-        expectedMap.put(FIRST_CATEGORY, 45.0);
+        expectedMap.put(FIRST_CATEGORY, 35.0);
         expectedMap.put(SECOND_CATEGORY, 40.0);
         expectedMap.put(THIRD_CATEGORY, 30.0);
 

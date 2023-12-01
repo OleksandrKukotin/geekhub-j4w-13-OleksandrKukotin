@@ -76,7 +76,7 @@ public class Analyzer implements TransactionAnalyzer {
             return new HashMap<>();
         }
         return transactions.stream()
-            .collect(Collectors.toMap(Transaction::category, Transaction::amount));
+            .collect(Collectors.groupingBy(Transaction::category, Collectors.averagingDouble(Transaction::amount)));
     }
 
     @Override
