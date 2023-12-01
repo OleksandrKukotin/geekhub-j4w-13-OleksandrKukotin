@@ -33,7 +33,7 @@ public class Analyzer implements TransactionAnalyzer {
             return 0.0;
         }
         return transactions.stream()
-                .filter(transaction -> transaction.date().equals(date)).mapToDouble(Transaction::amount).sum();
+            .filter(transaction -> transaction.date().equals(date)).mapToDouble(Transaction::amount).sum();
     }
 
     @Override
@@ -59,7 +59,12 @@ public class Analyzer implements TransactionAnalyzer {
         if (transactions.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.empty();
+        Map<LocalDate, Double> totalExpensesByDate = transactions.stream()
+            .collect(Collectors.groupingBy(Transaction::date, Collectors.summingDouble(Transaction::amount)));
+
+        return totalExpensesByDate.entrySet().stream()
+            .max(Comparator.comparingDouble(Map.Entry::getValue))
+            .map(Map.Entry::getKey);
     }
 
     @Override

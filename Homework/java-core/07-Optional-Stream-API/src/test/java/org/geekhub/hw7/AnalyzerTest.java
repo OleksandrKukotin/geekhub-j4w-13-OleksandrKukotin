@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnalyzerTest {
+
     private static final String FIRST_CATEGORY = "Books";
 
     private static final String SECOND_CATEGORY = "Food";
@@ -106,19 +107,20 @@ public class AnalyzerTest {
     @Test
     void getSpentAmountByCategory() {
         List<Transaction> transactions = Arrays.asList(
-            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
-            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
             new Transaction(30.0, THIRD_CATEGORY, LocalDate.MAX),
-            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX)
+            new Transaction(30.0, THIRD_CATEGORY, LocalDate.MAX)
         );
 
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
         Map<String, Double> expectedMap = new HashMap<>();
-        expectedMap.put(SECOND_CATEGORY, 150.0);
         expectedMap.put(FIRST_CATEGORY, 50.0);
-        expectedMap.put(THIRD_CATEGORY, 30.0);
+        expectedMap.put(SECOND_CATEGORY, 150.0);
+        expectedMap.put(THIRD_CATEGORY, 60.0);
 
         assertEquals(expectedMap, analyzer.getSpentAmountByCategory());
     }
