@@ -1,7 +1,6 @@
 package org.geekhub.hw5;
 
 import org.geekhub.hw5.exception.FileException;
-import org.geekhub.hw5.exception.FileExistException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,8 +83,6 @@ public class Downloader {
     private boolean isValid(URL url, Path pathToFile, String filename) {
         try {
             return contentValidator.isValid(url, pathToFile.toString(), filename);
-        } catch (FileExistException e) {
-            FileUtils.writeToFile(pathToLogFile, e.getMessage().getBytes());
         } catch (IOException e) {
             FileUtils.writeToFile(pathToLogFile, e.getMessage().getBytes());
         }
