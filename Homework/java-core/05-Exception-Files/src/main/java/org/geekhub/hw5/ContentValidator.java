@@ -1,7 +1,7 @@
 package org.geekhub.hw5;
 
-import org.geekhub.hw5.exception.InvalidContentLengthException;
 import org.geekhub.hw5.exception.FileExistException;
+import org.geekhub.hw5.exception.InvalidContentLengthException;
 import org.geekhub.hw5.exception.LimitSizeException;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class ContentValidator {
     private void hasContent(int contentLength, URL url) throws InvalidContentLengthException {
         if (contentLength == CONTENT_LENGTH_IS_NOT_KNOWN) {
             String exceptionMessage = "Cannot download file from url: %s%n";
-            throw new InvalidContentLengthException(String.format(exceptionMessage , url.toString()));
+            throw new InvalidContentLengthException(String.format(exceptionMessage, url.toString()));
         }
     }
 
@@ -49,7 +49,7 @@ public class ContentValidator {
     private void isExistFile(String pathToFile, String filename) throws FileExistException {
         if (Files.exists(Path.of(pathToFile, filename))) {
             String exceptionMessage = "File you trying to work with (%s) is already exist";
-            throw new FileExistException(String.format(exceptionMessage, pathToFile+filename));
+            throw new FileExistException(String.format(exceptionMessage, pathToFile + filename));
         }
     }
 }
