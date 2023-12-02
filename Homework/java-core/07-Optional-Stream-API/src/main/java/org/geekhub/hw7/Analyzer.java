@@ -23,9 +23,7 @@ public class Analyzer implements TransactionAnalyzer {
         if (transactions.isEmpty()) {
             return Optional.empty();
         }
-        return transactions.stream()
-            .filter(transaction -> transaction.category().equals(category))
-            .max(Comparator.comparingDouble(Transaction::amount));
+        return transactions.stream().filter(transaction -> transaction.category().equals(category)).max(Comparator.comparingDouble(Transaction::amount));
     }
 
     @Override
@@ -96,6 +94,11 @@ public class Analyzer implements TransactionAnalyzer {
         if (transactions.isEmpty()) {
             return new HashMap<>();
         }
-        return null;
+        double totalSpending = transactions.stream().mapToDouble(Transaction::amount).sum();
+
+        return transactions.stream()
+            .collect(Collectors.groupingBy(Transaction::category, Collectors.summingDouble(Transaction::amount)))
+            .entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, entry -> (entry.getValue() / totalSpending) * 100));
     }
 }

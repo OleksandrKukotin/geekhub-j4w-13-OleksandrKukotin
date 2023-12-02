@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AnalyzerTest {
+class AnalyzerTest {
 
     private static final String FIRST_CATEGORY = "Books";
 
@@ -41,8 +41,11 @@ public class AnalyzerTest {
 
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
-        assertEquals(100.0, analyzer.getBiggestTransactionInCategory(THIRD_CATEGORY).get().amount());
-        assertEquals(50.0, analyzer.getBiggestTransactionInCategory(FIRST_CATEGORY).get().amount());
+        Optional<Transaction> firstCategoryResult = analyzer.getBiggestTransactionInCategory(FIRST_CATEGORY);
+        Optional<Transaction> thirdCategoryResult = analyzer.getBiggestTransactionInCategory(THIRD_CATEGORY);
+
+        firstCategoryResult.ifPresent(transaction -> assertEquals(50, transaction.amount()));
+        thirdCategoryResult.ifPresent(transaction -> assertEquals(100, transaction.amount()));
         assertTrue(analyzer.getBiggestTransactionInCategory("Nonexistent").isEmpty());
     }
 
@@ -219,9 +222,9 @@ public class AnalyzerTest {
         TransactionAnalyzer analyzer = new Analyzer(transactions);
 
         Map<String, Double> expectedMap = new HashMap<>();
-        expectedMap.put(FIRST_CATEGORY, 0.5);
-        expectedMap.put(SECOND_CATEGORY, 0.3);
-        expectedMap.put(THIRD_CATEGORY, 0.2);
+        expectedMap.put(FIRST_CATEGORY, 50.0);
+        expectedMap.put(SECOND_CATEGORY, 30.0);
+        expectedMap.put(THIRD_CATEGORY, 20.0);
 
         assertEquals(expectedMap, analyzer.getCategoryWiseDistribution());
     }
