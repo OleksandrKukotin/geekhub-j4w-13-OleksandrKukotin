@@ -23,7 +23,7 @@ public record Student(String name, Map<String, Double> scores) {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append(String.format("%s:%nScores:%n", name));
+        result.append(String.format("Name:%s%nScores:%n", name));
         for (Map.Entry<String, Double> entry:scores.entrySet()) {
             result.append(String.format("%s - %f%n", entry.getKey(), entry.getValue()));
         }
