@@ -23,7 +23,9 @@ public class Analyzer implements TransactionAnalyzer {
         if (transactions.isEmpty()) {
             return Optional.empty();
         }
-        return transactions.stream().filter(transaction -> transaction.category().equals(category)).max(Comparator.comparingDouble(Transaction::amount));
+        return transactions.stream()
+            .filter(transaction -> transaction.category().equals(category))
+            .max(Comparator.comparingDouble(Transaction::amount));
     }
 
     @Override
@@ -32,7 +34,8 @@ public class Analyzer implements TransactionAnalyzer {
             return 0.0;
         }
         return transactions.stream()
-            .filter(transaction -> transaction.date().equals(date)).mapToDouble(Transaction::amount).sum();
+            .filter(transaction -> transaction.date().equals(date))
+            .mapToDouble(Transaction::amount).sum();
     }
 
     @Override

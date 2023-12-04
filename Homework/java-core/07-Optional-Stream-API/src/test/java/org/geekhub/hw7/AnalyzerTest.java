@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AnalyzerTest {
 
     private static final String FIRST_CATEGORY = "Books";
-
     private static final String SECOND_CATEGORY = "Food";
     private static final String THIRD_CATEGORY = "Entertainment";
 
@@ -31,15 +30,7 @@ class AnalyzerTest {
 
     @Test
     void getBiggestTransactionInCategory() {
-        List<Transaction> transactions = Arrays.asList(
-            new Transaction(50.0, FIRST_CATEGORY, LocalDate.MAX),
-            new Transaction(10.0, FIRST_CATEGORY, LocalDate.MAX),
-            new Transaction(30.0, THIRD_CATEGORY, LocalDate.now()),
-            new Transaction(100.0, THIRD_CATEGORY, LocalDate.MIN),
-            new Transaction(20.0, THIRD_CATEGORY, LocalDate.MIN)
-        );
-
-        TransactionAnalyzer analyzer = new Analyzer(transactions);
+        TransactionAnalyzer analyzer = getBiggestTransactionInCategory_createAnalyzerWithTestData();
 
         Optional<Transaction> firstCategoryResult = analyzer.getBiggestTransactionInCategory(FIRST_CATEGORY);
         Optional<Transaction> thirdCategoryResult = analyzer.getBiggestTransactionInCategory(THIRD_CATEGORY);
@@ -47,6 +38,24 @@ class AnalyzerTest {
         firstCategoryResult.ifPresent(transaction -> assertEquals(50, transaction.amount()));
         thirdCategoryResult.ifPresent(transaction -> assertEquals(100, transaction.amount()));
         assertTrue(analyzer.getBiggestTransactionInCategory("Nonexistent").isEmpty());
+    }
+
+    @Test
+    void getBiggestTransactionInCategory_withNonExistentCategory_shouldReturnEmptyOptional() {
+        TransactionAnalyzer analyzer = getBiggestTransactionInCategory_createAnalyzerWithTestData();
+
+        assertTrue(analyzer.getBiggestTransactionInCategory("Nonexistent").isEmpty());
+    }
+
+    private TransactionAnalyzer getBiggestTransactionInCategory_createAnalyzerWithTestData() {
+        List<Transaction> testData = Arrays.asList(
+            new Transaction(50.0, FIRST_CATEGORY, LocalDate.MAX),
+            new Transaction(10.0, FIRST_CATEGORY, LocalDate.MAX),
+            new Transaction(30.0, THIRD_CATEGORY, LocalDate.now()),
+            new Transaction(100.0, THIRD_CATEGORY, LocalDate.MIN),
+            new Transaction(20.0, THIRD_CATEGORY, LocalDate.MIN)
+        );
+        return new Analyzer(testData);
     }
 
     @Test
@@ -85,8 +94,26 @@ class AnalyzerTest {
     }
 
     @Test
-    void getTransactionsByCategoryAndDate() {
-        List<Transaction> transactions = Arrays.asList(
+    void getTransactionsByCategoryAndDate_foundSeveralTransactions_shouldReturnTheseTransactions() {
+        TransactionAnalyzer analyzer = getTransactionsByCategoryAndDate_createAnalyzerWithTestData();
+
+        List<Transaction> expectedOutput = Arrays.asList(
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
+            new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX)
+        );
+
+        assertEquals(expectedOutput, analyzer.getTransactionsByCategoryAndDate(SECOND_CATEGORY, LocalDate.MAX));
+    }
+
+    @Test
+    void getTransactionsByCategoryAndDate_foundNoTransactions_shouldReturnEmptyList() {
+        TransactionAnalyzer analyzer = getTransactionsByCategoryAndDate_createAnalyzerWithTestData();
+
+        assertEquals(new ArrayList<>(), analyzer.getTransactionsByCategoryAndDate(FIRST_CATEGORY, LocalDate.now()));
+    }
+
+    private Analyzer getTransactionsByCategoryAndDate_createAnalyzerWithTestData() {
+        List<Transaction> testData = Arrays.asList(
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MIN),
             new Transaction(50.0, FIRST_CATEGORY, LocalDate.MIN),
             new Transaction(50.0, SECOND_CATEGORY, LocalDate.MAX),
@@ -95,11 +122,7 @@ class AnalyzerTest {
             new Transaction(50.0, THIRD_CATEGORY, LocalDate.MIN)
         );
 
-        TransactionAnalyzer analyzer = new Analyzer(transactions);
-
-        assertEquals(0, analyzer.getTransactionsByCategoryAndDate(FIRST_CATEGORY, LocalDate.now()).size());
-        assertEquals(2, analyzer.getTransactionsByCategoryAndDate(SECOND_CATEGORY, LocalDate.MAX).size());
-        assertEquals(1, analyzer.getTransactionsByCategoryAndDate(THIRD_CATEGORY, LocalDate.MIN).size());
+        return new Analyzer(testData);
     }
 
     @Test
