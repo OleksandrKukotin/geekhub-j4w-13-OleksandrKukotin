@@ -30,7 +30,7 @@ public class OnlineStore {
 
     public void addProduct(String positionName, int amount) {
         if (positions.containsKey(positionName)) {
-            positions.compute(positionName, (key, value) -> (value != null)? amount : value + amount);
+            positions.compute(positionName, (key, value) -> (value == null)? amount : value + amount);
         } else {
             positions.put(positionName, amount);
         }
