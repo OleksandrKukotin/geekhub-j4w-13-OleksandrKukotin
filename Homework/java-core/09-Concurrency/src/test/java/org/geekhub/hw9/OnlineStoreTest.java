@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OnlineStoreTest {
@@ -22,7 +23,31 @@ class OnlineStoreTest {
 
     @BeforeEach
     void setUp() {
-        onlineStore = new OnlineStore();
+        onlineStore = new OnlineStore(Executors.newFixedThreadPool(5));
+    }
+
+    @Test
+    void testStockIncrease() {
+        onlineStore.addProduct("EcoFlow", 10);
+        assertEquals(10, onlineStore.getProductQuantity("EcoFlow"));
+        onlineStore.addProduct("EcoFlow", 10);
+        assertEquals(20, onlineStore.getProductQuantity("EcoFlow"));
+
+        onlineStore.addProduct("Snickers", 5);
+        onlineStore.addProduct("Snickers", 5);
+        assertEquals(10, onlineStore.getProductQuantity("Snickers"));
+    }
+
+    @Test
+    void testStockIncrease_forbidNegative() {
+        onlineStore.addProduct("EcoFlow", 10);
+        assertEquals(10, onlineStore.getProductQuantity("EcoFlow"));
+
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> onlineStore.addProduct("EcoFlow", -10),
+            "Quantity should be non-negative"
+        );
     }
 
     @Test
