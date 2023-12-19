@@ -23,7 +23,10 @@ public class StockManager {
         onlineStore.addProduct("Snickers", restockingAmount);
     }
 
-    public void shutdown() {
+    public void shutdown() throws InterruptedException {
         manager.shutdown();
+        if (manager.awaitTermination(15, TimeUnit.SECONDS)) {
+            System.out.println("The thread pool was closed successfully.");
+        }
     }
 }
