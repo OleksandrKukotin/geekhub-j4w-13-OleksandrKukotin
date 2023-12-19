@@ -6,11 +6,12 @@ import java.util.concurrent.TimeUnit;
 
 public class StockManager {
 
-    private final ScheduledExecutorService manager = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService manager;
     private final OnlineStore onlineStore;
     private final int restockingAmount;
 
     public StockManager(OnlineStore onlineStore, int restockingAmount, int restockingInterval) {
+        this.manager = Executors.newScheduledThreadPool(8);
         this.onlineStore = onlineStore;
         this.restockingAmount = restockingAmount;
 

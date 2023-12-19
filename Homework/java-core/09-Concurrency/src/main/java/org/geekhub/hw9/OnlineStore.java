@@ -6,34 +6,45 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class OnlineStore {
 
-    private final ExecutorService saleService = Executors.newSingleThreadExecutor();
-    private final Map<String, Integer> positions = new ConcurrentHashMap<>();
-    private final AtomicInteger totalSales = new AtomicInteger(0);
+    private final ExecutorService saleService;
+    private final Map<String, Integer> positions;
+    private final AtomicInteger totalSales;
+    private final Lock purchaseLock;
+
+    public OnlineStore() {
+        this.saleService = Executors.newFixedThreadPool(8);
+        this.positions = new ConcurrentHashMap<>();
+        this.totalSales = new AtomicInteger(0);
+        this.purchaseLock = new ReentrantLock();
+    }
 
     public Future<Boolean> purchase(String positionName, int quantity) {
         return saleService.submit(() -> {
-            if (positions.containsKey(positionName)) {
-                int productQuantity = positions.get(positionName);
-                int remaining = productQuantity - quantity;
-                if (remaining >= 0) {
-                    positions.replace(positionName, remaining);
-                    totalSales.getAndAdd(quantity);
-                    return true;
+            purchaseLock.lock();
+            try {
+                if (positions.containsKey(positionName)) {
+                    int productQuantity = positions.get(positionName);
+                    int remaining = productQuantity - quantity;
+                    if (remaining >= 0) {
+                        positions.replace(positionName, remaining);
+                        totalSales.getAndAdd(quantity);
+                        return true;
+                    }
                 }
+                return false;
+            } finally {
+                purchaseLock.unlock();
             }
-            return false;
         });
     }
 
     public void addProduct(String positionName, int amount) {
-        if (positions.containsKey(positionName)) {
-            positions.compute(positionName, (key, value) -> (value == null)? amount : value + amount);
-        } else {
-            positions.put(positionName, amount);
-        }
+        positions.merge(positionName, amount, Integer::sum);
     }
 
     public int getProductQuantity(String positionName) {
