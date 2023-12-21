@@ -10,7 +10,7 @@ public class ReflectAssertions {
 
     public static void assertEquals(Object expected, Object actual) {
         if (Objects.equals(expected, actual)) {
-            System.out.printf("+ Test passed:%nExpected:%s, Actual:%s%n", expected, actual);
+            System.out.printf("%n+ Test passed:%nExpected:%s, Actual:%s%n", expected, actual);
         } else {
             throw new AssertionError("- Test failed: Expected: " + expected + ", Actual: " + actual + "\n");
         }
@@ -18,7 +18,7 @@ public class ReflectAssertions {
 
     public static void assertReflectionEquals(Object expected, Object actual) {
         if (expected == null && actual == null) {
-            System.out.printf("+ Test passed: Both objects are null%n");
+            System.out.printf("%n+ Test passed: Both objects are null%n");
             return;
         }
 
@@ -49,12 +49,12 @@ public class ReflectAssertions {
             }
         }
 
-        System.out.println("+ Test passed: ReflectionEquals\n");
+        System.out.printf("%n+ Test passed: ReflectionEquals%n");
     }
 
     public static void assertTrue(boolean condition) {
         if (condition) {
-            System.out.printf("+ Test passed:%nExpected:%b, Actual:%b%n", true, true);
+            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b%n", true, true);
         } else {
             throw new AssertionError("- Assertion failed: expected true but false retrieved\n");
         }
@@ -62,7 +62,7 @@ public class ReflectAssertions {
 
     public static void assertFalse(boolean condition) {
         if (!condition) {
-            System.out.printf("+ Test passed:%nExpected:%b, Actual:%b%n", true, false);
+            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b%n", true, false);
         } else {
             throw new AssertionError("- Assertion failed: expected false but true retrieved\n");
         }
