@@ -8,17 +8,17 @@ public class ReflectAssertions {
     private ReflectAssertions() {
     }
 
-    public static void assertEquals(Object expected, Object actual) {
+    public static void assertEquals(Object expected, Object actual) throws AssertionError {
         if (Objects.equals(expected, actual)) {
-            System.out.printf("%n+ Test passed:%nExpected:%s, Actual:%s%n", expected, actual);
+            System.out.printf("%nExpected:%s, Actual:%s", expected, actual);
         } else {
-            throw new AssertionError("- Test failed: Expected: " + expected + ", Actual: " + actual + "\n");
+            throw new AssertionError("\n- Test failed: Expected: " + expected + ", Actual: " + actual);
         }
     }
 
     public static void assertReflectionEquals(Object expected, Object actual) {
         if (expected == null && actual == null) {
-            System.out.printf("%n+ Test passed: Both objects are null%n");
+            System.out.printf("%nBoth objects are null");
             return;
         }
 
@@ -49,22 +49,22 @@ public class ReflectAssertions {
             }
         }
 
-        System.out.printf("%n+ Test passed: ReflectionEquals%n");
+        System.out.printf("%nReflectionEquals%n");
     }
 
     public static void assertTrue(boolean condition) {
         if (condition) {
-            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b%n", true, true);
+            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b", true, true);
         } else {
-            throw new AssertionError("- Assertion failed: expected true but false retrieved\n");
+            throw new AssertionError("- Assertion failed: expected true but false retrieved");
         }
     }
 
     public static void assertFalse(boolean condition) {
         if (!condition) {
-            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b%n", true, false);
+            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b", true, false);
         } else {
-            throw new AssertionError("- Assertion failed: expected false but true retrieved\n");
+            throw new AssertionError("- Assertion failed: expected false but true retrieved");
         }
     }
 }

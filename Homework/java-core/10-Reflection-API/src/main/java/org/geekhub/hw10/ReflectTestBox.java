@@ -7,11 +7,11 @@ import java.lang.reflect.Method;
 
 public class ReflectTestBox {
 
-    static int totalTests = 0;
-    static int testPassed = 0;
-    static int testFailed = 0;
+    private static int totalTests = 0;
+    private static int testPassed = 0;
+    private static int testFailed = 0;
 
-    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public static void main(String[] args) {
         System.out.println("""
             ========================================
                 ReflectTestBox Testing framework
@@ -20,28 +20,33 @@ public class ReflectTestBox {
         runTests(SampleTest.class);
     }
 
-    private static void runTests(Class<?> clazz) throws InstantiationException,
-        IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private static void runTests(Class<?> clazz) {
         System.out.printf("%n-- Running tests in %s class --", clazz.getName());
         Method[] methods = clazz.getMethods();
 
         for (Method method : methods) {
             if (method.isAnnotationPresent(Test.class)) {
                 totalTests++;
-                System.out.printf("%n- Running Test: %s -", method.getName());
+                System.out.printf("%n%n- Running Test: %s -", method.getName());
                 try {
                     method.invoke(clazz.getDeclaredConstructor().newInstance());
                     testPassed++;
+                    System.out.printf("%nPassed! :)");
                 } catch (AssertionError e) {
                     testFailed++;
+                    System.out.printf("%nFailed. :[");
+                } catch (Exception e) {
+                    testFailed++;
+                    System.out.printf("%nError: %s", e);
                 }
             }
         }
         System.out.println("""
-                    ========================================
-                                     Summary
-                    ========================================
-                    """);
+
+            ========================================
+                             Summary
+            ========================================
+            """);
         System.out.println("Total tests run: " + totalTests);
         System.out.println("Passed tests: " + testPassed);
         System.out.println("Failed tests: " + testFailed);

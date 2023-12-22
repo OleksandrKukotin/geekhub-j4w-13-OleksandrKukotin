@@ -15,7 +15,7 @@ public class SampleTest {
     @Test
     public void testAddition() {
         Sample sample = new Sample();
-        assertEquals(5, sample.add(2, 3));
+        assertEquals(4, sample.add(2, 3));
     }
 
     @Test
