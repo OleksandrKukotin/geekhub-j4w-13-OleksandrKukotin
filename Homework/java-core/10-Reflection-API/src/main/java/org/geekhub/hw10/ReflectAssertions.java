@@ -8,11 +8,11 @@ public class ReflectAssertions {
     private ReflectAssertions() {
     }
 
-    public static void assertEquals(Object expected, Object actual) throws AssertionError {
+    public static void assertEquals(Object expected, Object actual) {
         if (Objects.equals(expected, actual)) {
             System.out.printf("%nExpected:%s, Actual:%s", expected, actual);
         } else {
-            throw new AssertionError("\n- Test failed: Expected: " + expected + ", Actual: " + actual);
+            throw new AssertionError("\n- Test failed: was expected " + expected + " but got " + actual);
         }
     }
 
@@ -52,19 +52,12 @@ public class ReflectAssertions {
         System.out.printf("%nReflectionEquals%n");
     }
 
-    public static void assertTrue(boolean condition) {
-        if (condition) {
-            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b", true, true);
-        } else {
-            throw new AssertionError("- Assertion failed: expected true but false retrieved");
-        }
-    }
-
-    public static void assertFalse(boolean condition) {
-        if (!condition) {
-            System.out.printf("%n+ Test passed:%nExpected:%b, Actual:%b", true, false);
-        } else {
-            throw new AssertionError("- Assertion failed: expected false but true retrieved");
+    public static void assertThrows(Runnable runnable) {
+        try {
+            runnable.run();
+            throw new AssertionError("- Test failed: Expected an exception, but none was thrown");
+        } catch (Exception e) {
+            System.out.printf("%nExpected exception was thrown: %n%s", e.getMessage());
         }
     }
 }
