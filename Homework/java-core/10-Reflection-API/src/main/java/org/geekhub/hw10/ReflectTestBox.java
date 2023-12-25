@@ -9,22 +9,22 @@ import java.lang.reflect.Method;
 
 public class ReflectTestBox {
 
-    private static int totalTests = 0;
-    private static int testPassed = 0;
-    private static int testFailed = 0;
+    private int totalTests = 0;
+    private int testPassed = 0;
+    private int testFailed = 0;
 
-    public static void main(String[] args) {
+    public void run(Class<?> clazz) {
         System.out.println("""
             =========================================================
                         ReflectTestBox Testing framework
             =========================================================
             """);
-        runBeforeMethods(SampleTest.class);
-        runTests(SampleTest.class);
-        runAfterMethods(SampleTest.class);
+        runBeforeMethods(clazz);
+        runTests(clazz);
+        runAfterMethods(clazz);
     }
 
-    private static void runBeforeMethods(Class<?> clazz) {
+    private void runBeforeMethods(Class<?> clazz) {
         Method[] methods = clazz.getMethods();
 
         for (Method method : methods) {
@@ -39,7 +39,7 @@ public class ReflectTestBox {
         }
     }
 
-    private static void runTests(Class<?> clazz) {
+    private void runTests(Class<?> clazz) {
         System.out.printf("%n-- Running tests in %s class --", clazz.getName());
         Method[] methods = clazz.getMethods();
 
@@ -73,7 +73,7 @@ public class ReflectTestBox {
         System.out.println("=========================================================");
     }
 
-    private static void runAfterMethods(Class<?> clazz) {
+    private void runAfterMethods(Class<?> clazz) {
         Method[] methods = clazz.getMethods();
 
         for (Method method : methods) {
