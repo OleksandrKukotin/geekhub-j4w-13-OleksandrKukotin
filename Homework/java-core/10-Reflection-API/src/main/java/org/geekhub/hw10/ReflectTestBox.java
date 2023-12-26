@@ -19,27 +19,31 @@ public class ReflectTestBox {
                         ReflectTestBox Testing framework
             =========================================================
             """);
-        runBeforeMethods(clazz);
-        runTests(clazz);
-        runAfterMethods(clazz);
+        try {
+            Object classInstance = clazz.getDeclaredConstructor().newInstance();
+            runBeforeMethods(clazz, classInstance);
+            runTests(clazz, classInstance);
+            runAfterMethods(clazz, classInstance);
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void runBeforeMethods(Class<?> clazz) {
+    private void runBeforeMethods(Class<?> clazz, Object classInstance) {
         Method[] methods = clazz.getMethods();
 
         for (Method method : methods) {
             if (method.isAnnotationPresent(BeforeMethod.class)) {
                 try {
-                    method.invoke(clazz.getDeclaredConstructor().newInstance());
-                } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                         IllegalAccessException e) {
-                    System.out.printf("An error has occurred during the run of before-test methods: %s", e.getMessage());
+                    method.invoke(classInstance);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
     }
 
-    private void runTests(Class<?> clazz) {
+    private void runTests(Class<?> clazz, Object classInstance) {
         System.out.printf("%n-- Running tests in %s class --", clazz.getName());
         Method[] methods = clazz.getMethods();
 
@@ -48,14 +52,13 @@ public class ReflectTestBox {
                 totalTests++;
                 System.out.printf("%n%n- Running Test: %s -", method.getName());
                 try {
-                    method.invoke(clazz.getDeclaredConstructor().newInstance());
+                    method.invoke(classInstance);
                     testPassed++;
                     System.out.printf("%nPassed! :)");
                 } catch (AssertionError e) {
                     testFailed++;
                     System.out.printf("%nFailed. :[");
-                } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                         IllegalAccessException e) {
+                } catch (InvocationTargetException | IllegalAccessException e) {
                     testFailed++;
                     System.out.printf("%nError has occurred: %n%s", e);
                 }
@@ -73,15 +76,14 @@ public class ReflectTestBox {
         System.out.println("=========================================================");
     }
 
-    private void runAfterMethods(Class<?> clazz) {
+    private void runAfterMethods(Class<?> clazz, Object classInstance) {
         Method[] methods = clazz.getMethods();
 
         for (Method method : methods) {
             if (method.isAnnotationPresent(AfterMethod.class)) {
                 try {
-                    method.invoke(clazz.getDeclaredConstructor().newInstance());
-                } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                         IllegalAccessException e) {
+                    method.invoke(classInstance);
+                } catch (InvocationTargetException | IllegalAccessException e) {
                     System.out.printf("An error has occurred during the run of after-test methods: %s", e.getMessage());
                 }
             }
