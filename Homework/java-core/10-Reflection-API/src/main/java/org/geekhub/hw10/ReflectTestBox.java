@@ -3,6 +3,7 @@ package org.geekhub.hw10;
 import org.geekhub.hw10.annotation.AfterMethod;
 import org.geekhub.hw10.annotation.BeforeMethod;
 import org.geekhub.hw10.annotation.Test;
+import org.geekhub.hw10.exception.SettingTestsException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +26,7 @@ public class ReflectTestBox {
             runTests(clazz, classInstance);
             runAfterMethods(clazz, classInstance);
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new SettingTestsException(e.getMessage(), e);
         }
     }
 
@@ -37,7 +38,7 @@ public class ReflectTestBox {
                 try {
                     method.invoke(classInstance);
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
+                    System.out.printf("An error has occurred during the run of before-test methods: %s", e.getMessage());
                 }
             }
         }
