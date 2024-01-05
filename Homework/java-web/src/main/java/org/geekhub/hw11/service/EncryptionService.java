@@ -2,13 +2,13 @@ package org.geekhub.hw11.service;
 
 public class EncryptionService {
 
-    private LoggingService logger;
+    private final LoggingService logger;
 
     public EncryptionService(LoggingService logger) {
         this.logger = logger;
     }
 
-    public String encrypt(String originalText, int shift) {
+    public String encryptByCaesarCipher(String originalText, int shift) {
         StringBuilder encryptedText = new StringBuilder();
 
         for (char character : originalText.toCharArray()) {
@@ -21,7 +21,7 @@ public class EncryptionService {
             }
         }
 
-        logger.addToLog(originalText, encryptedText.toString());
+        logger.addToLog(originalText, encryptedText.toString(), "Caesar cipher");
         return encryptedText.toString();
     }
 }
