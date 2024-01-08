@@ -4,8 +4,7 @@ import org.geekhub.hw11.model.LogEntry;
 import org.geekhub.hw11.repository.LogRepository;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.util.LinkedList;
+import java.time.Instant;
 import java.util.List;
 
 public class LoggingService {
@@ -14,12 +13,12 @@ public class LoggingService {
     private final LogRepository logRepository;
 
     public LoggingService(LogRepository logRepository) {
-        this.log = new LinkedList<>();
         this.logRepository = logRepository;
+        this.log = logRepository.parseLogHistory();
     }
 
     public void addToLog(String originalMessage, String encryptedMessage, String algorithm) {
-        this.log.add(new LogEntry(OffsetDateTime.now(), originalMessage, encryptedMessage, algorithm));
+        this.log.add(new LogEntry(Instant.now(), originalMessage, algorithm, encryptedMessage));
     }
 
     public void showMessagesLog() {

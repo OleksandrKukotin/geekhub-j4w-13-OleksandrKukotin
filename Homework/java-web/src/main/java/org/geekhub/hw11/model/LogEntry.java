@@ -1,14 +1,14 @@
 package org.geekhub.hw11.model;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
-public record LogEntry(OffsetDateTime time, String input, String encrypted, String algorithm) {
+public record LogEntry(Instant time, String input, String algorithm, String encrypted) {
 
     public String stringForLogFile() {
-        return String.format("%tc ._. '%s' ._. %s ._. '%s'", time, input, algorithm, encrypted);
+        return String.format("%s ._. %s ._. %s ._. %s", time.toString(), input, algorithm, encrypted);
     }
 
     public String stringForOutput() {
-        return String.format("%tc - Message '%s' was encrypted via %s into '%s'", time, input, algorithm, encrypted);
+        return String.format("%s - Message '%s' was encrypted via %s into '%s'", time.toString(), input, algorithm, encrypted);
     }
 }
