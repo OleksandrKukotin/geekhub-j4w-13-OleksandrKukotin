@@ -3,6 +3,7 @@ package org.geekhub.hw11.service;
 import org.geekhub.hw11.model.LogEntry;
 import org.geekhub.hw11.repository.LogRepository;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,13 +28,14 @@ public class LoggingService {
                 "the E option in the main menu");
             return;
         }
-        log.forEach(entry ->
-            System.out.printf("%n%tc - Message: '%s' was encrypted via %s into '%s'", entry.time(), entry.originalMessage(),
-                entry.algorithm(), entry.encryptedMessage()));
-        System.out.println();
+        log.forEach(entry -> System.out.println(entry.stringForOutput()));
     }
 
     public void save() {
-        logRepository.writeLogToFile(log);
+        try {
+            logRepository.writeLogToFile(log);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
