@@ -6,11 +6,12 @@ public class MainMenu {
 
     private static final String MENU_OPTIONS = """
 
-        Enter the letter to choose command:
+        Enter one of the following capital letters to choose the command:
             E - for Encrypt text you'll write;
             L - for show Log of your texts;
-            Q - for finish executing the program
-        """;
+            Q - for finish executing the program""";
+    public static final String WRONG_INPUT_MESSAGE = "Probably you entered the wrong symbol, " +
+        "try to use one capital letter from listed in the menu";
 
     private final Scanner scanner;
     private final EncryptTextApi encryptApi;
@@ -31,10 +32,10 @@ public class MainMenu {
                 case "E" -> encryptApi.encryptInput();
                 case "L" -> logApi.showLog();
                 case "Q" -> {
-                    logApi.saveToFile();
+                    logApi.saveLog();
                     isRunning = false;
                 }
-                default -> System.out.println("Ooops! Something went wrong :[");
+                default -> System.out.println(WRONG_INPUT_MESSAGE);
             }
         }
     }

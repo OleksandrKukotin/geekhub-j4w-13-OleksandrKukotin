@@ -1,23 +1,24 @@
 package org.geekhub.hw11.service;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.geekhub.hw11.model.LogEntry;
+import org.geekhub.hw11.repository.LogRepository;
+
+import java.time.OffsetDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LoggingService {
 
-    public static final int ORIGINAL_INDEX = 0;
-    public static final int ALGORITHM_INDEX = 1;
-    public static final int ENCRYPTED_INDEX = 2;
-    private final Map<Date, String[]> log;
+    private final List<LogEntry> log;
+    private final LogRepository logRepository;
 
-    public LoggingService() {
-        this.log = new LinkedHashMap<>();
+    public LoggingService(LogRepository logRepository) {
+        this.log = new LinkedList<>();
+        this.logRepository = logRepository;
     }
 
     public void addToLog(String originalMessage, String encryptedMessage, String algorithm) {
-        this.log.put(Date.from(Instant.now()), new String[]{originalMessage, algorithm, encryptedMessage});
+        this.log.add(new LogEntry(OffsetDateTime.now(), originalMessage, encryptedMessage, algorithm));
     }
 
     public void showMessagesLog() {
@@ -26,13 +27,13 @@ public class LoggingService {
                 "the E option in the main menu");
             return;
         }
-        log.forEach((date, info) ->
-            System.out.printf("%n%tc - Message: %s was encrypted via %s into %s", date, info[ORIGINAL_INDEX],
-                info[ALGORITHM_INDEX], info[ENCRYPTED_INDEX]));
+        log.forEach(entry ->
+            System.out.printf("%n%tc - Message: '%s' was encrypted via %s into '%s'", entry.time(), entry.originalMessage(),
+                entry.algorithm(), entry.encryptedMessage()));
+        System.out.println();
     }
 
-    //TODO: implement the method below
-    public void writeLogToFile() {
-        System.out.printf("%nLog successfully saved to the file");
+    public void save() {
+        logRepository.writeLogToFile(log);
     }
 }

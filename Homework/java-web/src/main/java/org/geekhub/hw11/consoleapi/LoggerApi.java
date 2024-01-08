@@ -14,7 +14,7 @@ public class LoggerApi {
         loggingService.showMessagesLog();
     }
 
-    public void saveToFile() {
-        loggingService.writeLogToFile();
+    public void saveLog() {
+        loggingService.save();
     }
 }
