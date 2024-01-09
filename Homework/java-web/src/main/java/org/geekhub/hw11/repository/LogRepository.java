@@ -1,5 +1,6 @@
 package org.geekhub.hw11.repository;
 
+import org.geekhub.hw11.exception.FileException;
 import org.geekhub.hw11.model.LogEntry;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LogRepository {
 
@@ -20,27 +22,39 @@ public class LogRepository {
         this.pathToLogFile = pathToLogFile;
     }
 
-    public void writeLogToFile(List<LogEntry> log) throws IOException {
+    public void writeLogToFile(List<LogEntry> log) {
         try (BufferedWriter fileWriter = Files.newBufferedWriter(pathToLogFile, StandardOpenOption.CREATE,
-                StandardOpenOption.APPEND);
-             BufferedReader fileReader = Files.newBufferedReader(pathToLogFile)) {
+            StandardOpenOption.APPEND)) {
             for (LogEntry entry : log) {
-                String lineToWrite = entry.stringForLogFile();
-                if (fileReader.lines().noneMatch(line -> line.contains(lineToWrite))) {
-                    fileWriter.write(lineToWrite);
+                if (!checkForDuplicates(pathToLogFile, entry.stringForLogFile())) {
+                    fileWriter.write(entry.stringForLogFile());
                     fileWriter.newLine();
-                } else {
-                    break;
                 }
             }
             System.out.printf("%nLog successfully saved to the file");
+        } catch (IOException e) {
+            throw new FileException(e.getMessage(), e);
         }
+    }
+
+    private boolean checkForDuplicates(Path pathToFile, String lineToCheck) {
+        AtomicBoolean isDuplicate = new AtomicBoolean(false);
+        try (BufferedReader fileReader = Files.newBufferedReader(pathToFile)) {
+            fileReader.lines().forEach(line -> {
+                if (line.contains(lineToCheck)) {
+                    isDuplicate.set(true);
+                }
+            });
+        } catch (IOException e) {
+            throw new FileException(e.getMessage(), e);
+        }
+        return isDuplicate.get();
     }
 
     public List<LogEntry> parseLogHistory() {
         List<LogEntry> parsed = new LinkedList<>();
         try (BufferedReader fileReader = Files.newBufferedReader(pathToLogFile)) {
-            String readLine = "";
+            String readLine;
             while (true) {
                 readLine = fileReader.readLine();
                 if (readLine == null || readLine.isBlank()) {
@@ -50,7 +64,7 @@ public class LogRepository {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileException(e.getMessage(), e);
         }
         return parsed;
     }

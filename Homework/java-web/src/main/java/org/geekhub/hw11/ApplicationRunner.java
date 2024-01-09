@@ -3,6 +3,7 @@ package org.geekhub.hw11;
 import org.geekhub.hw11.consoleapi.EncryptTextApi;
 import org.geekhub.hw11.consoleapi.LoggerApi;
 import org.geekhub.hw11.consoleapi.MainMenu;
+import org.geekhub.hw11.exception.FileException;
 import org.geekhub.hw11.repository.LogRepository;
 import org.geekhub.hw11.service.EncryptionService;
 import org.geekhub.hw11.service.LoggingService;
@@ -29,8 +30,7 @@ public class ApplicationRunner {
             MainMenu mainMenu = new MainMenu(scanner, encryptApi, logApi);
             mainMenu.printMenu();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileException(e.getMessage(), e);
         }
-
     }
 }
