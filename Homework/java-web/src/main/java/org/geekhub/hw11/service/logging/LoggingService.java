@@ -1,4 +1,4 @@
-package org.geekhub.hw11.service;
+package org.geekhub.hw11.service.logging;
 
 import org.geekhub.hw11.model.LogEntry;
 import org.geekhub.hw11.repository.LogRepository;

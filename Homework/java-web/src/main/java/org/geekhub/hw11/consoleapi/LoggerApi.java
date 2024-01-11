@@ -1,6 +1,6 @@
 package org.geekhub.hw11.consoleapi;
 
-import org.geekhub.hw11.service.LoggingService;
+import org.geekhub.hw11.service.logging.LoggingService;
 
 public class LoggerApi {
 

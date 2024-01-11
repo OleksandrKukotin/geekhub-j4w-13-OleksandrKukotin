@@ -5,8 +5,8 @@ import org.geekhub.hw11.consoleapi.LoggerApi;
 import org.geekhub.hw11.consoleapi.MainMenu;
 import org.geekhub.hw11.exception.FileException;
 import org.geekhub.hw11.repository.LogRepository;
-import org.geekhub.hw11.service.EncryptionService;
-import org.geekhub.hw11.service.LoggingService;
+import org.geekhub.hw11.service.encryption.EncryptionService;
+import org.geekhub.hw11.service.logging.LoggingService;
 
 import java.io.IOException;
 import java.nio.file.Files;
