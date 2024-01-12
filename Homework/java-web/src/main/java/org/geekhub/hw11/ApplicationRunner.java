@@ -6,6 +6,8 @@ import org.geekhub.hw11.consoleapi.MainMenu;
 import org.geekhub.hw11.exception.FileException;
 import org.geekhub.hw11.repository.LogRepository;
 import org.geekhub.hw11.service.encryption.EncryptionService;
+import org.geekhub.hw11.service.injection.ClassSearchService;
+import org.geekhub.hw11.service.injection.InjectableService;
 import org.geekhub.hw11.service.logging.LoggingService;
 
 import java.io.IOException;
@@ -21,11 +23,15 @@ public class ApplicationRunner {
             if (!Files.exists(logFilePath)) {
                 Files.createFile(logFilePath);
             }
+
             LogRepository logRepository = new LogRepository(logFilePath);
             LoggingService logger = new LoggingService(logRepository);
-            EncryptionService encryptionService = new EncryptionService(logger);
-            EncryptTextApi encryptApi = new EncryptTextApi(scanner, encryptionService);
             LoggerApi logApi = new LoggerApi(logger);
+
+            ClassSearchService classSearchService = new ClassSearchService();
+            InjectableService injectableService = new InjectableService(classSearchService);
+            EncryptionService encryptionService = new EncryptionService(logger, injectableService);
+            EncryptTextApi encryptApi = new EncryptTextApi(scanner, encryptionService);
 
             MainMenu mainMenu = new MainMenu(scanner, encryptApi, logApi);
             mainMenu.printMenu();

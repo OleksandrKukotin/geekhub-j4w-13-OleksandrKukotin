@@ -6,7 +6,7 @@ public class VigenereCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Vigenere cipher";
     @Injectable("vigenere.keyword")
-    private String keywordVigenere;
+    private String keyword = "";
 
     public String encrypt(String plainText) {
         StringBuilder encryptedText = new StringBuilder();
@@ -16,7 +16,7 @@ public class VigenereCipherEncryptor implements Encryptor {
 
             if (Character.isLetter(currentChar)) {
                 char base = Character.isUpperCase(currentChar) ? 'A' : 'a';
-                int shift = keywordVigenere.charAt(j % keywordVigenere.length()) - 'A';
+                int shift = keyword.charAt(j % keyword.length()) - 'A';
 
                 char encryptedChar = (char) ((currentChar - base + shift) % 26 + base);
                 encryptedText.append(encryptedChar);

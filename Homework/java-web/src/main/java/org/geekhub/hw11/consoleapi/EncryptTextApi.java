@@ -27,12 +27,13 @@ public class EncryptTextApi {
         Encryptor encryptor = null;
         while (encryptor == null) {
             System.out.println(ENCRYPT_SUB_MENU);
-            switch (scanner.nextInt()) {
-                case 1 -> encryptor = new CaesarCipherEncryptor();
-                case 2 -> encryptor = new VigenereCipherEncryptor();
+            switch (scanner.nextLine()) {
+                case "1" -> encryptor = new CaesarCipherEncryptor();
+                case "2" -> encryptor = new VigenereCipherEncryptor();
                 default -> System.out.println(WRONG_INPUT_MESSAGE);
             }
         }
+
         System.out.printf("%nPlease, enter the text you wanna encrypt: ");
         String input = scanner.nextLine();
         String encrypted = encryptionService.encrypt(input, encryptor);

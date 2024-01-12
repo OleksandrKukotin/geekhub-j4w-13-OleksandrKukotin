@@ -6,7 +6,7 @@ public class CaesarCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Caesar cipher";
     @Injectable("caesar.key")
-    private int key;
+    private int key = 0;
 
     @Override
     public String encrypt(String originalText) {
