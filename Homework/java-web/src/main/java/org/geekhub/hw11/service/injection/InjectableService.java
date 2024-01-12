@@ -1,6 +1,8 @@
 package org.geekhub.hw11.service.injection;
 
 import org.geekhub.hw11.annotation.Injectable;
+import org.geekhub.hw11.exception.FileException;
+import org.geekhub.hw11.exception.InjectionException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,39 +10,41 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Properties;
 
 public class InjectableService {
 
-    private final ClassSearchService classSearcher;
-
-    public InjectableService(ClassSearchService classSearcher) {
-        this.classSearcher = classSearcher;
-    }
-
-    public void injectTo(Object object) {
+    public void injectTo(Object object, Properties properties) {
         Class clazz = object.getClass();
-        try (InputStream inputStream = InjectableService.class.getResourceAsStream("/application.properties")) {
-            assert inputStream != null;
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-                Properties properties = new Properties();
-                properties.load(reader);
-                for (Field field : clazz.getDeclaredFields()) {
-                    Injectable annotation = field.getAnnotation(Injectable.class);
-                    if (annotation != null) {
-                        field.setAccessible(true);
-                        if (field.getType().isInstance(String.class)) {
-                            field.set(object, properties.get(annotation.value()));
-                        } else if (field.getType().isInstance(int.class)) {
-                            field.set(object, properties.get(Integer.parseInt(properties.getProperty(annotation.value()))));
-                        }
+        try {
+            for (Field field : clazz.getDeclaredFields()) {
+                Injectable annotation = field.getAnnotation(Injectable.class);
+                if (annotation != null) {
+                    field.setAccessible(true);
+                    Object annotationValue = properties.get(annotation.value());
+                    switch (field.getType().getName()) {
+                        case "String" -> field.set(object, annotationValue);
+                        case "int" -> field.set(object, Integer.parseInt(annotationValue.toString()));
+                        default -> field.set(object, annotationValue);
                     }
                 }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+            }
+        } catch (IllegalAccessException e) {
+            throw new InjectionException(e.getMessage(), e);
+        }
+    }
+
+    public Properties loadAvailableProperties() {
+        Properties properties = new Properties();
+        try (InputStream inputStream = InjectableService.class.getResourceAsStream("/application.properties")) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8))) {
+                properties.load(reader);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileException(e.getMessage(), e);
         }
+
+        return properties;
     }
 }

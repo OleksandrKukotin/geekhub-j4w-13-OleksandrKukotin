@@ -26,18 +26,19 @@ public class LogRepository {
         try (BufferedWriter fileWriter = Files.newBufferedWriter(pathToLogFile, StandardOpenOption.CREATE,
             StandardOpenOption.APPEND)) {
             for (LogEntry entry : log) {
-                if (!checkForDuplicates(pathToLogFile, entry.stringForLogFile())) {
+                if (!isTheLogDuplicated(pathToLogFile, entry.stringForLogFile())) {
                     fileWriter.write(entry.stringForLogFile());
                     fileWriter.newLine();
+                    System.out.printf("%nLog for '%s' message successfully saved to the file", entry.input());
                 }
             }
-            System.out.printf("%nLog successfully saved to the file");
+            System.out.printf("%nNo more data to save to the file...");
         } catch (IOException e) {
             throw new FileException(e.getMessage(), e);
         }
     }
 
-    private boolean checkForDuplicates(Path pathToFile, String lineToCheck) {
+    private boolean isTheLogDuplicated(Path pathToFile, String lineToCheck) {
         AtomicBoolean isDuplicate = new AtomicBoolean(false);
         try (BufferedReader fileReader = Files.newBufferedReader(pathToFile)) {
             fileReader.lines().forEach(line -> {

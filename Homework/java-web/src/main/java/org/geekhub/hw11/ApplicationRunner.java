@@ -8,11 +8,13 @@ import org.geekhub.hw11.repository.LogRepository;
 import org.geekhub.hw11.service.encryption.EncryptionService;
 import org.geekhub.hw11.service.injection.ClassSearchService;
 import org.geekhub.hw11.service.injection.InjectableService;
+import org.geekhub.hw11.service.injection.InjectionsVerifier;
 import org.geekhub.hw11.service.logging.LoggingService;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class ApplicationRunner {
@@ -29,10 +31,12 @@ public class ApplicationRunner {
             LoggerApi logApi = new LoggerApi(logger);
 
             ClassSearchService classSearchService = new ClassSearchService();
-            InjectableService injectableService = new InjectableService(classSearchService);
-            EncryptionService encryptionService = new EncryptionService(logger, injectableService);
+            InjectableService injectableService = new InjectableService();
+            Properties properties = injectableService.loadAvailableProperties();
+            EncryptionService encryptionService = new EncryptionService(logger, injectableService, properties);
             EncryptTextApi encryptApi = new EncryptTextApi(scanner, encryptionService);
 
+            new InjectionsVerifier(properties, classSearchService).verify();
             MainMenu mainMenu = new MainMenu(scanner, encryptApi, logApi);
             mainMenu.printMenu();
         } catch (IOException e) {

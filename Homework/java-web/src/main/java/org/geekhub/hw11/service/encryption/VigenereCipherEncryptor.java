@@ -6,7 +6,7 @@ public class VigenereCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Vigenere cipher";
     @Injectable("vigenere.keyword")
-    private String keyword = "";
+    public String keyword = "";
 
     public String encrypt(String plainText) {
         StringBuilder encryptedText = new StringBuilder();

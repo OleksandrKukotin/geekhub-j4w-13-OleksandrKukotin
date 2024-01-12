@@ -1,5 +1,7 @@
 package org.geekhub.hw11.service.injection;
 
+import org.geekhub.hw11.exception.FileException;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,11 +22,9 @@ public class ClassSearchService {
 
     private Class getClass(String className, String packageName) {
         try {
-            return Class.forName(packageName + "."
-                + className.substring(0, className.lastIndexOf('.')));
+            return Class.forName(packageName + "." + className.substring(0, className.lastIndexOf('.')));
         } catch (ClassNotFoundException e) {
-            // handle the exception
+            throw new FileException(e.getMessage(), e);
         }
-        return null;
     }
 }
