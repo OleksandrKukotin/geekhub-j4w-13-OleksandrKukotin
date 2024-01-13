@@ -74,19 +74,4 @@ public class LogRepository {
         String[] parts = line.split(" ._. ");
         return new LogEntry(Instant.parse(parts[0]), parts[1], parts[2], parts[3]);
     }
-
-//    public List<LogEntry> getLogsByDate(List<LogEntry> log, Instant date) {
-//        return log.stream()
-//            .filter(logEntry -> logEntry.time().equals())
-//    }
-//
-//    public Map<String, Integer> getAlgorithmUsageCount(List<LogEntry> log) {
-//        // Implementation to count usage of algorithms and group by type
-//        // ...
-//    }
-//
-//    public LogEntry getUniqueEncryption(List<LogEntry> log, String message, String algorithm) {
-//        // Implementation to count unique encryptions based on message and algorithm
-//        // ...
-//    }
 }

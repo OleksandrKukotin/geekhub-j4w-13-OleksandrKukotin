@@ -4,7 +4,10 @@ import org.geekhub.hw11.model.LogEntry;
 import org.geekhub.hw11.repository.LogRepository;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoggingService {
 
@@ -31,5 +34,25 @@ public class LoggingService {
 
     public void save() {
         logRepository.writeLogToFile(log);
+    }
+
+    public List<LogEntry> getLogsByDate(Instant date) {
+        return log.stream()
+            .filter(logEntry -> logEntry.time().truncatedTo(ChronoUnit.DAYS).equals(date.truncatedTo(ChronoUnit.DAYS)))
+            .toList();
+    }
+
+    public Map<String, Integer> getAlgorithmUsageCount() {
+        Map<String, Integer> algorithmUsageCount = new HashMap<>();
+
+        log.forEach(entry -> algorithmUsageCount.merge(entry.algorithm(), 1, Integer::sum));
+
+        return algorithmUsageCount;
+    }
+
+    public List<LogEntry> getUniqueEncryptions(String originalMessage) {
+        return log.stream()
+            .filter(logEntry -> logEntry.input().equals(originalMessage))
+            .toList();
     }
 }

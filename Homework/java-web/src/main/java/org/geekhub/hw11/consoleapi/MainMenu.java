@@ -8,7 +8,7 @@ public class MainMenu {
 
         Enter one of the following capital letters to choose the command:
             E - for Encrypt text you'll write;
-            L - for show Log of your texts;
+            L - for interacting with the program Log;
             Q - for finish executing the program""";
     public static final String WRONG_INPUT_MESSAGE = "Probably you entered the wrong symbol, " +
         "try to use one capital letter from listed in the menu";
@@ -30,7 +30,7 @@ public class MainMenu {
 
             switch (scanner.nextLine()) {
                 case "E" -> encryptApi.encryptInput();
-                case "L" -> logApi.showLog();
+                case "L" -> logApi.printLogMenu();
                 case "Q" -> {
                     logApi.saveLog();
                     isRunning = false;

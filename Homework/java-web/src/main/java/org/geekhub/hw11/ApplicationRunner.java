@@ -28,7 +28,7 @@ public class ApplicationRunner {
 
             LogRepository logRepository = new LogRepository(logFilePath);
             LoggingService logger = new LoggingService(logRepository);
-            LoggerApi logApi = new LoggerApi(logger);
+            LoggerApi logApi = new LoggerApi(logger, scanner);
 
             ClassSearchService classSearchService = new ClassSearchService();
             InjectableService injectableService = new InjectableService();

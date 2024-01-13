@@ -5,7 +5,7 @@ import org.geekhub.hw11.annotation.Injectable;
 public class CaesarCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Caesar cipher";
-    @Injectable("caesar.keywordsludllzfduiul")
+    @Injectable("caesar.key")
     public int key = 0;
 
     @Override
