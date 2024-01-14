@@ -50,9 +50,9 @@ public class LoggingService {
         return algorithmUsageCount;
     }
 
-    public List<LogEntry> getUniqueEncryptions(String originalMessage) {
+    public List<LogEntry> getUniqueEncryptions(String originalMessage, String algorithm) {
         return log.stream()
-            .filter(logEntry -> logEntry.input().equals(originalMessage))
+            .filter(logEntry -> logEntry.input().equals(originalMessage) && logEntry.algorithm().equals(algorithm))
             .toList();
     }
 }

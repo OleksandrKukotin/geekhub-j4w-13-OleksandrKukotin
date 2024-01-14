@@ -15,7 +15,7 @@ public class LoggerApi {
             1 - Show all logged messages;
             2 - Show log entries by specified date;
             3 - Show algorithms using counters
-            4 - Show a unique encryptions by their original message.
+            4 - Show a unique encryptions by their original message and encryption algorithm.
             Q - Back to the previous menu""";
     private static final String WRONG_INPUT_MESSAGE = "Wrong input, please enter the one of the options in the menu below";
 
@@ -33,10 +33,9 @@ public class LoggerApi {
             System.out.println(LOGGER_SUB_MENU);
             switch (scanner.nextLine()) {
                 case "1" -> showLog();
-                case "2" -> showLobBySpecifiedDate();
-                case "3" -> loggingService.getAlgorithmUsageCount()
-                    .forEach((algorithm, counter) -> System.out.printf("%s was used %d times%n", algorithm, counter));
-                case "4" -> showUniqueLogEntriesByMessage();
+                case "2" -> showLogBySpecifiedDate();
+                case "3" -> showAlgorithmsUsingStats();
+                case "4" -> showUniqueLogEntriesByMessageAndAlgorithm();
                 case "Q" -> isInLogMenu = false;
                 default -> System.out.println(WRONG_INPUT_MESSAGE);
             }
@@ -47,7 +46,7 @@ public class LoggerApi {
         loggingService.showMessagesLog();
     }
 
-    private void showLobBySpecifiedDate() {
+    private void showLogBySpecifiedDate() {
         System.out.printf("%nPlease, enter the date in format dd-mm-yyyy: ");
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String date = scanner.nextLine();
@@ -59,17 +58,28 @@ public class LoggerApi {
         }
     }
 
-    private void showUniqueLogEntriesByMessage() {
+    private void showUniqueLogEntriesByMessageAndAlgorithm() {
         System.out.printf("%nPlease, enter a message you wanna find in the program log: ");
         String requestedMessage = scanner.nextLine();
-        List<LogEntry> foundEntries = loggingService.getUniqueEncryptions(requestedMessage);
+        System.out.printf("Please, enter an algorithm with which your message was encrypted, " +
+            "the correct names of available algorithms are below:%n");
+        showAlgorithmsUsingStats();
+        System.out.printf("%nAlgorithm: ");
+        String requestedAlgorithm = scanner.nextLine();
+        List<LogEntry> foundEntries = loggingService.getUniqueEncryptions(requestedMessage, requestedAlgorithm);
         if (foundEntries.isEmpty()) {
-            System.out.printf("Entries not found for '%s' message, please, try again%n", requestedMessage);
+            System.out.printf("Entries not found for '%s' message and '%s' algorithm, please, try again%n",
+                requestedMessage, requestedAlgorithm);
         } else {
             LogEntry foundEntry = foundEntries.get(0);
-            System.out.printf("Message '%s' was encrypted via %s %d times", foundEntry.input(), foundEntry.algorithm(),
+            System.out.printf("Message '%s' was encrypted via %s %d times%n", foundEntry.input(), foundEntry.algorithm(),
                 foundEntries.size());
         }
+    }
+
+    private void showAlgorithmsUsingStats() {
+        loggingService.getAlgorithmUsageCount()
+            .forEach((algorithm, counter) -> System.out.printf("'%s' was used %d times%n", algorithm, counter));
     }
 
     public void saveLog() {
