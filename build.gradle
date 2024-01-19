@@ -1,15 +1,15 @@
 plugins {
-    id 'name.remal.sonarlint' version '3.3.11'
+    id "name.remal.sonarlint" version "3.3.11"
 }
 
 allprojects {
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply plugin: 'checkstyle'
-    apply plugin: 'jacoco'
-    apply plugin: 'name.remal.sonarlint'
+    apply plugin: "java"
+    apply plugin: "idea"
+    apply plugin: "checkstyle"
+    apply plugin: "jacoco"
+    apply plugin: "name.remal.sonarlint"
 
-    group = 'org.geekhub'
+    group = "org.geekhub"
 
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -19,17 +19,17 @@ allprojects {
     }
 
     dependencies {
-        implementation 'com.google.code.findbugs:jsr305:3.0.2'
+        implementation "com.google.code.findbugs:jsr305:3.0.2"
     }
 
     build.dependsOn checkstyleMain
     build.dependsOn sonarlintMain
-    compileJava.options.encoding = 'UTF-8'
-    compileTestJava.options.encoding = 'UTF-8'
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
 
     idea {
         module {
-            sourceDirs += file('src/main/java')
+            sourceDirs += file("src/main/java")
         }
     }
 
@@ -47,21 +47,21 @@ allprojects {
 
     sonarLint {
         languages {
-            include('java')
+            include("java")
         }
         rules {
             disable(
-                    'java:S1192', // Allow string literals to be duplicated
-                    'java:S1197', // Allow constants to be defined in interfaces
-                    'java:S1118', // Allow utility classes to have a private constructor
-                    'java:S106', // Allow system out and err to be used
-                    'java:S107', // Allow constructors with more than 7 parameters
-                    'java:S3776', // Allow methods with more than 15 lines
-                    'java:S1135', // Allow TODO comments
-                    'java:S2094', // Allow empty classes for homeworks
-                    'java:S1452', // Allow generic wildcards types in return type
-                    'java:S125', // Allow commented sections of code
-                    'java:6218' // Allow not overridden Equals() in records
+                    "java:S1192", // Allow string literals to be duplicated
+                    "java:S1197", // Allow constants to be defined in interfaces
+                    "java:S1118", // Allow utility classes to have a private constructor
+                    "java:S106", // Allow system out and err to be used
+                    "java:S107", // Allow constructors with more than 7 parameters
+                    "java:S3776", // Allow methods with more than 15 lines
+                    "java:S1135", // Allow TODO comments
+                    "java:S2094", // Allow empty classes for homeworks
+                    "java:S1452", // Allow generic wildcards types in return type
+                    "java:S125", // Allow commented sections of code
+                    "java:6218" // Allow not overridden Equals() in records
             )
         }
     }
