@@ -1,5 +1,5 @@
 plugins {
-    id "name.remal.sonarlint" version "3.3.11"
+    id ("name.remal.sonarlint") version "3.3.11"
 }
 
 allprojects {
@@ -19,7 +19,7 @@ allprojects {
     }
 
     dependencies {
-        implementation "com.google.code.findbugs:jsr305:3.0.2"
+        implementation ("com.google.code.findbugs:jsr305:3.0.2")
     }
 
     build.dependsOn checkstyleMain
