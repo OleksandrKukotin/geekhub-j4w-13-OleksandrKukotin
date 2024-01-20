@@ -1,18 +1,26 @@
+import name.remal.gradle_plugins.sonarlint.SonarLint
+
 plugins {
     id ("name.remal.sonarlint") version "3.3.11"
+    java
+    idea
+    checkstyle
+    jacoco
 }
 
 allprojects {
-    apply plugin: "java"
-    apply plugin: "idea"
-    apply plugin: "checkstyle"
-    apply plugin: "jacoco"
-    apply plugin: "name.remal.sonarlint"
 
+    apply {
+        plugin("name.remal.sonarlint")
+        plugin("java")
+        plugin("idea")
+        plugin("checkstyle")
+        plugin("jacoco")
+    }
     group = "org.geekhub"
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    java.sourceCompatibility = JavaVersion.VERSION_17
+    java.targetCompatibility = JavaVersion.VERSION_17
 
     repositories {
         mavenCentral()
@@ -22,26 +30,41 @@ allprojects {
         implementation ("com.google.code.findbugs:jsr305:3.0.2")
     }
 
-    build.dependsOn checkstyleMain
-    build.dependsOn sonarlintMain
-    compileJava.options.encoding = "UTF-8"
-    compileTestJava.options.encoding = "UTF-8"
+    tasks {
+        val checkstyleMain by getting(Checkstyle::class) {
+            // configure Checkstyle task if needed
+        }
 
-    idea {
-        module {
-            sourceDirs += file("src/main/java")
+        val sonarlintMain by getting(SonarLint::class) {
+            // configure Checkstyle task if needed
+        }
+
+        "check" {
+            dependsOn(checkstyleMain)
+            dependsOn(sonarlintMain)
         }
     }
 
-    jacocoTestCoverageVerification {
-        dependsOn jacocoTestReport
-        violationRules {
-            failOnViolation = true
-            rule {
-                limit {
-                    minimum = 0.85
+    idea {
+        module {
+            sourceDirs.plusAssign(file("src/main/java"))
+        }
+    }
+
+    tasks {
+        val jacocoTestCoverageVerification by getting(JacocoCoverageVerification::class) {
+            dependsOn(jacocoTestReport)
+            violationRules {
+                rule {
+                    limit {
+                        minimum = BigDecimal(0.85)
+                    }
                 }
             }
+        }
+
+        "check" {
+            dependsOn(jacocoTestCoverageVerification)
         }
     }
 
@@ -66,7 +89,7 @@ allprojects {
         }
     }
 
-    test {
+    tasks.test {
         useJUnitPlatform()
     }
 }
