@@ -8,6 +8,11 @@ plugins {
     jacoco
 }
 
+tasks.wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = "latest"
+}
+
 allprojects {
 
     apply {
@@ -30,41 +35,9 @@ allprojects {
         implementation ("com.google.code.findbugs:jsr305:3.0.2")
     }
 
-    tasks {
-        val checkstyleMain by getting(Checkstyle::class) {
-            // configure Checkstyle task if needed
-        }
-
-        val sonarlintMain by getting(SonarLint::class) {
-            // configure Checkstyle task if needed
-        }
-
-        "check" {
-            dependsOn(checkstyleMain)
-            dependsOn(sonarlintMain)
-        }
-    }
-
     idea {
         module {
             sourceDirs.plusAssign(file("src/main/java"))
-        }
-    }
-
-    tasks {
-        val jacocoTestCoverageVerification by getting(JacocoCoverageVerification::class) {
-            dependsOn(jacocoTestReport)
-            violationRules {
-                rule {
-                    limit {
-                        minimum = BigDecimal(0.85)
-                    }
-                }
-            }
-        }
-
-        "check" {
-            dependsOn(jacocoTestCoverageVerification)
         }
     }
 
@@ -86,6 +59,38 @@ allprojects {
                     "java:S125", // Allow commented sections of code
                     "java:6218" // Allow not overridden Equals() in records
             )
+        }
+    }
+
+    tasks {
+        val checkstyleMain by getting(Checkstyle::class) {
+            // configure Checkstyle task if needed
+        }
+
+        val sonarlintMain by getting(SonarLint::class) {
+            // configure Checkstyle task if needed
+        }
+
+        "check" {
+            dependsOn(checkstyleMain)
+            dependsOn(sonarlintMain)
+        }
+    }
+
+    tasks {
+        val jacocoTestCoverageVerification by getting(JacocoCoverageVerification::class) {
+            dependsOn(jacocoTestReport)
+            violationRules {
+                rule {
+                    limit {
+                        minimum = BigDecimal(0.85)
+                    }
+                }
+            }
+        }
+
+        "check" {
+            dependsOn(jacocoTestCoverageVerification)
         }
     }
 
