@@ -5,6 +5,7 @@ plugins {
 tasks.register<Tar>("archiveTask") {
     archiveBaseName = "archive"
     compression = Compression.GZIP
+    destinationDirectory.set(fileTree("build/archive").dir)
 
     from(fileTree("src/main/resources").files) {
         include("*.text")
@@ -19,3 +20,29 @@ tasks.register<Tar>("archiveTask") {
     }
 }
 
+tasks.register("triggerArchive") {
+    dependsOn("archiveTask")
+}
+
+tasks.register<Copy>("unarchiveTask") {
+    dependsOn("triggerArchive")
+
+    tarTree("build/archive/archive.tgz").files.map { file -> logger.lifecycle(file.name) }
+    from(tarTree("build/archive/archive.tgz").files) {
+        include("*.txt")
+        includeEmptyDirs = false
+    }
+    into(fileTree("src/test/resources").dir)
+
+    doLast {
+        logger.lifecycle("Files have been unarchived.")
+    }
+}
+
+tasks.register<Delete>("cleanup") {
+    doLast {
+        fileTree("build/archive").files.map { file -> file.delete() }
+        fileTree("src/test/resources").files.map { file -> file.delete() }
+        logger.lifecycle("Cleanup completed.")
+    }
+}
