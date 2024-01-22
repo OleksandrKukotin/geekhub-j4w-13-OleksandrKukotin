@@ -1,11 +1,24 @@
 package org.geekhub.hw10;
 
+import org.geekhub.hw10.annotation.Test;
+
+import java.lang.reflect.Method;
+
 public class ReflectRunner {
 
-    private static final ReflectTestBox testBox = new ReflectTestBox();
-
     public static void main(String[] args) {
-        Class<?> clazz = SampleTest.class;
-        testBox.run(clazz);
+        ReflectTestBox testBox = new ReflectTestBox();
+        ClassSearchService classSearcher = new ClassSearchService();
+
+        for (Package aPackage : ClassLoader.getSystemClassLoader().getDefinedPackages()) {
+            for (Class<?> clazz : classSearcher.findAllClassesUsingClassLoader(aPackage.getName())) {
+                for (Method method : clazz.getDeclaredMethods()) {
+                    if (method.isAnnotationPresent(Test.class)) {
+                        testBox.run(clazz);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

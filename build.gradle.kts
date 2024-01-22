@@ -58,7 +58,8 @@ allprojects {
                     "java:S1452", // Allow generic wildcards types in return type
                     "java:S125", // Allow commented sections of code
                     "java:6218", // Allow not overridden Equals() in records
-                    "java:S3011" // Allow Reflection using for setting field's values
+                    "java:S3011", // Allow Reflection using for setting field's values
+                    "java:S100" // Allow method naming with underscore for test methods
             )
         }
     }
