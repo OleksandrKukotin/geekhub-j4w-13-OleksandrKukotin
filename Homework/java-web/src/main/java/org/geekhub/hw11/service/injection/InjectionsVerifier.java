@@ -19,13 +19,13 @@ public class InjectionsVerifier {
     public void verify() {
         for (Package aPackage : ClassLoader.getSystemClassLoader().getDefinedPackages()) {
             System.out.printf("%n-- Package %s verifying --%n", aPackage.getName());
-            for(Class clazz : classSearcher.findAllClassesUsingClassLoader(aPackage.getName())) {
+            for(Class<?> clazz : classSearcher.findAllClassesUsingClassLoader(aPackage.getName())) {
                 verify(clazz);
             }
         }
     }
 
-    public void verify(Class clazz) {
+    public void verify(Class<?> clazz) {
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Injectable.class)) {
                 Injectable annotation = field.getAnnotation(Injectable.class);

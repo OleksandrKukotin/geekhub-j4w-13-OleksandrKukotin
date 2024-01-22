@@ -16,7 +16,7 @@ import java.util.Properties;
 public class InjectableService {
 
     public void injectTo(Object object, Properties properties) {
-        Class clazz = object.getClass();
+        Class<?> clazz = object.getClass();
         try {
             for (Field field : clazz.getDeclaredFields()) {
                 Injectable annotation = field.getAnnotation(Injectable.class);
