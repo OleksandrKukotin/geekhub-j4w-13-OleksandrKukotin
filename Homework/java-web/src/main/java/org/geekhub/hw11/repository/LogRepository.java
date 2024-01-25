@@ -2,6 +2,7 @@ package org.geekhub.hw11.repository;
 
 import org.geekhub.hw11.exception.FileException;
 import org.geekhub.hw11.model.LogEntry;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@Component
 public class LogRepository {
 
     private final Path pathToLogFile;
