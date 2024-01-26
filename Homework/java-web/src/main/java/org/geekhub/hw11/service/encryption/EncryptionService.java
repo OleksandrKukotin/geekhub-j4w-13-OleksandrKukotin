@@ -1,24 +1,20 @@
 package org.geekhub.hw11.service.encryption;
 
-import org.geekhub.hw11.service.injection.InjectableService;
 import org.geekhub.hw11.service.logging.LoggingService;
+import org.springframework.stereotype.Service;
 
-import java.util.Properties;
-
+@Service
 public class EncryptionService {
 
     private final LoggingService logger;
-    private final InjectableService injectableService;
-    private final Properties encryptionParameters;
+    private final Encryptor encryptor;
 
-    public EncryptionService(LoggingService logger, InjectableService injectableService, Properties encryptionParameters) {
+    public EncryptionService(LoggingService logger, Encryptor encryptor) {
         this.logger = logger;
-        this.injectableService = injectableService;
-        this.encryptionParameters = encryptionParameters;
+        this.encryptor = encryptor;
     }
 
-    public String encrypt(String message, Encryptor encryptor) {
-        injectableService.injectTo(encryptor, encryptionParameters);
+    public String encrypt(String message) {
         String encryptedText = encryptor.encrypt(message);
         logger.addToLog(message, encryptedText, encryptor.getEncryptorName());
         return encryptedText;

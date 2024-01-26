@@ -5,13 +5,12 @@ import org.geekhub.hw11.model.LogEntry;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -21,30 +20,25 @@ public class LogRepository {
     private final Path pathToLogFile = Path.of("logs.csv");
 
     public void writeLogToFile(List<LogEntry> log) {
-        if (!Files.exists(pathToLogFile)) {
-            try {
+        try {
+            if (Files.notExists(pathToLogFile)) {
                 Files.createFile(pathToLogFile);
-            } catch (IOException e) {
-                throw new FileException(e.getMessage(), e);
             }
-        }
-        try (BufferedWriter fileWriter = Files.newBufferedWriter(pathToLogFile, StandardOpenOption.CREATE,
-            StandardOpenOption.APPEND)) {
+
             for (LogEntry entry : log) {
                 if (!isLineDuplicated(pathToLogFile, entryInCsvFormat(entry))) {
-                    fileWriter.write(entryInCsvFormat(entry));
-                    fileWriter.newLine();
-                    System.out.printf("%nLog for '%s' message successfully saved to the file", entry.input());
+                    Files.writeString(pathToLogFile, entryInCsvFormat(entry) + System.lineSeparator(),
+                        StandardOpenOption.APPEND);
                 }
             }
-            System.out.printf("%nNo more data to save to the file...");
         } catch (IOException e) {
             throw new FileException(e.getMessage(), e);
         }
     }
 
     private String entryInCsvFormat(LogEntry entry) {
-        return String.format("%s,%s,%s,%s", entry.time().toString(), entry.input(), entry.algorithm(), entry.encrypted());
+        return String.format("%s,%s,%s,%s", entry.time().toString(), entry.input(), entry.algorithm(),
+            entry.encrypted());
     }
 
     private boolean isLineDuplicated(Path pathToFile, String lineToCheck) {
@@ -62,21 +56,14 @@ public class LogRepository {
     }
 
     public List<LogEntry> parseLogHistory() {
-        List<LogEntry> parsed = new LinkedList<>();
-        try (BufferedReader fileReader = Files.newBufferedReader(pathToLogFile)) {
-            String readLine;
-            while (true) {
-                readLine = fileReader.readLine();
-                if (readLine == null || readLine.isBlank()) {
-                    break;
-                } else {
-                    parsed.add(parseLogEntryFromFile(readLine));
-                }
-            }
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathToLogFile.getFileName().toString()))){
+            return reader.lines()
+                .filter(line -> !line.isBlank())
+                .map(this::parseLogEntryFromFile)
+                .toList();
         } catch (IOException e) {
             throw new FileException(e.getMessage(), e);
         }
-        return parsed;
     }
 
     private LogEntry parseLogEntryFromFile(String line) {

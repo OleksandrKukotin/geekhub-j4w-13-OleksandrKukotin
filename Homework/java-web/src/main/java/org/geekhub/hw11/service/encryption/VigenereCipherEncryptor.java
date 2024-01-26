@@ -1,13 +1,17 @@
 package org.geekhub.hw11.service.encryption;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
+@Profile("Vigenere")
 public class VigenereCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Vigenere cipher";
-    @Value("vigenere.keyword")
+    @Value("${vigenere.keyword}")
     public String keyword = "";
 
     public String encrypt(String plainText) {

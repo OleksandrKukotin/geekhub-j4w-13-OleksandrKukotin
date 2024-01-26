@@ -1,11 +1,15 @@
 package org.geekhub.hw11.service.encryption;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
+@Component
+@Profile("Caesar")
 public class CaesarCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Caesar cipher";
-    @Value("caesar.key")
+    @Value("${caesar.key}")
     public int key = 0;
 
     @Override
