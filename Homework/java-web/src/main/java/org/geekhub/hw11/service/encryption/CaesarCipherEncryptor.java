@@ -1,11 +1,11 @@
 package org.geekhub.hw11.service.encryption;
 
-import org.geekhub.hw11.annotation.Injectable;
+import org.springframework.beans.factory.annotation.Value;
 
 public class CaesarCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Caesar cipher";
-    @Injectable("caesar.key")
+    @Value("caesar.key")
     public int key = 0;
 
     @Override

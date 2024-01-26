@@ -1,13 +1,13 @@
 package org.geekhub.hw11.service.encryption;
 
-import org.geekhub.hw11.annotation.Injectable;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class VigenereCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Vigenere cipher";
-    @Injectable("vigenere.keyword")
+    @Value("vigenere.keyword")
     public String keyword = "";
 
     public String encrypt(String plainText) {
