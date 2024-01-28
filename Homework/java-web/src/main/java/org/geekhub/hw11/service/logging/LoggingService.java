@@ -22,16 +22,21 @@ public class LoggingService {
     }
 
     public void addToLog(String originalMessage, String encryptedMessage, String algorithm) {
-        this.log.add(new LogEntry(Instant.now(), originalMessage, algorithm, encryptedMessage));
+        log.add(new LogEntry(Instant.now(), originalMessage, algorithm, encryptedMessage));
     }
 
     public void showMessagesLog() {
         if (log.isEmpty()) {
-            System.out.printf("%nThe program log is empty at the moment, please try to encrypt messages using " +
-                "the E option in the main menu");
+            System.out.println("The program log is empty at the moment...");
             return;
         }
+        System.out.println("--------- Encrypted messages log ---------");
         log.forEach(entry -> System.out.println(stringForOutput(entry)));
+        System.out.println("--------------- End of log ---------------");
+    }
+
+    public void showLastMessage() {
+        System.out.println(stringForOutput(log.get(log.size() - 1)));
     }
 
     private String stringForOutput(LogEntry entry) {

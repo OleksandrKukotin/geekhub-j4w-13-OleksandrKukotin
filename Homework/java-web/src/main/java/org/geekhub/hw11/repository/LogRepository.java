@@ -11,8 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Repository
 public class LogRepository {
@@ -21,16 +23,15 @@ public class LogRepository {
 
     public void writeLogToFile(List<LogEntry> log) {
         try {
-            if (Files.notExists(pathToLogFile)) {
-                Files.createFile(pathToLogFile);
-            }
-
             for (LogEntry entry : log) {
-                if (!isLineDuplicated(pathToLogFile, entryInCsvFormat(entry))) {
-                    Files.writeString(pathToLogFile, entryInCsvFormat(entry) + System.lineSeparator(),
+                String lineToSave = entryInCsvFormat(entry);
+                if (!isLineDuplicated(pathToLogFile, lineToSave)) {
+                    Files.writeString(pathToLogFile, lineToSave + System.lineSeparator(),
                         StandardOpenOption.APPEND);
+                    System.out.printf("'%s' message encryption log saved successfully%n", entry.input());
                 }
             }
+            System.out.println("No more data to save...");
         } catch (IOException e) {
             throw new FileException(e.getMessage(), e);
         }
@@ -60,7 +61,7 @@ public class LogRepository {
             return reader.lines()
                 .filter(line -> !line.isBlank())
                 .map(this::parseLogEntryFromFile)
-                .toList();
+                .collect(Collectors.toCollection(LinkedList::new));
         } catch (IOException e) {
             throw new FileException(e.getMessage(), e);
         }
