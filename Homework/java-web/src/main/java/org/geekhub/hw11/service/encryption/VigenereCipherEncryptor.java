@@ -21,20 +21,17 @@ public class VigenereCipherEncryptor implements Encryptor {
         StringBuilder encryptedText = new StringBuilder();
 
         AtomicInteger j = new AtomicInteger(0);
-        plainText.chars().mapToObj(currentChar -> (char) currentChar)
-            .forEach(currentChar -> {
-                if (Character.isLetter(currentChar)) {
-                    char base = Character.isUpperCase(currentChar) ? 'A' : 'a';
-                    int shift = keyword.charAt(j.get() % keyword.length()) - 'A';
+        plainText.chars().forEach(currentChar -> {
+            if (Character.isLetter(currentChar)) {
+                char base = Character.isUpperCase(currentChar) ? 'A' : 'a';
+                int shift = keyword.charAt(j.getAndIncrement() % keyword.length()) - 'A';
 
-                    char encryptedChar = (char) ((currentChar - base + shift) % 26 + base);
-                    encryptedText.append(encryptedChar);
-
-                    j.getAndIncrement();
-                } else {
-                    encryptedText.append(currentChar);
-                }
-            });
+                char encryptedChar = (char) ((currentChar - base + shift) % 26 + base);
+                encryptedText.append(encryptedChar);
+            } else {
+                encryptedText.append((char) currentChar);
+            }
+        });
         return encryptedText.toString();
     }
 
