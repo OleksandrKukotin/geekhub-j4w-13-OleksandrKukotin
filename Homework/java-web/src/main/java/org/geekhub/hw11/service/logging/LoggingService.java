@@ -67,4 +67,8 @@ public class LoggingService {
             .filter(logEntry -> logEntry.input().equals(originalMessage) && logEntry.algorithm().equals(algorithm))
             .toList();
     }
+
+    public List<LogEntry> getLog() {
+        return log;
+    }
 }
