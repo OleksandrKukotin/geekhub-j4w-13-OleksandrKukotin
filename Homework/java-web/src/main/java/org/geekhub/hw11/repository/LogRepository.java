@@ -57,7 +57,7 @@ public class LogRepository {
     }
 
     public List<LogEntry> parseLogHistory() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(pathToLogFile.getFileName().toString()))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathToLogFile.getFileName().toString()))) {
             return reader.lines()
                 .filter(line -> !line.isBlank())
                 .map(this::parseLogEntryFromFile)

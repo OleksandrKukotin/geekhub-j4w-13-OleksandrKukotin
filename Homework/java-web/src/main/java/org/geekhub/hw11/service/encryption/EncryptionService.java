@@ -16,9 +16,10 @@ public class EncryptionService {
         this.encryptor = encryptor;
     }
 
-    public void encrypt(String message) {
+    public String encrypt(String message) {
         String encryptedText = encryptor.encrypt(message);
         logger.addToLog(message, encryptedText, encryptor.getEncryptorName());
         logger.showLastMessage();
+        return encryptedText;
     }
 }
