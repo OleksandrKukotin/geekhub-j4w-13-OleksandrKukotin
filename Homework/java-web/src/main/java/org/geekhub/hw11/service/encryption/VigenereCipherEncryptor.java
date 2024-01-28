@@ -11,8 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class VigenereCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Vigenere cipher";
-    @Value("${vigenere.keyword}")
-    public String keyword;
+    private final String keyword;
+
+    public VigenereCipherEncryptor(@Value("${vigenere.keyword}") String keyword) {
+        this.keyword = keyword;
+    }
 
     public String encrypt(String plainText) {
         StringBuilder encryptedText = new StringBuilder();

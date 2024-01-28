@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 public class CaesarCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Caesar cipher";
-    @Value("${caesar.key}")
-    public int key = 0;
+    private final int key;
+
+    public CaesarCipherEncryptor(@Value("${caesar.key}") int key) {
+        this.key = key;
+    }
 
     @Override
     public String encrypt(String originalText) {
