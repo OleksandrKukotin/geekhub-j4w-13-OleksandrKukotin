@@ -1,6 +1,6 @@
 package org.geekhub.hw11.repository;
 
-import org.geekhub.hw11.exception.FileException;
+import org.geekhub.hw11.exception.RepositoryFileException;
 import org.geekhub.hw11.model.LogEntry;
 import org.springframework.stereotype.Repository;
 
@@ -17,23 +17,27 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Repository
-public class LogRepository {
+public class LogRepository implements org.geekhub.hw11.repository.Repository {
 
     private final Path pathToLogFile = Path.of("logs.csv");
 
-    public void writeLogToFile(List<LogEntry> log) {
+    @Override
+    public void save(List<LogEntry> log) {
         try {
             for (LogEntry entry : log) {
+                if (Files.notExists(pathToLogFile)) {
+                    Files.createFile(pathToLogFile);
+                }
                 String lineToSave = entryInCsvFormat(entry);
-                if (!isLineDuplicated(pathToLogFile, lineToSave)) {
-                    Files.writeString(pathToLogFile, lineToSave + System.lineSeparator(),
+                if (!isLineDuplicated(lineToSave)) {
+                    Files.writeString(this.pathToLogFile, lineToSave + System.lineSeparator(),
                         StandardOpenOption.APPEND);
                     System.out.printf("'%s' message encryption log saved successfully%n", entry.input());
                 }
             }
             System.out.println("No more data to save...");
         } catch (IOException e) {
-            throw new FileException(e.getMessage(), e);
+            throw new RepositoryFileException(e.getMessage(), e);
         }
     }
 
@@ -42,28 +46,29 @@ public class LogRepository {
             entry.encrypted());
     }
 
-    private boolean isLineDuplicated(Path pathToFile, String lineToCheck) {
+    private boolean isLineDuplicated(String lineToCheck) {
         AtomicBoolean isDuplicate = new AtomicBoolean(false);
-        try (BufferedReader fileReader = Files.newBufferedReader(pathToFile)) {
+        try (BufferedReader fileReader = Files.newBufferedReader(pathToLogFile)) {
             fileReader.lines().forEach(line -> {
                 if (line.contains(lineToCheck)) {
                     isDuplicate.set(true);
                 }
             });
         } catch (IOException e) {
-            throw new FileException(e.getMessage(), e);
+            throw new RepositoryFileException(e.getMessage(), e);
         }
         return isDuplicate.get();
     }
 
-    public List<LogEntry> parseLogHistory() {
+    @Override
+    public List<LogEntry> getLogs() {
         try (BufferedReader reader = new BufferedReader(new FileReader(pathToLogFile.getFileName().toString()))) {
             return reader.lines()
                 .filter(line -> !line.isBlank())
                 .map(this::parseLogEntryFromFile)
                 .collect(Collectors.toCollection(LinkedList::new));
         } catch (IOException e) {
-            throw new FileException(e.getMessage(), e);
+            throw new RepositoryFileException(e.getMessage(), e);
         }
     }
 

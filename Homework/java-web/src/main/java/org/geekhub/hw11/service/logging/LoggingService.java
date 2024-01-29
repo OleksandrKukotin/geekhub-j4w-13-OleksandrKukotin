@@ -18,7 +18,7 @@ public class LoggingService {
 
     public LoggingService(LogRepository logRepository) {
         this.logRepository = logRepository;
-        this.log = logRepository.parseLogHistory();
+        this.log = logRepository.getLogs();
     }
 
     public void addToLog(String originalMessage, String encryptedMessage, String algorithm) {
@@ -45,12 +45,21 @@ public class LoggingService {
     }
 
     public void save() {
-        logRepository.writeLogToFile(log);
+        logRepository.save(log);
     }
 
+    public List<LogEntry> getLog() {
+        return log;
+    }
+
+    //TODO: add unit tests for methods below
     public List<LogEntry> getLogsByDate(Instant date) {
         return log.stream()
-            .filter(logEntry -> logEntry.time().truncatedTo(ChronoUnit.DAYS).equals(date.truncatedTo(ChronoUnit.DAYS)))
+            .filter(logEntry ->
+                logEntry.time()
+                .truncatedTo(ChronoUnit.DAYS)
+                .equals(date.truncatedTo(ChronoUnit.DAYS))
+            )
             .toList();
     }
 
@@ -66,9 +75,5 @@ public class LoggingService {
         return log.stream()
             .filter(logEntry -> logEntry.input().equals(originalMessage) && logEntry.algorithm().equals(algorithm))
             .toList();
-    }
-
-    public List<LogEntry> getLog() {
-        return log;
     }
 }
