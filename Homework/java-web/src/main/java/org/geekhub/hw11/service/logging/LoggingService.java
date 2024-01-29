@@ -52,7 +52,6 @@ public class LoggingService {
         return log;
     }
 
-    //TODO: add unit tests for methods below
     public List<LogEntry> getLogsByDate(Instant date) {
         return log.stream()
             .filter(logEntry ->
