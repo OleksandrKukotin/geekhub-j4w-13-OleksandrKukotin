@@ -1,13 +1,14 @@
 package org.geekhub.hw11.repository;
 
-import org.postgresql.ds.PGSimpleDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
 @Component
-public class DataSourceProvider {
+public class DatasourceProvider {
 
     private final String host;
     private final int port;
@@ -15,7 +16,7 @@ public class DataSourceProvider {
     private final String password;
     private final String dbName;
 
-    public DataSourceProvider(@Value("${dataSource.host}") String host, @Value("${dataSource.port}") int port,
+    public DatasourceProvider(@Value("${dataSource.host}") String host, @Value("${dataSource.port}") int port,
                               @Value("${dataSource.user}") String user, @Value("${dataSource.password}") String password,
                               @Value("${dataSource.databaseName}") String dbName) {
         this.host = host;
@@ -26,12 +27,10 @@ public class DataSourceProvider {
     }
 
     public DataSource create() {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setServerNames(new String[]{host});
-        dataSource.setPortNumbers(new int[]{port});
-        dataSource.setUser(user);
-        dataSource.setPassword(password);
-        dataSource.setDatabaseName(dbName);
-        return dataSource;
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(String.format("jdbc:postgresql://%s:%d/%s", host, port, dbName));
+        config.setUsername(user);
+        config.setPassword(password);
+        return new HikariDataSource(config);
     }
 }
