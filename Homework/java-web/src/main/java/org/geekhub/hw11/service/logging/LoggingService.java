@@ -1,7 +1,7 @@
 package org.geekhub.hw11.service.logging;
 
 import org.geekhub.hw11.model.LogEntry;
-import org.geekhub.hw11.repository.LogRepository;
+import org.geekhub.hw11.repository.FileRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,11 +14,11 @@ import java.util.Map;
 public class LoggingService {
 
     private final List<LogEntry> log;
-    private final LogRepository logRepository;
+    private final FileRepository fileRepository;
 
-    public LoggingService(LogRepository logRepository) {
-        this.logRepository = logRepository;
-        this.log = logRepository.getLogs();
+    public LoggingService(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+        this.log = fileRepository.getLogs();
     }
 
     public void addToLog(String originalMessage, String encryptedMessage, String algorithm) {
@@ -45,7 +45,7 @@ public class LoggingService {
     }
 
     public void save() {
-        logRepository.save(log);
+        fileRepository.save(log);
     }
 
     public List<LogEntry> getLog() {

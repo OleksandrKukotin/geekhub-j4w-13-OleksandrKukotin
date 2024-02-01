@@ -1,7 +1,7 @@
 package org.geekhub.hw11.service.logging;
 
 import org.geekhub.hw11.model.LogEntry;
-import org.geekhub.hw11.repository.LogRepository;
+import org.geekhub.hw11.repository.FileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoggingServiceTest {
 
     @Mock
-    private LogRepository logRepository;
+    private FileRepository fileRepository;
 
     private LoggingService loggingService;
 
     @BeforeEach
     void setUp() {
-        loggingService = new LoggingService(logRepository);
+        loggingService = new LoggingService(fileRepository);
     }
 
     @Test

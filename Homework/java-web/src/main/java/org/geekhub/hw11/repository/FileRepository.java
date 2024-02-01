@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Repository
-public class LogRepository implements org.geekhub.hw11.repository.Repository {
+public class FileRepository implements org.geekhub.hw11.repository.Repository {
 
     private final Path pathToLogFile = Path.of("logs.csv");
 
