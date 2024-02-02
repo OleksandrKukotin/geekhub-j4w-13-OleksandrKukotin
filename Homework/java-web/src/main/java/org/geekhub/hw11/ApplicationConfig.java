@@ -7,5 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ComponentScan("org.geekhub.hw11")
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:application-${spring.profiles.active}.properties")
 public class ApplicationConfig {
 }

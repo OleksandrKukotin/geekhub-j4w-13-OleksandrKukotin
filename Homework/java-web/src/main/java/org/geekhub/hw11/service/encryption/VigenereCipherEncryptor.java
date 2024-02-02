@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-@Profile("Vigenere")
+@Profile("production")
 public class VigenereCipherEncryptor implements Encryptor {
 
     private static final String ENCRYPTOR_NAME = "Vigenere cipher";
