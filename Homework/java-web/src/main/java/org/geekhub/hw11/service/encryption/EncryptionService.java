@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class EncryptionService {
 
-    private final LoggingService logger;
     private final Encryptor encryptor;
 
     public EncryptionService(LoggingService logger, Encryptor encryptor) {
@@ -15,9 +14,6 @@ public class EncryptionService {
     }
 
     public String encrypt(String message) {
-        String encryptedText = encryptor.encrypt(message);
-        logger.addToLog(message, encryptedText, encryptor.getEncryptorName());
-        logger.showLastMessage();
-        return encryptedText;
+        return encryptor.encrypt(message);
     }
 }

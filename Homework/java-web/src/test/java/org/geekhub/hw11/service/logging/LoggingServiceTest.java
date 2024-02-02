@@ -1,7 +1,6 @@
 package org.geekhub.hw11.service.logging;
 
 import org.geekhub.hw11.model.LogEntry;
-import org.geekhub.hw11.repository.FileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
