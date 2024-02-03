@@ -5,10 +5,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("development")
+@Profile("production")
 public class CaesarCipherEncryptor implements Encryptor {
 
-    private static final String ENCRYPTOR_NAME = "Caesar cipher";
     private final int key;
 
     public CaesarCipherEncryptor(@Value("${caesar.key}") int key) {
@@ -31,7 +30,8 @@ public class CaesarCipherEncryptor implements Encryptor {
         return encryptedText.toString();
     }
 
+    @Override
     public String getEncryptorName() {
-        return ENCRYPTOR_NAME;
+        return "Caesar cipher";
     }
 }

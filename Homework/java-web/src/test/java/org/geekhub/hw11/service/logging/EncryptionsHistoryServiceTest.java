@@ -14,16 +14,16 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class LoggingServiceTest {
+class EncryptionsHistoryServiceTest {
 
     @Mock
     private FileRepository fileRepository;
 
-    private LoggingService loggingService;
+    private EncryptionsHistoryService encryptionsHistoryService;
 
     @BeforeEach
     void setUp() {
-        loggingService = new LoggingService(fileRepository);
+        encryptionsHistoryService = new EncryptionsHistoryService(fileRepository);
     }
 
     @Test
@@ -32,9 +32,9 @@ class LoggingServiceTest {
         String encryptedMessage = "Encrypted message";
         String algorithm = "Caesar cipher";
 
-        loggingService.addToLog(originalMessage, encryptedMessage, algorithm);
+        encryptionsHistoryService.addToLog(originalMessage, encryptedMessage, algorithm);
 
-        List<LogEntry> logEntries = loggingService.getLog();
+        List<LogEntry> logEntries = encryptionsHistoryService.getLog();
         assertEquals(1, logEntries.size());
         assertEquals(originalMessage, logEntries.get(0).input());
         assertEquals(encryptedMessage, logEntries.get(0).encrypted());
@@ -43,13 +43,13 @@ class LoggingServiceTest {
 
     @Test
     void showMessagesLog_EmptyLog() {
-        assertDoesNotThrow(() -> loggingService.showMessagesLog());
+        assertDoesNotThrow(() -> encryptionsHistoryService.showMessagesLog());
     }
 
     @Test
     void showLastMessage_EmptyLog() {
-        loggingService.addToLog("orig", "encr", "special cipher");
-        assertDoesNotThrow(() -> loggingService.showLastMessage());
+        encryptionsHistoryService.addToLog("orig", "encr", "special cipher");
+        assertDoesNotThrow(() -> encryptionsHistoryService.showLastMessage());
     }
 
     @Test
@@ -58,9 +58,9 @@ class LoggingServiceTest {
         String encryptedMessage = "Encrypted message";
         String algorithm = "Caesar cipher";
 
-        loggingService.addToLog(originalMessage, encryptedMessage, algorithm);
+        encryptionsHistoryService.addToLog(originalMessage, encryptedMessage, algorithm);
 
-        assertDoesNotThrow(() -> loggingService.showMessagesLog());
+        assertDoesNotThrow(() -> encryptionsHistoryService.showMessagesLog());
     }
 
     @Test
@@ -69,18 +69,18 @@ class LoggingServiceTest {
         String encryptedMessage = "Encrypted message";
         String algorithm = "Caesar cipher";
 
-        loggingService.addToLog(originalMessage, encryptedMessage, algorithm);
+        encryptionsHistoryService.addToLog(originalMessage, encryptedMessage, algorithm);
 
-        assertDoesNotThrow(() -> loggingService.showLastMessage());
+        assertDoesNotThrow(() -> encryptionsHistoryService.showLastMessage());
     }
 
     @Test
     void getLogsByDate_ShouldReturnLogsForGivenDate() {
         Instant targetDate = Instant.now();
-        loggingService.addToLog("message", "encrypted", "Test cipher");
-        loggingService.addToLog("another message", "encrypted", "Test cipher");
+        encryptionsHistoryService.addToLog("message", "encrypted", "Test cipher");
+        encryptionsHistoryService.addToLog("another message", "encrypted", "Test cipher");
 
-        List<LogEntry> result = loggingService.getLogsByDate(targetDate);
+        List<LogEntry> result = encryptionsHistoryService.getLogsByDate(targetDate);
 
         assertEquals(2, result.size());
         // Add more assertions based on your specific log entries
@@ -88,11 +88,11 @@ class LoggingServiceTest {
 
     @Test
     void getAlgorithmUsageCount_ShouldReturnCorrectCount() {
-        loggingService.addToLog("test", "ttes", "algorithm1");
-        loggingService.addToLog("test", "ttes", "algorithm1");
-        loggingService.addToLog("test", "sett", "algorithm2");
+        encryptionsHistoryService.addToLog("test", "ttes", "algorithm1");
+        encryptionsHistoryService.addToLog("test", "ttes", "algorithm1");
+        encryptionsHistoryService.addToLog("test", "sett", "algorithm2");
 
-        Map<String, Integer> result = loggingService.getAlgorithmUsageCount();
+        Map<String, Integer> result = encryptionsHistoryService.getAlgorithmUsageCount();
 
         assertEquals(2, result.size());
         assertEquals(2, result.get("algorithm1"));
@@ -105,8 +105,8 @@ class LoggingServiceTest {
         String originalMessage = "message1";
         String expectedEncrypted = "top secret";
         String algorithm = "algorithm1";
-        loggingService.addToLog(originalMessage, expectedEncrypted, algorithm);
-        List<LogEntry> result = loggingService.getUniqueEncryptions(originalMessage, algorithm);
+        encryptionsHistoryService.addToLog(originalMessage, expectedEncrypted, algorithm);
+        List<LogEntry> result = encryptionsHistoryService.getUniqueEncryptions(originalMessage, algorithm);
 
         assertEquals(1, result.size());
         assertEquals(expectedEncrypted, result.get(0).encrypted());

@@ -14,4 +14,8 @@ public class EncryptionService {
     public String encrypt(String message) {
         return encryptor.encrypt(message);
     }
+
+    public String getUsedCodec() {
+        return encryptor.getEncryptorName();
+    }
 }

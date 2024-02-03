@@ -7,10 +7,9 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-@Profile("production")
+@Profile("development")
 public class VigenereCipherEncryptor implements Encryptor {
 
-    private static final String ENCRYPTOR_NAME = "Vigenere cipher";
     private final String keyword;
 
     public VigenereCipherEncryptor(@Value("${vigenere.keyword}") String keyword) {
@@ -35,7 +34,8 @@ public class VigenereCipherEncryptor implements Encryptor {
         return encryptedText.toString();
     }
 
+    @Override
     public String getEncryptorName() {
-        return ENCRYPTOR_NAME;
+        return "Vigenere cipher";
     }
 }

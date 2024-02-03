@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @Component
-public class DatasourceProvider {
+public class PostgresqlDatasourceProvider {
 
     private final String host;
     private final int port;
@@ -16,9 +16,9 @@ public class DatasourceProvider {
     private final String password;
     private final String dbName;
 
-    public DatasourceProvider(@Value("${dataSource.host}") String host, @Value("${dataSource.port}") int port,
-                              @Value("${dataSource.user}") String user, @Value("${dataSource.password}") String password,
-                              @Value("${dataSource.databaseName}") String dbName) {
+    public PostgresqlDatasourceProvider(@Value("${dataSource.host}") String host, @Value("${dataSource.port}") int port,
+                                        @Value("${dataSource.user}") String user, @Value("${dataSource.password}") String password,
+                                        @Value("${dataSource.databaseName}") String dbName) {
         this.host = host;
         this.port = port;
         this.user = user;

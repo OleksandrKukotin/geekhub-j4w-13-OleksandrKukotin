@@ -1,6 +1,6 @@
 package org.geekhub.hw11.service.encryption;
 
-import org.geekhub.hw11.service.logging.LoggingService;
+import org.geekhub.hw11.service.logging.EncryptionsHistoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class EncryptionServiceTest {
 
     @Mock
-    private LoggingService logger;
+    private EncryptionsHistoryService logger;
 
     private final CaesarCipherEncryptor caesarCipherEncryptor = new CaesarCipherEncryptor(5);
     private EncryptionService caesarEncryptionService;
