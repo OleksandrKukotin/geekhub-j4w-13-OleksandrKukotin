@@ -5,7 +5,11 @@ import org.geekhub.hw11.model.LogEntry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,20 +26,44 @@ public class PostgresRepository implements org.geekhub.hw11.repository.Repositor
 
     @Override
     public void saveLogEntry(LogEntry entry) {
+        if (!isActiveUserIdValid(activeUserId)) {
+            String message = String.format("User with ID %d doesn't exist", activeUserId);
+            throw new RepositoryDatabaseException(message, new IllegalArgumentException());
+        }
+
         String query = "INSERT INTO History (time, message, encrypted, algorithm, userID) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = datasourceProvider.create().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
             preparedStatement.setTimestamp(1, Timestamp.from(entry.time()));
             preparedStatement.setString(2, entry.input());
             preparedStatement.setString(3, entry.encrypted());
             preparedStatement.setString(4, entry.algorithm());
             preparedStatement.setInt(5, activeUserId);
-            preparedStatement.addBatch();
-            preparedStatement.executeBatch();
+            preparedStatement.executeUpdate();  // Use executeUpdate() instead of executeBatch()
+
         } catch (SQLException e) {
             throw new RepositoryDatabaseException(e.getMessage(), e);
         }
     }
+
+    private boolean isActiveUserIdValid(int userId) {
+        String validationQuery = "SELECT COUNT(*) FROM Users WHERE userID = ?";
+        try (Connection connection = datasourceProvider.create().getConnection();
+             PreparedStatement validationStatement = connection.prepareStatement(validationQuery)) {
+
+            validationStatement.setInt(1, userId);
+            ResultSet resultSet = validationStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+
+            return count > 0;  // Returns true if userId exists, false otherwise
+
+        } catch (SQLException e) {
+            throw new RepositoryDatabaseException(e.getMessage(), e);
+        }
+    }
+
 
     @Override
     public List<LogEntry> getLogs() {
