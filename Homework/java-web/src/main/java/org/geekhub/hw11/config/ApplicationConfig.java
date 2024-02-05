@@ -1,4 +1,4 @@
-package org.geekhub.hw11;
+package org.geekhub.hw11.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

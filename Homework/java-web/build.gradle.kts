@@ -11,7 +11,6 @@ dependencies {
     implementation ("org.slf4j:slf4j-api:2.0.11")
     implementation ("org.slf4j:slf4j-simple:2.0.11")
 
-
     testImplementation ("org.junit.jupiter:junit-jupiter")
     testImplementation ("org.mockito:mockito-core")
     testImplementation ("org.mockito:mockito-junit-jupiter")

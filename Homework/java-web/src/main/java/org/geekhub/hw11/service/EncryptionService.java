@@ -1,5 +1,6 @@
-package org.geekhub.hw11.service.encryption;
+package org.geekhub.hw11.service;
 
+import org.geekhub.hw11.service.encryption.Encryptor;
 import org.springframework.stereotype.Service;
 
 @Service
