@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("production")
+@Profile("Caeasar")
 public class CaesarCipherEncryptor implements Encryptor {
 
     private final int key;
