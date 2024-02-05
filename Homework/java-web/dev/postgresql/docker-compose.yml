@@ -1,7 +1,8 @@
 version: '3.9'
 services:
   postgres-dev:
-    image: postgres:16.0
+    container_name: postgres-dev
+    image: postgres:16.1
     environment:
       POSTGRES_DB: encryptions
       POSTGRES_USER: postgres
@@ -9,7 +10,8 @@ services:
     ports:
       - "5432:5432"
   postgres-preprod:
-    image: postgres:16.0
+    container_name: postgres-preprod
+    image: postgres:16.1
     environment:
       POSTGRES_DB: encryptions
       POSTGRES_USER: postgres

@@ -15,8 +15,8 @@ public class DatasourceConfig {
 
     @Bean
     public DataSource dataSource(@Value("${dataSource.jdbcUrl}") String jdbcUrl,
-                                    @Value("${dataSource.user}") String user,
-                                    @Value("${dataSource.password}") String password) {
+                                 @Value("${dataSource.user}") String user,
+                                 @Value("${dataSource.password}") String password) {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
         config.setUsername(user);
@@ -29,11 +29,11 @@ public class DatasourceConfig {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
-    @Bean
+    @Bean(initMethod = "migrate")
     public Flyway flyway(DataSource dataSource) {
         return Flyway.configure()
             .dataSource(dataSource)
-            .locations("dev/migrations")
+            .locations("db/migrations")
             .load();
     }
 }

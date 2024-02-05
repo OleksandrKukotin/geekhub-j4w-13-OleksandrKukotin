@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.time.Instant;
 
-public record LogEntry(Instant time,
+public record LogEntry(int entryId,
+                       Instant time,
                        String input,
                        String algorithm,
                        String encrypted,

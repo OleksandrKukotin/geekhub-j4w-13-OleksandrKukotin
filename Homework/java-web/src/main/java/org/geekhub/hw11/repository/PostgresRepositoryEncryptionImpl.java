@@ -35,14 +35,14 @@ public class PostgresRepositoryEncryptionImpl implements RepositoryEncryption {
             throw new RepositoryDatabaseException(message, new IllegalArgumentException());
         }
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("time", Timestamp.from(entry.time()))
+            .addValue("creating_time", Timestamp.from(entry.time()))
             .addValue("message", entry.input())
             .addValue("encrypted", entry.encrypted())
             .addValue("algorithm", entry.algorithm())
             .addValue("userID", activeUserId);
         String query = """
-                        INSERT INTO History (time, message, encrypted, algorithm, userID)
-                        VALUES (:time, :message, :encrypted, :algorithm, :userID)
+                        INSERT INTO History (creating_time, message, encrypted, algorithm, userID)
+                        VALUES (:creating_time, :message, :encrypted, :algorithm, :userID)
                         """;
         namedJdbcTemplate.update(query, parameterSource);
     }
@@ -60,7 +60,7 @@ public class PostgresRepositoryEncryptionImpl implements RepositoryEncryption {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
             .addValue("offset", offset)
             .addValue("pageNumber", (pageNumber - 1) * offset);
-        String query = "SELECT * FROM History ORDER BY time DESC LIMIT :offset OFFSET :pageNumber";
+        String query = "SELECT * FROM History ORDER BY creating_time DESC LIMIT :offset OFFSET :pageNumber";
         return namedJdbcTemplate.query(query, parameterSource, mapper);
     }
 
@@ -73,7 +73,7 @@ public class PostgresRepositoryEncryptionImpl implements RepositoryEncryption {
         String query = """
             SELECT * FROM History
             WHERE userID = :targetId
-            ORDER BY time DESC LIMIT :offset OFFSET :pageNumber
+            ORDER BY creating_time DESC LIMIT :offset OFFSET :pageNumber
             """;
         return namedJdbcTemplate.query(query, parameterSource, mapper);
     }
@@ -84,7 +84,7 @@ public class PostgresRepositoryEncryptionImpl implements RepositoryEncryption {
             .addValue("from", Timestamp.from(date))
             .addValue("to", Timestamp.from(date.plusSeconds(86400)));
 
-        String query = "SELECT * FROM History WHERE time BETWEEN :from AND :to ORDER BY time DESC";
+        String query = "SELECT * FROM History WHERE creating_time BETWEEN :from AND :to ORDER BY creating_time DESC";
 
         return namedJdbcTemplate.query(query, parameterSource, mapper);
     }
@@ -93,7 +93,7 @@ public class PostgresRepositoryEncryptionImpl implements RepositoryEncryption {
     public List<LogEntry> fetchByEncryptor(String encryptor) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
             .addValue("algo", encryptor);
-        String query = "SELECT * FROM History WHERE algorithm = :algo ORDER BY time DESC";
+        String query = "SELECT * FROM History WHERE algorithm = :algo ORDER BY creating_time DESC";
         return namedJdbcTemplate.query(query, parameterSource, mapper);
     }
 }

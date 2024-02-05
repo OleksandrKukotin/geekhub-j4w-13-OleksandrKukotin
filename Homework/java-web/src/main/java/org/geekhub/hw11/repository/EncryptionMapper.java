@@ -13,11 +13,12 @@ public class EncryptionMapper implements RowMapper<LogEntry> {
     @Override
     public LogEntry mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new LogEntry(
-            rs.getTimestamp("time").toInstant(),
+            rs.getInt("entry_id"),
+            rs.getTimestamp("creating_time").toInstant(),
             rs.getString("message"),
             rs.getString("algorithm"),
             rs.getString("encrypted"),
-            rs.getInt("userid")
+            rs.getInt("user_id")
         );
     }
 }

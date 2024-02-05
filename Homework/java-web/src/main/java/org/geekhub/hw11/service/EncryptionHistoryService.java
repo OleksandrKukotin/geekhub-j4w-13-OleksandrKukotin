@@ -36,6 +36,8 @@ public class EncryptionHistoryService {
                 entry.encrypted(),
                 entry.userId());
         }
+
+        System.out.println();
     }
 
     public void getAllLogsPaginatedByUserId(int userId, int pageNumber, int offset) {
