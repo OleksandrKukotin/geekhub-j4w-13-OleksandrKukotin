@@ -2,6 +2,7 @@ package org.geekhub.hw11.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,5 +27,13 @@ public class DatasourceConfig {
     @Bean
     NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
         return new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public Flyway flyway(DataSource dataSource) {
+        return Flyway.configure()
+            .dataSource(dataSource)
+            .locations("dev/migrations")
+            .load();
     }
 }

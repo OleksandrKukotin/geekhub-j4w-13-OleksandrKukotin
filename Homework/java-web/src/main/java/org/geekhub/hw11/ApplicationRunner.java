@@ -8,7 +8,6 @@ import org.geekhub.hw11.service.EncryptionService;
 import org.geekhub.hw11.service.EncryptionHistoryService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.sql.DataSource;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -19,10 +18,7 @@ public class ApplicationRunner {
             DatasourceConfig.class);
         context.registerShutdownHook();
 
-        Flyway flyway = Flyway.configure()
-            .dataSource(context.getBean(DataSource.class))
-            .locations("postgres/migrations")
-            .load();
+        Flyway flyway = context.getBean(Flyway.class);
         flyway.migrate();
 
         String message = "Lorem ipsum dolor sit amet, I don't sure what's next...";
