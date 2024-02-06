@@ -34,14 +34,14 @@ public class ContentValidator {
 
     private void hasContent(int contentLength, URL url) throws InvalidContentLengthException {
         if (contentLength == CONTENT_LENGTH_IS_NOT_KNOWN) {
-            String exceptionMessage = "Cannot download file from url: %s%n";
+            String exceptionMessage = "Cannot download file from url: %s";
             throw new InvalidContentLengthException(String.format(exceptionMessage, url.toString()));
         }
     }
 
     private void validateContentLength(int contentLength, URL url) {
         if (contentLength > maxFileSize) {
-            String exceptionMessage = "Failed to download from url: %s over %d%n";
+            String exceptionMessage = "Failed to download from url: %s over %d";
             throw new LimitSizeException(String.format(exceptionMessage, url.toString(), maxFileSize));
         }
     }

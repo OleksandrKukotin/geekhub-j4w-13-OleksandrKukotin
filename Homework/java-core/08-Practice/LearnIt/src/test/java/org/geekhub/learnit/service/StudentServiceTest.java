@@ -66,12 +66,4 @@ class StudentServiceTest {
 
         assertThrows(IllegalStateException.class, executable);
     }
-
-
-    @Test
-    void getStudent() {}
-
-    @Test
-    void getStudents() {
-    }
 }

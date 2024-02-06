@@ -27,7 +27,6 @@ tasks.register("triggerArchive") {
 tasks.register<Copy>("unarchiveTask") {
     dependsOn("triggerArchive")
 
-    tarTree("build/archive/archive.tgz").files.map { file -> logger.lifecycle(file.name) }
     from(tarTree("build/archive/archive.tgz").files) {
         include("*.txt")
         includeEmptyDirs = false

@@ -90,7 +90,7 @@ class FileUtilsTest {
     }
 
     @Test
-    void testDeleteDirectoriesIOException() {
+    void testDeleteDirectoriesIoException() {
         assertThrows(FileException.class, () -> FileUtils.deleteDirectories("/testDirectory"));
     }
 
