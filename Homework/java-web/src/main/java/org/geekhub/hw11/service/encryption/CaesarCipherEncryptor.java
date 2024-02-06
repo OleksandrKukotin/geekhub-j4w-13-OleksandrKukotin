@@ -16,18 +16,20 @@ public class CaesarCipherEncryptor implements Encryptor {
 
     @Override
     public String encrypt(String originalText) {
-        StringBuilder encryptedText = new StringBuilder();
+        return originalText.chars()
+            .mapToObj(character -> encryptChar((char) character))
+            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+            .toString();
+    }
 
-        for (char character : originalText.toCharArray()) {
-            if (Character.isLetter(character)) {
-                char base = Character.isUpperCase(character) ? 'A' : 'a';
-                int shifted = (character - base + key) % 26 + base;
-                encryptedText.append((char) shifted);
-            } else {
-                encryptedText.append(character);
-            }
+    private char encryptChar(char character) {
+        if (Character.isLetter(character)) {
+            char base = Character.isUpperCase(character) ? 'A' : 'a';
+            int shifted = (character - base + key) % 26 + base;
+            return (char) shifted;
+        } else {
+            return character;
         }
-        return encryptedText.toString();
     }
 
     @Override
