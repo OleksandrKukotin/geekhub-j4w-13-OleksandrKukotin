@@ -16,20 +16,18 @@ tasks.register<Tar>("archiveTask") {
     }
 }
 
-tasks.register("triggerArchive") {
+val triggerArchive by tasks.registering {
     dependsOn("archiveTask")
 }
 
-tasks.register<Copy>("unarchiveTask") {
-    dependsOn("triggerArchive")
-
-    from(tarTree("build/archive/archive.tgz").files) {
-        include("*.txt")
-        includeEmptyDirs = false
-    }
-    into(fileTree("src/test/resources").dir)
-
+val unarchiveTask = tasks.register<Copy>("unarchiveTask") {
+    dependsOn(triggerArchive)
     doLast {
+        from(tarTree("build/archive/archive.tgz").files) {
+            include("*.txt")
+            includeEmptyDirs = false
+        }
+        into(fileTree("src/test/resources").dir)
         logger.lifecycle("Files have been unarchived.")
     }
 }
