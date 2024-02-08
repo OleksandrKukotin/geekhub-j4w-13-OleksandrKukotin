@@ -11,14 +11,17 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class JdbcTempalteBookRepository implements BookRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final BookMapper mapper;
 
-    public JdbcTempalteBookRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcTempalteBookRepository(JdbcTemplate jdbcTemplate, BookMapper mapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.mapper = mapper;
     }
 
     public void createTable() {
@@ -51,8 +54,8 @@ public class JdbcTempalteBookRepository implements BookRepository {
             return statement;
         }, keyHolder);
 
-        return new Book(
-            keyHolder.getKey().intValue(),
+        int keyHolderKey = Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return new Book(keyHolderKey,
             book.name(),
             book.description(),
             book.author(),
@@ -64,14 +67,14 @@ public class JdbcTempalteBookRepository implements BookRepository {
     public List<Book> getAllBooks() {
         String sqlQuery = "SELECT * FROM books ORDER BY id ASC";
 
-        return jdbcTemplate.query(sqlQuery, BookMapper::mapToBook);
+        return jdbcTemplate.query(sqlQuery, mapper);
     }
 
     @Override
     public Book getBookById(int id) {
         String sqlQuery = "SELECT * FROM books WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sqlQuery, BookMapper::mapToBook, id);
+        return jdbcTemplate.queryForObject(sqlQuery, mapper, id);
     }
 
     @Override
@@ -96,20 +99,20 @@ public class JdbcTempalteBookRepository implements BookRepository {
     public List<Book> findBooksByName(@NonNull String name) {
         String sqlQuery = "SELECT * FROM books WHERE name = ?";
 
-        return jdbcTemplate.query(sqlQuery, BookMapper::mapToBook, name);
+        return jdbcTemplate.query(sqlQuery, mapper, name);
     }
 
     @Override
     public List<Book> findBooksByAuthor(@NonNull String author) {
         String sqlQuery = "SELECT * FROM books WHERE author = ?";
 
-        return jdbcTemplate.query(sqlQuery, BookMapper::mapToBook, author);
+        return jdbcTemplate.query(sqlQuery, mapper, author);
     }
 
     @Override
     public List<Book> findBooksPublishedInDateRange(@NonNull OffsetDateTime from, @NonNull OffsetDateTime to) {
         String sqlQuery = "SELECT * FROM books WHERE year BETWEEN ? AND ?";
 
-        return jdbcTemplate.query(sqlQuery, BookMapper::mapToBook, from, to);
+        return jdbcTemplate.query(sqlQuery, mapper, from, to);
     }
 }

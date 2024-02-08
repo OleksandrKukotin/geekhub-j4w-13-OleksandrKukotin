@@ -1,20 +1,22 @@
 package org.geekhub.example.repositories;
 
 import org.geekhub.example.models.Book;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-public class BookMapper {
+public class BookMapper implements RowMapper<Book> {
 
-    public static Book mapToBook(ResultSet resultSet, int i) throws SQLException {
-        int id = resultSet.getInt("id");
-        String name = resultSet.getString("name");
-        String description = resultSet.getString("description");
-        String author = resultSet.getString("author");
-        OffsetDateTime publishDate = resultSet.getTimestamp("publishDate").toInstant().atOffset(ZoneOffset.UTC);
+    @Override
+    public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+        int id = rs.getInt("id");
+        String name = rs.getString("name");
+        String description = rs.getString("description");
+        String author = rs.getString("author");
+        OffsetDateTime publishDate = rs.getTimestamp("publishDate").toInstant().atOffset(ZoneOffset.UTC);
         return new Book(id, name, description, author, publishDate);
     }
 }

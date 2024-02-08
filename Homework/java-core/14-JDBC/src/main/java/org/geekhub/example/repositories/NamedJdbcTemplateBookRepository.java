@@ -12,20 +12,24 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class NamedJdbcTemplateBookRepository implements BookRepository {
 
     private final NamedParameterJdbcTemplate namedJdbcTemplate;
+    private final BookMapper mapper;
 
-    public NamedJdbcTemplateBookRepository(NamedParameterJdbcTemplate namedJdbcTemplate) {
+    public NamedJdbcTemplateBookRepository(NamedParameterJdbcTemplate namedJdbcTemplate, BookMapper mapper) {
         this.namedJdbcTemplate = namedJdbcTemplate;
+        this.mapper = mapper;
     }
 
     @Override
     public Book createBook(Book book) {
         String query = """
-            INSERT INTO books (name, description, author, publishDate) VALUES (:name, :description, :author, :publishDate)
+            INSERT INTO books (name, description, author, publishDate)
+            VALUES (:name, :description, :author, :publishDate)
             """;
 
         SqlParameterSource parameters = new MapSqlParameterSource()
@@ -37,14 +41,19 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedJdbcTemplate.update(query, parameters, keyHolder, new String[]{"id"});
 
-        return new Book(keyHolder.getKey().intValue(), book.name(), book.description(), book.author(), book.publishDate());
+        int keyHolderKey = Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return new Book(keyHolderKey,
+            book.name(),
+            book.description(),
+            book.author(),
+            book.publishDate());
     }
 
     @Override
     public List<Book> getAllBooks() {
         String query = "SELECT * FROM books";
 
-        return namedJdbcTemplate.query(query, BookMapper::mapToBook);
+        return namedJdbcTemplate.query(query, mapper);
     }
 
     @Override
@@ -53,7 +62,7 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
 
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("id", id);
-        return namedJdbcTemplate.queryForObject(query, parameters, BookMapper::mapToBook);
+        return namedJdbcTemplate.queryForObject(query, parameters, mapper);
     }
 
     @Override
@@ -63,7 +72,6 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("id", id);
         namedJdbcTemplate.update(query, parameters);
-
     }
 
     @Override
@@ -79,7 +87,6 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
             .addValue("author", book.author())
             .addValue("publishDate", java.sql.Timestamp.from(book.publishDate().toInstant()));
         namedJdbcTemplate.update(query, parameters);
-
     }
 
     @Override
@@ -88,7 +95,7 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
 
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("name", name);
-        return namedJdbcTemplate.query(query, parameters, BookMapper::mapToBook);
+        return namedJdbcTemplate.query(query, parameters, mapper);
     }
 
     @Override
@@ -97,7 +104,7 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
 
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("author", author);
-        return namedJdbcTemplate.query(query, parameters, BookMapper::mapToBook);
+        return namedJdbcTemplate.query(query, parameters, mapper);
     }
 
     @Override
@@ -107,6 +114,6 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("from", Timestamp.from(from.toInstant()))
             .addValue("to", Timestamp.from(to.toInstant()));
-        return namedJdbcTemplate.query(query, parameters, BookMapper::mapToBook);
+        return namedJdbcTemplate.query(query, parameters, mapper);
     }
 }

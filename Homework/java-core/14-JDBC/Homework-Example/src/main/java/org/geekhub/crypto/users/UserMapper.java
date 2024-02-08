@@ -1,17 +1,22 @@
 package org.geekhub.crypto.users;
 
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-class UserMapper {
+@Component
+class UserMapper implements RowMapper<User> {
 
     private UserMapper() {
     }
 
-    static User mapToPojo(ResultSet rs, int rowNum) throws SQLException {
+    @Override
+    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(
             rs.getInt("user_id"),
-            rs.getString("username")
+            rs.getString("user_name")
         );
     }
 }

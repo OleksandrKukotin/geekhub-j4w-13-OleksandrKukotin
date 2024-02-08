@@ -16,25 +16,27 @@ import java.util.Optional;
 public class HistoryRepositoryImpl implements HistoryRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final HistoryMapper mapper;
 
-    public HistoryRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate) {
+    public HistoryRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate, HistoryMapper mapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.mapper = mapper;
     }
 
     @Override
-    public void saveRecord(@NonNull HistoryRecord record) {
+    public void saveRecord(@NonNull HistoryRecord historyEntry) {
         String query = """
                 INSERT INTO history (user_id, operation, algorithm, original_text, encoded_text, date)
                 VALUES (:userId, :operation, :algorithm, :originalText, :encodedText, :date)
             """;
 
         SqlParameterSource params = new MapSqlParameterSource()
-            .addValue("userId", record.userId())
-            .addValue("operation", record.operation().name())
-            .addValue("algorithm", record.algorithm().name())
-            .addValue("originalText", record.originalText())
-            .addValue("encodedText", record.encodedText())
-            .addValue("date", Timestamp.from(record.date().toInstant()));
+            .addValue("userId", historyEntry.userId())
+            .addValue("operation", historyEntry.operation().name())
+            .addValue("algorithm", historyEntry.algorithm().name())
+            .addValue("originalText", historyEntry.originalText())
+            .addValue("encodedText", historyEntry.encodedText())
+            .addValue("date", Timestamp.from(historyEntry.date().toInstant()));
 
         jdbcTemplate.update(query, params);
     }
@@ -57,7 +59,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
         SqlParameterSource params = new MapSqlParameterSource()
             .addValue("id", id);
 
-        HistoryRecord historyRecord = jdbcTemplate.queryForObject(query, params, HistoryMapper::mapToPojo);
+        HistoryRecord historyRecord = jdbcTemplate.queryForObject(query, params, mapper);
         return Optional.ofNullable(historyRecord);
     }
 
@@ -66,7 +68,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
     public List<HistoryRecord> getRecords() {
         String query = "SELECT * FROM history ORDER BY record_id";
 
-        return jdbcTemplate.query(query, HistoryMapper::mapToPojo);
+        return jdbcTemplate.query(query, mapper);
     }
 
     @NonNull
@@ -77,7 +79,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
         SqlParameterSource params = new MapSqlParameterSource()
             .addValue("userId", userId);
 
-        return jdbcTemplate.query(query, params, HistoryMapper::mapToPojo);
+        return jdbcTemplate.query(query, params, mapper);
     }
 
     @NonNull
@@ -96,7 +98,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
             .addValue("from", from)
             .addValue("to", to);
 
-        return jdbcTemplate.query(query, params, HistoryMapper::mapToPojo);
+        return jdbcTemplate.query(query, params, mapper);
     }
 
     @NonNull
@@ -108,7 +110,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
             .addValue("pageSize", pageSize)
             .addValue("offset", getOffset(pageNum, pageSize));
 
-        return jdbcTemplate.query(query, params, HistoryMapper::mapToPojo);
+        return jdbcTemplate.query(query, params, mapper);
     }
 
     @NonNull
@@ -121,7 +123,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
             .addValue("pageSize", pageSize)
             .addValue("offset", getOffset(pageNum, pageSize));
 
-        return jdbcTemplate.query(query, params, HistoryMapper::mapToPojo);
+        return jdbcTemplate.query(query, params, mapper);
     }
 
     // Offset starts from Zero, so we need to subtract 1 from the page number
