@@ -15,9 +15,8 @@ include("Homework:java-core:01-Introduction",
         "Homework:java-core:12-Gradle:open-api-generation",
         "Homework:java-core:14-JDBC",
         "Homework:java-core:14-JDBC:Homework-Example",
-        "Homework:java-core:15-CI-CD")
-
+        "Homework:java-core:15-CI-CD",
+        "Homework:awesome-oleksandrs-ciphers")
 
 include("Homework:java-web")
-
 include("Coursework")
