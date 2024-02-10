@@ -24,3 +24,7 @@ jobs:
   checkstype:
     name: Check application style via checkstyle
     uses: ./.github/workflows/run_checkstyle_job.yml
+
+  publish:
+    name: Publish package to the Repsy Maven Repository
+    uses: ./.github/workflows/run_lib_publish_job.yml

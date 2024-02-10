@@ -1,0 +1,17 @@
+name: Publish ciphers library to the Repsy Maven Repository
+
+on:
+  workflow_call:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish package
+        env:
+          MAVEN_USERNAME: ${{ secrets.REPSY_LOGIN }}
+          MAVEN_PASSWORD: ${{ secrets.REPSY_PASS }}
+          MAVEN_URL: ${{ secrets.REPSY_URL }}
+        run: ./gradlew publish
