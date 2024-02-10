@@ -1,4 +1,4 @@
-name: Publish ciphers library to the Repsy Maven Repository
+name: Publish ciphers library to a Repsy Maven Repository
 
 on:
   workflow_call:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up Java for publishing to the Repsy Maven Repository
         uses: actions/setup-java@v3
         with:
           java-version: '17'
