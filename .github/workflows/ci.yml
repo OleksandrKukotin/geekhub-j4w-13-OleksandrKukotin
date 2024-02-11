@@ -18,10 +18,12 @@ jobs:
     uses: ./.github/workflows/run_tests_job.yml
 
   sonarlint:
+    needs: build
     name: Check application style via sonarlint
     uses: ./.github/workflows/run_sonarlint_job.yml
 
   checkstyle:
+    needs: build
     name: Check application style via checkstyle
     uses: ./.github/workflows/run_checkstyle_job.yml
 
