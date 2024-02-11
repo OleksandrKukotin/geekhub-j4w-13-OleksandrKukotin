@@ -16,15 +16,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Print Secrets
+        run: |
+         echo "Received MAVEN_USERNAME: $MAVEN_USERNAME"
+         echo "Received MAVEN_PASSWORD: $MAVEN_PASSWORD"
+         echo "Received MAVEN_URL: $MAVEN_URL"
+
       - name: Publish package
-        secrets:
-          REPSY_LOGIN
-          REPSY_PASS
-          REPSY_URL
-        with:
-          MAVEN_USERNAME: ${{ secrets.REPSY_LOGIN }}
-          MAVEN_PASSWORD: ${{ secrets.REPSY_PASS }}
-          MAVEN_URL: ${{ secrets.REPSY_URL }}
         env:
           MAVEN_USERNAME: ${{ secrets.REPSY_LOGIN }}
           MAVEN_PASSWORD: ${{ secrets.REPSY_PASS }}

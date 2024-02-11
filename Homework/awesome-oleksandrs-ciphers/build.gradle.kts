@@ -33,7 +33,7 @@ publishing {
     repositories {
         maven {
             name = "repsy"
-            url = uri("https://repo.repsy.io/mvn/vrudas/okukotin-j4w-s13-repo")
+            url = uri("https://repsy.io/mvn/vrudas/okukotin-j4w-s13-repo")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
