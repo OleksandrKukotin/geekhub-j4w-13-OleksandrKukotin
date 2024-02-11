@@ -2,10 +2,6 @@ name: Publish ciphers library to a Repsy Maven Repository
 
 on:
   workflow_call:
-    secrets:
-      REPSY_USER:
-      REPSY_PASS:
-        required: true
 
 jobs:
   publish:
