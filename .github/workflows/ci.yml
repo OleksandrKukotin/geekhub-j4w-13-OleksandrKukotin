@@ -29,6 +29,6 @@ jobs:
 
   publish:
     name: Publish package to the Repsy Maven Repository
-    needs: [test, sonarlint]
+    needs: [test, sonarlint, checkstyle]
     secrets: inherit
     uses: ./.github/workflows/run_lib_publish_job.yml
