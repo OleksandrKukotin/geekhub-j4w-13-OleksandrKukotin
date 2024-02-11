@@ -21,11 +21,12 @@ jobs:
     name: Check application style via sonarlint
     uses: ./.github/workflows/run_sonarlint_job.yml
 
-  checkstype:
+  checkstyle:
     name: Check application style via checkstyle
     uses: ./.github/workflows/run_checkstyle_job.yml
 
   publish:
     name: Publish package to the Repsy Maven Repository
+    needs: [test, sonarlint]
     secrets: inherit
     uses: ./.github/workflows/run_lib_publish_job.yml
