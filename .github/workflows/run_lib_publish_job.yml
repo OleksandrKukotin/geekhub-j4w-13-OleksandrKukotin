@@ -2,6 +2,10 @@ name: Publish ciphers library to a Repsy Maven Repository
 
 on:
   workflow_call:
+    secrets:
+      REPSY_USER:
+      REPSY_PASS:
+        required: true
 
 jobs:
   publish:
@@ -20,9 +24,5 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.REPSY_LOGIN }}
           MAVEN_PASSWORD: ${{ secrets.REPSY_PASS }}
-          MAVEN_URL: ${{ secrets.REPSY_URL }}
-        run: |
-          echo "Received MAVEN_USERNAME: $MAVEN_USERNAME"
-          echo "Received MAVEN_PASSWORD: $MAVEN_PASSWORD"
-          echo "Received MAVEN_URL: $MAVEN_URL"
+        run:
           ./gradlew publish
