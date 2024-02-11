@@ -17,9 +17,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Publish package
-        echo:
-          ${{ secrets.REPSY_LOGIN }}
-          ${{ secrets.REPSY_PASS }}
+        secrets:
+          REPSY_LOGIN
+          REPSY_PASS
+          REPSY_URL
         with:
           MAVEN_USERNAME: ${{ secrets.REPSY_LOGIN }}
           MAVEN_PASSWORD: ${{ secrets.REPSY_PASS }}
