@@ -1,12 +1,11 @@
 repositories {
     maven {
-        url = uri("https://repo.repsy.io/mvn/vrudas/okukotin-j4w-s13-repo")
+        url = uri("https://repo.repsy.io/mvn/oleksandr_k/okukotin-private")
         name = "My Private Maven Repository on Repsy"
         credentials {
-            username = properties["username"].toString()
-            password = properties["password"].toString()
+            username = providers.gradleProperty("username").get()
+            password = providers.gradleProperty("password").get()
         }
-        artifactUrls("https://repo.repsy.io/mvn/vrudas/com/geekhub/homeworks/awesome-oleksandrs-ciphers/")
     }
 }
 
@@ -19,7 +18,7 @@ dependencies {
     runtimeOnly ("org.flywaydb:flyway-database-postgresql:10.7.1")
 
     implementation ("com.walterjwhite.java.dependencies:hikari-jdbc-connection-pool:0.0.17")
-    implementation ("com.geekhub.homeworks:awesome-oleksandrs-ciphers:0.0.1")
+    implementation ("com.geekhub.private-repo:awesome-oleksandrs-ciphers:0.0.1")
 
     implementation ("org.slf4j:slf4j-api:2.0.11")
     implementation ("org.slf4j:slf4j-simple:2.0.11")

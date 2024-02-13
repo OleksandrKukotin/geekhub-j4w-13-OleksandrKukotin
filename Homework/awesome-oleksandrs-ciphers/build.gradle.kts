@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.geekhub.homeworks"
+group = "com.geekhub.private-repo"
 version = "0.0.1"
 
 publishing {
@@ -33,10 +33,12 @@ publishing {
     repositories {
         maven {
             name = "repsy"
-            url = uri("https://repsy.io/mvn/vrudas/okukotin-j4w-s13-repo")
+            url = uri("https://repsy.io/mvn/oleksandr_k/okukotin-private")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
+                        ?: providers.gradleProperty("username").get()
                 password = System.getenv("MAVEN_PASSWORD")
+                        ?: providers.gradleProperty("password").get()
             }
         }
     }
