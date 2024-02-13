@@ -1,10 +1,13 @@
 package org.geekhub.hw11.history;
 
-import org.geekhub.hw11.repository.HistoryRepository;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class HistoryService {
@@ -15,39 +18,46 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public void saveLogEntry(HistoryEntry entry) {
-        historyRepository.saveLogEntry(entry);
+    @NonNull
+    public HistoryEntry getEntry(int id) {
+        return historyRepository.getEntry(id)
+            .orElseThrow(() -> new IllegalArgumentException("Entry with id " + id + " not found"));
     }
 
-    public void getAllLogsPaginated(int pageNumber, int offset) {
-        printFetchedDataToConsole(historyRepository.fetchPaginatedAll(pageNumber, offset));
+    @NonNull
+    public List<HistoryEntry> getEntries() {
+        return historyRepository.getEntries();
     }
 
-    private void printFetchedDataToConsole(List<HistoryEntry> entries) {
-        System.out.printf("| %-30s | %-70s | %-25s | %-70s | %-8s |%n",
-            "Time", "Message", "Algorithm", "Encrypted", "UserID");
+    @NonNull
+    public List<HistoryEntry> getEntries(int userId) {
+        return historyRepository.getEntries(userId);
+    }
 
-        for (HistoryEntry entry : entries) {
-            System.out.printf("| %30s | %-70s | %25s | %70s | %-8d |%n",
-                entry.time(),
-                entry.input(),
-                entry.algorithm(),
-                entry.encrypted(),
-                entry.userId());
+    @NonNull
+    public List<HistoryEntry> getEntries(@Nullable Instant from, @Nullable Instant to) {
+        if (Objects.nonNull(from) && Objects.nonNull(to) && from.isAfter(to)) {
+            throw new IllegalArgumentException("From date must be before to date");
         }
 
-        System.out.println();
+        return historyRepository.getEntries(from, to);
     }
 
-    public void getAllLogsPaginatedByUserId(int userId, int pageNumber, int offset) {
-        printFetchedDataToConsole(historyRepository.fetchPaginatedByUserId(userId, pageNumber, offset));
+    @NonNull
+    public List<HistoryEntry> getEntries(int pageNum, int pageSize) {
+        if (pageNum < 1 || pageSize < 1) {
+            throw new IllegalArgumentException("Page number and page size must be greater than 0");
+        }
+
+        return historyRepository.getEntries(pageNum, pageSize);
     }
 
-    public void getLogsByDate(Instant date) {
-        printFetchedDataToConsole(historyRepository.fetchByDate(date));
-    }
+    @NonNull
+    public List<HistoryEntry> getEntries(int userId, int pageNum, int pageSize) {
+        if (pageNum < 1 || pageSize < 1) {
+            throw new IllegalArgumentException("Page number and page size must be greater than 0");
+        }
 
-    public void getLogsByEncryptor(String encryptor) {
-        printFetchedDataToConsole(historyRepository.fetchByEncryptor(encryptor));
+        return historyRepository.getEntries(userId, pageNum, pageSize);
     }
 }
