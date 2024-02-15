@@ -10,9 +10,9 @@ repositories {
 }
 
 dependencies {
-    implementation ("org.springframework:spring-context:6.1.3")
-
-    implementation ("org.springframework:spring-jdbc:6.1.3")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.2.2")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.2")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.2.2")
     implementation ("org.postgresql:postgresql:42.7.1")
     implementation ("org.flywaydb:flyway-core:10.7.1")
     runtimeOnly ("org.flywaydb:flyway-database-postgresql:10.7.1")
