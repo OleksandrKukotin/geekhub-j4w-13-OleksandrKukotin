@@ -1,0 +1,40 @@
+body {
+    background-color: #0f0f23;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 30px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+li {
+    list-style-type: none;
+    margin-top: 5px;
+}
+
+.btn {
+    background-color: #4e92f7;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #3672d5;
+}
