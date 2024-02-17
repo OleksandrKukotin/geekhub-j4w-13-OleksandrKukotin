@@ -12,7 +12,7 @@ public record HistoryEntry(
     @NonNull String message,
     @NonNull String encrypted,
     @NonNull EncodingAlgorithm algorithm,
-    @NonNull Integer userId,
+    @NonNull Long userId,
     @NonNull EncodingOperation operation
 ) {
 }

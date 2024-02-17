@@ -20,7 +20,7 @@ public class HistoryMapper implements RowMapper<HistoryEntry> {
             rs.getString("message"),
             rs.getString("encrypted"),
             EncodingAlgorithm.fromValue(rs.getString("algorithm")),
-            rs.getInt("user_id"),
+            rs.getLong("user_id"),
             EncodingOperation.fromValue(rs.getString("operation"))
         );
     }

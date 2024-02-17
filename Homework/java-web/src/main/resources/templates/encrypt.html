@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div class="container text-center">
+    <h1>Awesome Oleksandr's Ciphers</h1>
+    <p>Here you can encrypt some message, use the form below :]</p>
+    <form action="encrypt/action" method="post">
+        <div>
+            <input type="number" th:name="userId" min="0" placeholder="User ID"/>
+        </div>
+        <div>
+            <input type="text" th:name="message" placeholder="Text to encrypt" required>
+        </div>
+        <div>
+            <label> Algorithm
+                <select th:name="algorithm" required>
+                    <option value="Caesar cipher">Caesar cipher</option>
+                    <option value="Vigenere cipher">Vigenere cipher</option>
+                    <option value="One-way algorithm">One-way algorithm</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label> Operation
+                <select th:name="operation" required>
+                    <option value="Encryption">Encryption</option>
+                    <option value="Decryption">Decryption</option>
+                </select>
+            </label>
+        </div>
+        <input type="submit" value="Encrypt" class="btn btn-lg">
+    </form>
+    <a th:href="@{/}" class="btn btn-lg">Back to main page</a>
+</div>
+</body>
+</html>
