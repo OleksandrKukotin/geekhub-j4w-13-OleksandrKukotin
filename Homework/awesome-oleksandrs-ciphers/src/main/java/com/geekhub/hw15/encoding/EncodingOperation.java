@@ -21,6 +21,6 @@ public enum EncodingOperation {
                 return operation;
             }
         }
-        throw new IllegalArgumentException("Invalid status value: " + value);
+        throw new IllegalArgumentException("Invalid operation value: " + value);
     }
 }

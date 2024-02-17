@@ -22,6 +22,6 @@ public enum EncodingAlgorithm {
                 return algorithm;
             }
         }
-        throw new IllegalArgumentException("Invalid status value: " + value);
+        throw new IllegalArgumentException("Invalid algorithm value: " + value);
     }
 }
