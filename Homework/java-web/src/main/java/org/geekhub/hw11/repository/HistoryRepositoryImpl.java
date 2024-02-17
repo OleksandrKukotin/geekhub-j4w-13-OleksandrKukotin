@@ -8,9 +8,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class HistoryRepositoryImpl implements HistoryRepository {
@@ -26,7 +24,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
     @Override
     public void saveEntry(@NonNull HistoryEntry historyEntry) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("creatingTime", Timestamp.from(historyEntry.createTime()))
+            .addValue("creatingTime", Timestamp.from(historyEntry.creatingTime()))
             .addValue("message", historyEntry.message())
             .addValue("encrypted", historyEntry.encrypted())
             .addValue("algorithm", historyEntry.algorithm().getValue())
@@ -49,26 +47,8 @@ public class HistoryRepositoryImpl implements HistoryRepository {
 
     @NonNull
     @Override
-    public Optional<HistoryEntry> findEntryByEntryId(int entryId) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("entryId", entryId);
-        String query = "SELECT * FROM history WHERE entry_id = :entryId";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query, parameterSource, mapper));
-    }
-
-    @NonNull
-    @Override
-    public List<HistoryEntry> findAllEntriesByUserId() {
+    public List<HistoryEntry> findAllEntries() {
         String query = "SELECT * FROM history";
         return jdbcTemplate.query(query, mapper);
-    }
-
-    @NonNull
-    @Override
-    public List<HistoryEntry> findAllEntriesByUserId(int userId) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("userId", userId);
-        String query = "SELECT * FROM history WHERE user_id = :userId";
-        return jdbcTemplate.query(query, parameterSource, mapper);
     }
 }

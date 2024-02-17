@@ -8,7 +8,7 @@ import java.time.Instant;
 
 public record HistoryEntry(
     Integer entryId,
-    @NonNull Instant createTime,
+    @NonNull Instant creatingTime,
     @NonNull String message,
     @NonNull String encrypted,
     @NonNull EncodingAlgorithm algorithm,

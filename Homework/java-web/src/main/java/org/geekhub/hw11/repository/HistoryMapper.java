@@ -16,7 +16,7 @@ public class HistoryMapper implements RowMapper<HistoryEntry> {
     public HistoryEntry mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new HistoryEntry(
             rs.getInt("entry_id"),
-            rs.getTime("creating_time").toInstant(),
+            rs.getTimestamp("creating_time").toInstant(),
             rs.getString("message"),
             rs.getString("encrypted"),
             EncodingAlgorithm.fromValue(rs.getString("algorithm")),
