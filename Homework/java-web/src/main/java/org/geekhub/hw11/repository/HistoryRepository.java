@@ -13,11 +13,11 @@ public interface HistoryRepository {
     void deleteEntry(int entryId);
 
     @NonNull
-    Optional<HistoryEntry> getEntry(int entryId);
+    Optional<HistoryEntry> findEntryByEntryId(int entryId);
 
     @NonNull
-    List<HistoryEntry> getEntries();
+    List<HistoryEntry> findAllEntriesByUserId();
 
     @NonNull
-    List<HistoryEntry> getEntries(int userId);
+    List<HistoryEntry> findAllEntriesByUserId(int userId);
 }

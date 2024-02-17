@@ -29,9 +29,9 @@ public class HistoryRepositoryImpl implements HistoryRepository {
             .addValue("creatingTime", Timestamp.from(historyEntry.createTime()))
             .addValue("message", historyEntry.message())
             .addValue("encrypted", historyEntry.encrypted())
-            .addValue("algorithm", historyEntry.algorithm())
+            .addValue("algorithm", historyEntry.algorithm().getValue())
             .addValue("userId", historyEntry.userId())
-            .addValue("operation", historyEntry.operation());
+            .addValue("operation", historyEntry.operation().getValue());
         String query = """
             INSERT INTO history (creating_time, message, encrypted, algorithm, user_id, operation)
             VALUES (:creatingTime, :message, :encrypted, :algorithm, :userId, :operation)
@@ -49,7 +49,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
 
     @NonNull
     @Override
-    public Optional<HistoryEntry> getEntry(int entryId) {
+    public Optional<HistoryEntry> findEntryByEntryId(int entryId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
             .addValue("entryId", entryId);
         String query = "SELECT * FROM history WHERE entry_id = :entryId";
@@ -58,14 +58,14 @@ public class HistoryRepositoryImpl implements HistoryRepository {
 
     @NonNull
     @Override
-    public List<HistoryEntry> getEntries() {
+    public List<HistoryEntry> findAllEntriesByUserId() {
         String query = "SELECT * FROM history";
         return jdbcTemplate.query(query, mapper);
     }
 
     @NonNull
     @Override
-    public List<HistoryEntry> getEntries(int userId) {
+    public List<HistoryEntry> findAllEntriesByUserId(int userId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
             .addValue("userId", userId);
         String query = "SELECT * FROM history WHERE user_id = :userId";

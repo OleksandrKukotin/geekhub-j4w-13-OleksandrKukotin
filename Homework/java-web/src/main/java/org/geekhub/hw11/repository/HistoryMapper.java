@@ -1,5 +1,7 @@
 package org.geekhub.hw11.repository;
 
+import com.geekhub.hw15.encoding.EncodingAlgorithm;
+import com.geekhub.hw15.encoding.EncodingOperation;
 import org.geekhub.hw11.entity.HistoryEntry;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -17,8 +19,9 @@ public class HistoryMapper implements RowMapper<HistoryEntry> {
             rs.getTime("creating_time").toInstant(),
             rs.getString("message"),
             rs.getString("encrypted"),
-            rs.getString("algorithm"),
+            EncodingAlgorithm.fromValue(rs.getString("algorithm")),
             rs.getInt("user_id"),
-            rs.getString("operation"));
+            EncodingOperation.fromValue(rs.getString("operation"))
+        );
     }
 }

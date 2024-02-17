@@ -1,5 +1,7 @@
 package org.geekhub.hw11.entity;
 
+import com.geekhub.hw15.encoding.EncodingAlgorithm;
+import com.geekhub.hw15.encoding.EncodingOperation;
 import org.springframework.lang.NonNull;
 
 import java.time.Instant;
@@ -9,8 +11,8 @@ public record HistoryEntry(
     @NonNull Instant createTime,
     @NonNull String message,
     @NonNull String encrypted,
-    @NonNull String algorithm,
+    @NonNull EncodingAlgorithm algorithm,
     @NonNull Integer userId,
-    @NonNull String operation
+    @NonNull EncodingOperation operation
 ) {
 }
