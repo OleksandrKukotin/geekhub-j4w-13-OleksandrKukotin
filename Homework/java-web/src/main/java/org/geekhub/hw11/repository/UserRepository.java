@@ -6,11 +6,5 @@ import java.util.List;
 
 public interface UserRepository {
 
-    List<User> getUsers();
-
-    User getUserById(long userId);
-
-    User getUserByName(String userName);
-
-    User getUserByEmail(String email);
+    List<User> findAllUsers();
 }
