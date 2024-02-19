@@ -36,9 +36,7 @@ publishing {
             url = uri("https://repsy.io/mvn/oleksandr_k/okukotin-private")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
-                        ?: providers.gradleProperty("username").get()
                 password = System.getenv("MAVEN_PASSWORD")
-                        ?: providers.gradleProperty("password").get()
             }
         }
     }

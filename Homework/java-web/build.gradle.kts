@@ -3,8 +3,8 @@ repositories {
         url = uri("https://repo.repsy.io/mvn/oleksandr_k/okukotin-private")
         name = "My Private Maven Repository on Repsy"
         credentials {
-            username = providers.gradleProperty("username").get()
-            password = providers.gradleProperty("password").get()
+            username = System.getenv("MAVEN_USERNAME") ?: "placeholder - change when need to run locally"
+            password = System.getenv("MAVEN_PASSWORD") ?: "placeholder - change when need to run locally"
         }
     }
 }
