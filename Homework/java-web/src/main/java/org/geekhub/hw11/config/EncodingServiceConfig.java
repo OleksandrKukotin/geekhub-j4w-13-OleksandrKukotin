@@ -6,7 +6,6 @@ import com.geekhub.hw15.encoding.cryptors.EncryptorFactory;
 import com.geekhub.hw15.encoding.cryptors.algorithms.CaesarAlgorithm;
 import com.geekhub.hw15.encoding.cryptors.algorithms.OneWayEncodingAlgorithm;
 import com.geekhub.hw15.encoding.cryptors.algorithms.VigenereAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,18 +13,19 @@ import org.springframework.context.annotation.Configuration;
 public class EncodingServiceConfig {
 
     @Bean
-    CaesarAlgorithm getCaesarAlgorithm(@Value("${caesar.shift}")  int shift) {
-        return new CaesarAlgorithm(shift);
+    EncryptorFactory encryptorFactory(CaesarAlgorithm caesarAlgorithm,
+                                      VigenereAlgorithm vigenereAlgorithm,
+                                      OneWayEncodingAlgorithm oneWayEncodingAlgorithm) {
+        return new EncryptorFactory(caesarAlgorithm, vigenereAlgorithm, oneWayEncodingAlgorithm);
     }
 
     @Bean
-    VigenereAlgorithm getVigenereAlgorithm(@Value("${vigenere.keyword}") String keyword) {
-        return new VigenereAlgorithm(keyword);
+    DecryptorFactory decryptorFactory(CaesarAlgorithm caesarAlgorithm, VigenereAlgorithm vigenereAlgorithm) {
+        return new DecryptorFactory(caesarAlgorithm, vigenereAlgorithm);
     }
+
     @Bean
-    EncodingService encodingServiceBean(CaesarAlgorithm caesarAlgorithm, VigenereAlgorithm vigenereAlgorithm) {
-        return new EncodingService(
-            new EncryptorFactory(caesarAlgorithm, vigenereAlgorithm, new OneWayEncodingAlgorithm()),
-            new DecryptorFactory(caesarAlgorithm, vigenereAlgorithm));
+    EncodingService encodingService(EncryptorFactory encryptorFactory, DecryptorFactory decryptorFactory) {
+        return new EncodingService(encryptorFactory, decryptorFactory);
     }
 }
