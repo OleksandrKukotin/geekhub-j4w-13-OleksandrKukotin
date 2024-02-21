@@ -1,3 +1,6 @@
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+}
 plugins {
     java
     `maven-publish`
