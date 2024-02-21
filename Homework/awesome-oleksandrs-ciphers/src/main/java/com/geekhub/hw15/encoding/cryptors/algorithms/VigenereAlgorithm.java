@@ -2,52 +2,45 @@ package com.geekhub.hw15.encoding.cryptors.algorithms;
 
 import com.geekhub.hw15.encoding.cryptors.Decryptor;
 import com.geekhub.hw15.encoding.cryptors.Encryptor;
+import com.geekhub.hw15.exception.WrongKeyException;
+
+import java.util.stream.Collectors;
 
 public class VigenereAlgorithm implements Encryptor, Decryptor {
 
     private final String keyword;
 
     public VigenereAlgorithm(String keyword) {
-        this.keyword = keyword;
+        checkKey(keyword);
+        this.keyword = keyword.toUpperCase(); // Convert keyword to uppercase for consistency
+    }
+
+    private void checkKey(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new WrongKeyException("Keyword is empty");
+        }
     }
 
     @Override
     public String encrypt(String inputMessage) {
-        int keywordLength = keyword.length();
-        final int[] keywordIndex = {0};
-
         return inputMessage.chars()
-            .mapToObj(character -> {
-                int shift = keyword.charAt(keywordIndex[0]) - 'A';
-                keywordIndex[0] = (keywordIndex[0] + 1) % keywordLength;
-                return processCharacter((char) character, true, shift);
-            })
-            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-            .toString();
+            .mapToObj(character -> Character.isLetter(character) ?
+                String.valueOf(processCharacter((char) character, keyword.charAt(0) - 'A')) :
+                String.valueOf((char) character))
+            .collect(Collectors.joining());
     }
 
     @Override
     public String decrypt(String inputMessage) {
-        int keywordLength = keyword.length();
-        final int[] keywordIndex = {0};
-
         return inputMessage.chars()
-            .mapToObj(character -> {
-                int shift = keyword.charAt(keywordIndex[0]) - 'A';
-                keywordIndex[0] = (keywordIndex[0] + 1) % keywordLength;
-                return processCharacter((char) character, false, shift);
-            })
-            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-            .toString();
+            .mapToObj(character -> Character.isLetter(character) ?
+                String.valueOf(processCharacter((char) character, -(keyword.charAt(0) - 'A'))) :
+                String.valueOf((char) character))
+            .collect(Collectors.joining());
     }
 
-    private char processCharacter(char character, boolean isEncrypt, int shift) {
-        if (Character.isLetter(character)) {
-            char base = Character.isUpperCase(character) ? 'A' : 'a';
-            int adjustedShift = isEncrypt? shift : -shift;
-            return (char) ((character - base + adjustedShift + 26) % 26 + base);
-        } else {
-            return character;
-        }
+    private char processCharacter(char character, int shift) {
+        char base = Character.isUpperCase(character) ? 'A' : 'a';
+        return (char) ((character - base + shift + 26) % 26 + base);
     }
 }
