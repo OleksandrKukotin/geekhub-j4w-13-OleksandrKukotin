@@ -1,5 +1,6 @@
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.mockito:mockito-core:5.10.0")
 }
 plugins {
     java
@@ -7,7 +8,7 @@ plugins {
 }
 
 group = "com.geekhub.private-repo"
-version = "0.0.3"
+version = "0.1.5"
 
 publishing {
     publications {

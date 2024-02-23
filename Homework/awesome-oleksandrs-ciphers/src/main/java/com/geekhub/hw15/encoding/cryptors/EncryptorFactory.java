@@ -24,6 +24,7 @@ public class EncryptorFactory {
             case CAESAR -> caesarEncryption;
             case VIGENERE -> vigenereEncryption;
             case SHA256 -> oneWayEncodingAlgorithm;
+            default -> throw new IllegalArgumentException("Unsupported algorithm: " + type);
         };
     }
 }
