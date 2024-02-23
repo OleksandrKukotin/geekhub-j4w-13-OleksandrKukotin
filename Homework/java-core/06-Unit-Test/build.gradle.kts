@@ -1,5 +1,5 @@
 dependencies {
-    implementation ("org.apache.httpcomponents:httpclient:4.5.14")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
     implementation ("com.google.code.gson:gson:2.10.1")
 
     testImplementation (platform("org.junit:junit-bom:5.9.1"))

@@ -3,8 +3,8 @@ repositories {
         url = uri("https://repo.repsy.io/mvn/oleksandr_k/okukotin-private")
         name = "My Private Maven Repository on Repsy"
         credentials {
-            username = System.getenv("MAVEN_USERNAME") ?: "placeholder - change when need to run locally"
-            password = System.getenv("MAVEN_PASSWORD") ?: "placeholder - change when need to run locally"
+            username = System.getenv("MAVEN_USERNAME")
+            password = System.getenv("MAVEN_PASSWORD")
         }
     }
 }
@@ -18,7 +18,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:10.7.1")
     runtimeOnly("org.flywaydb:flyway-database-postgresql:10.7.1")
 
-    implementation("com.geekhub.private-repo:awesome-oleksandrs-ciphers:0.0.3")
+    implementation("com.geekhub.private-repo:awesome-oleksandrs-ciphers:0.1.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.2")
 }
