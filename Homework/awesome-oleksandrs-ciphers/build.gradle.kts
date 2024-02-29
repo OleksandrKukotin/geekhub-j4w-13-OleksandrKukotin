@@ -39,8 +39,8 @@ publishing {
             name = "repsy"
             url = uri("https://repsy.io/mvn/oleksandr_k/okukotin-private")
             credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
+                username = env.MAVEN_USERNAME.value
+                password = env.MAVEN_PASSWORD.value
             }
         }
     }

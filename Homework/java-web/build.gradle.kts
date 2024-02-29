@@ -3,8 +3,8 @@ repositories {
         url = uri("https://repo.repsy.io/mvn/oleksandr_k/okukotin-private")
         name = "My Private Maven Repository on Repsy"
         credentials {
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
+            username = env.MAVEN_USERNAME.value
+            password = env.MAVEN_PASSWORD.value
         }
     }
 }
@@ -14,11 +14,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.2")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.2.2")
 
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
+
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("org.flywaydb:flyway-core:10.7.1")
     runtimeOnly("org.flywaydb:flyway-database-postgresql:10.7.1")
 
-    implementation("com.geekhub.private-repo:awesome-oleksandrs-ciphers:0.1.3")
+    implementation("com.geekhub.private-repo:awesome-oleksandrs-ciphers:0.1.5")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.2")
 }
