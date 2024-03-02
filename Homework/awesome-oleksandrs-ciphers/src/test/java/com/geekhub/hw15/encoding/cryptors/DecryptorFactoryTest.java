@@ -53,7 +53,7 @@ class DecryptorFactoryTest {
         DecryptorFactory decryptorFactory = new DecryptorFactory(mockCaesarAlgorithm, mockVigenereAlgorithm);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            decryptorFactory.getDecryptor(EncodingAlgorithm.fromValue("Unsupported"));
+            decryptorFactory.getDecryptor(EncodingAlgorithm.PLACEHOLDER);
         });
     }
 }

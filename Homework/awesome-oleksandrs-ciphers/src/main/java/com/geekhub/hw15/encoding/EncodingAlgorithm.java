@@ -1,10 +1,13 @@
 package com.geekhub.hw15.encoding;
 
+import com.geekhub.hw15.exception.EncodingAlgorithmException;
+
 public enum EncodingAlgorithm {
 
     CAESAR("Caesar cipher"),
     VIGENERE("Vigenere cipher"),
-    SHA256("One-way algorithm");
+    SHA256("One-way algorithm"),
+    PLACEHOLDER("Place for a new algorithm");
 
     private final String value;
 
@@ -22,6 +25,6 @@ public enum EncodingAlgorithm {
                 return algorithm;
             }
         }
-        throw new IllegalArgumentException("Invalid algorithm value: " + value);
+        throw new EncodingAlgorithmException("Invalid algorithm value: " + value);
     }
 }

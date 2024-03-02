@@ -4,11 +4,12 @@ import com.geekhub.hw15.encoding.EncodingAlgorithm;
 import com.geekhub.hw15.encoding.cryptors.algorithms.CaesarAlgorithm;
 import com.geekhub.hw15.encoding.cryptors.algorithms.OneWayEncodingAlgorithm;
 import com.geekhub.hw15.encoding.cryptors.algorithms.VigenereAlgorithm;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EncryptorFactoryTest {
 
@@ -41,7 +42,7 @@ class EncryptorFactoryTest {
     }
 
     @Test
-    void getEncryptor_returnsOneWayEncodingAlgorithm_forSHA256Encoding() {
+    void getEncryptor_returnsOneWayEncodingAlgorithm_forSha256Encoding() {
         Encryptor encryptor = encryptorFactory.getEncryptor(EncodingAlgorithm.SHA256);
 
         assertEquals(mockOneWayEncodingAlgorithm, encryptor);
@@ -49,8 +50,8 @@ class EncryptorFactoryTest {
 
     @Test
     void getEncryptor_throwsException_forUnsupportedAlgorithm() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            encryptorFactory.getEncryptor(EncodingAlgorithm.fromValue("something"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            encryptorFactory.getEncryptor(EncodingAlgorithm.PLACEHOLDER);
         });
     }
 }

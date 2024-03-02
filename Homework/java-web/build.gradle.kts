@@ -3,8 +3,8 @@ repositories {
         url = uri("https://repo.repsy.io/mvn/oleksandr_k/okukotin-private")
         name = "My Private Maven Repository on Repsy"
         credentials {
-            username = env.MAVEN_USERNAME.value
-            password = env.MAVEN_PASSWORD.value
+            username = env.MAVEN_USERNAME.value ?: System.getenv("MAVEN_USERNAME")
+            password = env.MAVEN_PASSWORD.value ?: System.getenv("MAVEN_PASSWORD")
         }
     }
 }

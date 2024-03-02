@@ -17,6 +17,7 @@ import java.util.Objects;
 @Repository
 public class NamedJdbcTemplateBookRepository implements BookRepository {
 
+    public static final String AUTHOR_PARAM_NAME = "author";
     private final NamedParameterJdbcTemplate namedJdbcTemplate;
     private final BookMapper mapper;
 
@@ -35,7 +36,7 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("name", book.name())
             .addValue("description", book.description())
-            .addValue("author", book.author())
+            .addValue(AUTHOR_PARAM_NAME, book.author())
             .addValue("publishDate", java.sql.Timestamp.from(book.publishDate().toInstant()));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -84,7 +85,7 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
             .addValue("id", book.id())
             .addValue("name", book.name())
             .addValue("description", book.description())
-            .addValue("author", book.author())
+            .addValue(AUTHOR_PARAM_NAME, book.author())
             .addValue("publishDate", java.sql.Timestamp.from(book.publishDate().toInstant()));
         namedJdbcTemplate.update(query, parameters);
     }
@@ -103,7 +104,7 @@ public class NamedJdbcTemplateBookRepository implements BookRepository {
         String query = "SELECT * FROM books WHERE author = :author";
 
         SqlParameterSource parameters = new MapSqlParameterSource()
-            .addValue("author", author);
+            .addValue(AUTHOR_PARAM_NAME, author);
         return namedJdbcTemplate.query(query, parameters, mapper);
     }
 

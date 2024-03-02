@@ -1,9 +1,9 @@
 package org.geekhub.hw12.ciphers;
 
-public interface Cipher<DTO> {
+public interface Cipher<T> {
 
-    String encode(DTO encodeData);
+    String encode(T encodeData);
 
-    String decode(DTO decodeData);
+    String decode(T decodeData);
 
 }

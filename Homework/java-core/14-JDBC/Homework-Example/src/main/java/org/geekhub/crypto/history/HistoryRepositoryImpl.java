@@ -15,6 +15,7 @@ import java.util.Optional;
 @Repository
 public class HistoryRepositoryImpl implements HistoryRepository {
 
+    public static final String USER_ID_PARAM_NAME = "userId";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final HistoryMapper mapper;
 
@@ -31,7 +32,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
             """;
 
         SqlParameterSource params = new MapSqlParameterSource()
-            .addValue("userId", historyEntry.userId())
+            .addValue(USER_ID_PARAM_NAME, historyEntry.userId())
             .addValue("operation", historyEntry.operation().name())
             .addValue("algorithm", historyEntry.algorithm().name())
             .addValue("originalText", historyEntry.originalText())
@@ -43,10 +44,10 @@ public class HistoryRepositoryImpl implements HistoryRepository {
 
     @Override
     public void deleteRecord(int id) {
-        String query = "DELETE FROM history WHERE record_id = :id";
+        String query = "DELETE FROM history WHERE record_id = :recordId";
 
         SqlParameterSource params = new MapSqlParameterSource()
-            .addValue("id", id);
+            .addValue("recordId", id);
 
         jdbcTemplate.update(query, params);
     }
@@ -54,10 +55,10 @@ public class HistoryRepositoryImpl implements HistoryRepository {
     @NonNull
     @Override
     public Optional<HistoryRecord> getRecord(int id) {
-        String query = "SELECT * FROM history WHERE record_id = :id";
+        String query = "SELECT * FROM history WHERE record_id = :recordId";
 
         SqlParameterSource params = new MapSqlParameterSource()
-            .addValue("id", id);
+            .addValue("recordId", id);
 
         HistoryRecord historyRecord = jdbcTemplate.queryForObject(query, params, mapper);
         return Optional.ofNullable(historyRecord);
@@ -77,7 +78,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
         String query = "SELECT * FROM history WHERE user_id = :userId ORDER BY record_id";
 
         SqlParameterSource params = new MapSqlParameterSource()
-            .addValue("userId", userId);
+            .addValue(USER_ID_PARAM_NAME, userId);
 
         return jdbcTemplate.query(query, params, mapper);
     }
@@ -119,7 +120,7 @@ public class HistoryRepositoryImpl implements HistoryRepository {
         String query = "SELECT * FROM history WHERE user_id = :userId ORDER BY record_id LIMIT :pageSize OFFSET :offset";
 
         SqlParameterSource params = new MapSqlParameterSource()
-            .addValue("userId", userId)
+            .addValue(USER_ID_PARAM_NAME, userId)
             .addValue("pageSize", pageSize)
             .addValue("offset", getOffset(pageNum, pageSize));
 
