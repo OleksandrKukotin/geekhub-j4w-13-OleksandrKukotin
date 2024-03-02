@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.geekhub.private-repo"
-version = "0.1.5"
+version = "1.0.0"
 
 publishing {
     publications {
@@ -39,8 +39,8 @@ publishing {
             name = "repsy"
             url = uri("https://repsy.io/mvn/oleksandr_k/okukotin-private")
             credentials {
-                username = env.MAVEN_USERNAME.value ?: System.getenv("MAVEN_USERNAME")
-                password = env.MAVEN_PASSWORD.value ?: System.getenv("MAVEN_PASSWORD")
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
             }
         }
     }

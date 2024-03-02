@@ -11,24 +11,28 @@ jobs:
   build:
     name: Build application
     uses: ./.github/workflows/run_build_job.yml
+    secrets: inherit
 
   test:
     needs: build
     name: Test application
     uses: ./.github/workflows/run_tests_job.yml
+    secrets: inherit
 
   sonarlint:
     needs: build
     name: Check application style via sonarlint
     uses: ./.github/workflows/run_sonarlint_job.yml
+    secrets: inherit
 
   checkstyle:
     needs: build
     name: Check application style via checkstyle
     uses: ./.github/workflows/run_checkstyle_job.yml
+    secrets: inherit
 
   publish:
-    name: Publish package to the Repsy Maven Repository
     needs: [test, sonarlint, checkstyle]
-    secrets: inherit
+    name: Publish package to the Repsy Maven Repository
     uses: ./.github/workflows/run_lib_publish_job.yml
+    secrets: inherit

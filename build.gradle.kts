@@ -2,7 +2,6 @@ import name.remal.gradle_plugins.sonarlint.SonarLint
 
 plugins {
     id ("name.remal.sonarlint") version "3.3.11"
-    id("co.uzzu.dotenv.gradle") version "4.0.0"
     java
     idea
     checkstyle
