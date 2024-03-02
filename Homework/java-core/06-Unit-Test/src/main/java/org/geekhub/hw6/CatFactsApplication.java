@@ -1,9 +1,9 @@
 package org.geekhub.hw6;
 
 import com.google.gson.Gson;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -23,12 +23,8 @@ public class CatFactsApplication {
             String exceptionMessage = "The app hasn't received any arguments! Try to add one to program arguments!";
             throw new IllegalArgumentException(exceptionMessage);
         }
-        RequestConfig config = RequestConfig.custom()
-            .setConnectTimeout(1500)
-            .setSocketTimeout(1500)
-            .setConnectionRequestTimeout(1500)
-            .build();
-        CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
+        RequestConfig requestConfig = RequestConfig.DEFAULT;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();
         CatFactsApiService apiService = new CatFactsApiService(httpClient, new Gson(), CAT_FACT_API_URL);
         FileService fileService = new FileService(Paths.get(args[FILE_NAME_PROGRAM_ARGUMENT]));
         List<String> existingFactLines = fileService.getActualLines();

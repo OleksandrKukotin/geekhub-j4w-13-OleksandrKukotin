@@ -2,16 +2,17 @@ package org.geekhub.hw6;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.protocol.BasicHttpContext;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.geekhub.hw6.exception.ApiExecutionException;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 
 public class CatFactsApiService {
@@ -29,13 +30,16 @@ public class CatFactsApiService {
     public String getDataFromApi() {
         try {
             URI uri = new URI(apiUrl);
-            HttpUriRequest request = new HttpGet(uri);
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
+            HttpHost host = new HttpHost(uri.getHost());
+            ClassicHttpRequest request = new HttpGet(uri);
+            HttpContext context = new BasicHttpContext();
+
+            try (ClassicHttpResponse response = httpClient.executeOpen(host, request, context)) {
                 try (InputStream responseStream = response.getEntity().getContent()) {
                     return parseJsonAsCatFactString(responseStream.readAllBytes());
                 }
             }
-        } catch (URISyntaxException | IOException e) {
+        } catch (Exception e) {
             throw new ApiExecutionException(e.getMessage(), e);
         }
     }
