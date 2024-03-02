@@ -22,7 +22,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:10.7.1")
     runtimeOnly("org.flywaydb:flyway-database-postgresql:10.7.1")
 
-    implementation("com.geekhub.private-repo:awesome-oleksandrs-ciphers:0.1.5")
+    implementation("com.geekhub.private-repo:awesome-oleksandrs-ciphers:1.0.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.3")
 }
