@@ -12,9 +12,11 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.2.2")
     implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.2")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.2.2")
 
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
+    implementation("io.swagger.core.v3:swagger-core:2.2.20")
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
 
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("org.flywaydb:flyway-core:10.7.1")
