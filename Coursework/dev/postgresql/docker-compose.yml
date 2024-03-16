@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   postgres:
-    container_name: library-forge-dev
+    container_name: postgres-library
     image: postgres:16.2
     environment:
       POSTGRES_DB: library
