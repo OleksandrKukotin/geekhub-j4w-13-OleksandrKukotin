@@ -2,16 +2,14 @@ version: "3"
 services:
 
   postgres:
-    image: postgres
-    container_name: qa-postgres
+    container_name: qa-library-db
+    image: postgres:16.2
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=localdb
-    volumes:
-      - ./docker-volume/db:/var/lib/postgresql/data
+      POSTGRES_DB: localdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     ports:
-      - 5432:5432
+      - "5432:5432"
 
   pgadmin:
     image: dpage/pgadmin4

@@ -1,17 +1,17 @@
 version: '3.9'
 services:
-  postgres-dev:
-    container_name: postgres-dev
-    image: postgres:16.1
+  postgres-encryptor-dev:
+    container_name: encryptor-dev
+    image: postgres:16.2
     environment:
       POSTGRES_DB: encryptions
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
-  postgres-preprod:
-    container_name: postgres-preprod
-    image: postgres:16.1
+  postgres-encryptor-preprod:
+    container_name: encryptor-preprod
+    image: postgres:16.2
     environment:
       POSTGRES_DB: encryptions
       POSTGRES_USER: postgres
