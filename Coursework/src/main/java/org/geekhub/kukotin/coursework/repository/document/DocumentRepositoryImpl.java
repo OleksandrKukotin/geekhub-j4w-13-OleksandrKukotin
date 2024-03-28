@@ -56,9 +56,11 @@ public class DocumentRepositoryImpl implements DocumentRepository {
             .addValue("now", Timestamp.from(Instant.now()))
             .addValue("updatedBy", updatedDocument.updatedBy());
         String query = """
-            update documents set document_type = :docType, document_title = :docTitle, description = description,
+            update documents
+            set document_type = :docType, document_title = :docTitle, description = description,
             publishing_year = :publishingYear, author_id = :authorId, country_id = :countryId,
             available_copies = :availableCopies, last_update_time = :now, updated_by = :updatedBy
+            where document_id = :docId
             """;
         jdbcTemplate.update(query, parameterSource);
     }
