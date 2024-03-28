@@ -5,7 +5,8 @@ import org.springframework.lang.NonNull;
 import java.time.Instant;
 
 public record DocumentDTO(
-    Long documentId,
+
+    @NonNull Long documentId,
     @NonNull Long documentTypeId,
     @NonNull String documentTitle,
     String description,
