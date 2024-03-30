@@ -2,12 +2,12 @@ package org.geekhub.kukotin.coursework.repository.author;
 
 import org.geekhub.kukotin.coursework.dto.AuthorDTO;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Service
+@Component
 public class AuthorMapper implements RowMapper<AuthorDTO> {
 
     @Override
