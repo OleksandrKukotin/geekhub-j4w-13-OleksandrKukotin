@@ -1,4 +1,4 @@
-package org.geekhub.kukotin.coursework.dto;
+package dto;
 
 import org.springframework.lang.NonNull;
 

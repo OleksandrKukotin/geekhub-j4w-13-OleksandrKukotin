@@ -1,6 +1,7 @@
 package org.geekhub.kukotin.coursework.repository.country;
 
-import org.geekhub.kukotin.coursework.dto.CountryDTO;
+
+import dto.CountryDTO;
 
 import java.util.List;
 

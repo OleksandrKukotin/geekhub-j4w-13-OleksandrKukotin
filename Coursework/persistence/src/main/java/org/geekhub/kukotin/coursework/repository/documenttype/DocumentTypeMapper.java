@@ -1,13 +1,13 @@
 package org.geekhub.kukotin.coursework.repository.documenttype;
 
-import org.geekhub.kukotin.coursework.dto.DocumentTypeDTO;
+import dto.DocumentTypeDTO;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Service
+@Component
 public class DocumentTypeMapper implements RowMapper<DocumentTypeDTO> {
 
     @Override

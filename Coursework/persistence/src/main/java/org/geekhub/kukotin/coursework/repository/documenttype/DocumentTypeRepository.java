@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.documenttype;
 
-import org.geekhub.kukotin.coursework.dto.DocumentTypeDTO;
+import dto.DocumentTypeDTO;
 
 import java.util.List;
 

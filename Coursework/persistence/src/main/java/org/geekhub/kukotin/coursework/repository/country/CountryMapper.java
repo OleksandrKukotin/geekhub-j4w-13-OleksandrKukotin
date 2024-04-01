@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.country;
 
-import org.geekhub.kukotin.coursework.dto.CountryDTO;
+import dto.CountryDTO;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.author;
 
-import org.geekhub.kukotin.coursework.dto.AuthorDTO;
+import dto.AuthorDTO;
 
 import java.util.List;
 
