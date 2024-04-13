@@ -1,4 +1,4 @@
 dependencies {
     implementation(project(":Coursework:shared"))
-    implementation(project(":Coursework:persistence"))
+    implementation(project(":Coursework:domain"))
 }
