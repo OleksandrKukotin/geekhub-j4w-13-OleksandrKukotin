@@ -12,6 +12,6 @@ public class CountryMapper implements RowMapper<CountryDTO> {
 
     @Override
     public CountryDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new CountryDTO(rs.getLong("country_id"), rs.getString("country_name"));
+        return new CountryDTO(rs.getInt("country_id"), rs.getString("country_name"));
     }
 }

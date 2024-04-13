@@ -1,6 +1,6 @@
 package config;
 
-import org.geekhub.kukotin.coursework.LibraryForgeApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
-@Import(LibraryForgeApplication.class)
+@Import(DataSourceAutoConfiguration.class)
 public class DatasourceConfig {
 
     @Bean

@@ -11,7 +11,7 @@ public interface CountryRepository {
 
     void updateCountry(CountryDTO dto);
 
-    void removeCountry(CountryDTO dto);
+    void removeCountry(int id);
 
     List<CountryDTO> getAllCountries();
 }

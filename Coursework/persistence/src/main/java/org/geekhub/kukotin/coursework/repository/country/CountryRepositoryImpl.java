@@ -37,9 +37,9 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public void removeCountry(CountryDTO dto) {
+    public void removeCountry(int id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("countryId", dto.countryId());
+            .addValue("countryId", id);
         String query = "delete from countries where country_id = :countryId";
         jdbcTemplate.update(query, parameterSource);
     }

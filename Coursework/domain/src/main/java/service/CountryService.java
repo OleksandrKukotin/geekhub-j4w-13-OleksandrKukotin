@@ -2,10 +2,11 @@ package service;
 
 import dto.CountryDTO;
 import org.geekhub.kukotin.coursework.repository.country.CountryRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CountryService {
 
     CountryRepository countryRepository;
@@ -14,22 +15,18 @@ public class CountryService {
         this.countryRepository = countryRepository;
     }
 
-    @Transactional
     public void addCountry(String countryName) {
         countryRepository.addCountry(countryName);
     }
 
-    @Transactional
     public void updateCountry(CountryDTO dto) {
         countryRepository.updateCountry(dto);
     }
 
-    @Transactional
-    public void removeCountry(CountryDTO dto) {
-        countryRepository.removeCountry(dto);
+    public void removeCountry(int id) {
+        countryRepository.removeCountry(id);
     }
 
-    @Transactional(readOnly = true)
     public List<CountryDTO> getAllCountries() {
         return countryRepository.getAllCountries();
     }

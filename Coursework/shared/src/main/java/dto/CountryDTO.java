@@ -3,7 +3,7 @@ package dto;
 import org.springframework.lang.NonNull;
 
 public record CountryDTO(
-    @NonNull long countryId,
+    @NonNull int countryId,
     @NonNull String countryName
 ) {
 }
