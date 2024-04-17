@@ -20,8 +20,6 @@ include("Homework:java-core:01-Introduction",
 
 include("Homework:java-web")
 include("Coursework")
-include("Coursework:common")
-include("Coursework:shared")
 include("Coursework:rest-api")
 include("Coursework:domain")
 include("Coursework:persistence")

@@ -1,10 +1,7 @@
-package service;
+package org.geekhub.kukotin.coursework.service;
 
-import dto.DocumentTypeDTO;
 import org.geekhub.kukotin.coursework.repository.documenttype.DocumentTypeRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class DocumentTypeService {

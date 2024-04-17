@@ -1,18 +1,16 @@
 package org.geekhub.kukotin.coursework.controllers;
 
-import dto.CountryDTO;
+import org.geekhub.kukotin.coursework.controllers.dto.CountryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.CountryService;
+import org.geekhub.kukotin.coursework.service.CountryService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/countries")
-@Import(CountryService.class)
 public class CountryController {
 
     private final CountryService countryService;
@@ -22,10 +20,10 @@ public class CountryController {
         this.countryService = countryService;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Void> addCountry(@RequestBody String countryName) {
+    public void addCountry(@RequestBody String countryName) {
         countryService.addCountry(countryName);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

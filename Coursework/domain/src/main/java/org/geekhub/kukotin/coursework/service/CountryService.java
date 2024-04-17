@@ -1,15 +1,12 @@
-package service;
+package org.geekhub.kukotin.coursework.service;
 
-import dto.CountryDTO;
 import org.geekhub.kukotin.coursework.repository.country.CountryRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CountryService {
 
-    CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     public CountryService(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;

@@ -6,7 +6,7 @@ allprojects {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web:3.2.4")
         implementation("org.springframework.boot:spring-boot-starter-jdbc:3.2.4")
-        implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
+//        implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.2.4")
         implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.4")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
@@ -17,8 +17,4 @@ allprojects {
 
         testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.4")
     }
-}
-
-dependencies {
-    implementation(project(":Coursework:rest-api"))
 }

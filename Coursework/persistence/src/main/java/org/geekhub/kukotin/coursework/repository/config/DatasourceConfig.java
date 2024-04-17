@@ -1,4 +1,4 @@
-package config;
+package org.geekhub.kukotin.coursework.repository.config;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;

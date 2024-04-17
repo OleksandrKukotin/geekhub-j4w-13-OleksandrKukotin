@@ -1,17 +1,15 @@
 package org.geekhub.kukotin.coursework.controllers;
 
-import dto.DocumentTypeDTO;
-import org.springframework.context.annotation.Import;
+import org.geekhub.kukotin.coursework.controllers.dto.DocumentTypeDTO;
+import org.geekhub.kukotin.coursework.service.DocumentTypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.DocumentTypeService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/document-types")
-@Import(DocumentTypeService.class)
 public class DocumentTypeController {
 
     private final DocumentTypeService documentTypeService;

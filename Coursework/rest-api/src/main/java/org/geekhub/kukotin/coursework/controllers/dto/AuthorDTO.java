@@ -1,4 +1,4 @@
-package dto;
+package org.geekhub.kukotin.coursework.controllers.dto;
 
 import org.springframework.lang.NonNull;
 
