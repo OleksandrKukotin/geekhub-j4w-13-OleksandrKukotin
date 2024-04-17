@@ -1,4 +1,4 @@
-package org.geekhub.kukotin.coursework.controllers.dto;
+package org.geekhub.kukotin.coursework.controllers.country;
 
 import org.springframework.lang.NonNull;
 

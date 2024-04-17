@@ -1,7 +1,6 @@
-package org.geekhub.kukotin.coursework.controllers.converter;
+package org.geekhub.kukotin.coursework.controllers.country;
 
-import org.geekhub.kukotin.coursework.controllers.dto.CountryDTO;
-import org.geekhub.kukotin.coursework.entity.Country;
+import org.geekhub.kukotin.coursework.service.country.Country;
 
 import java.util.List;
 import java.util.stream.Collectors;

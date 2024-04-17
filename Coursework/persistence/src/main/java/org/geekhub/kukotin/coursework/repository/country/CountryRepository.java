@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.country;
 
-import org.geekhub.kukotin.coursework.entity.Country;
+import org.geekhub.kukotin.coursework.service.country.Country;
 
 import java.util.List;
 

@@ -1,17 +1,14 @@
-package org.geekhub.kukotin.coursework.controllers;
+package org.geekhub.kukotin.coursework.controllers.country;
 
-import org.geekhub.kukotin.coursework.controllers.converter.CountryConverter;
-import org.geekhub.kukotin.coursework.controllers.dto.CountryDTO;
-import org.geekhub.kukotin.coursework.service.CountryService;
+import org.geekhub.kukotin.coursework.service.country.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.geekhub.kukotin.coursework.controllers.converter.CountryConverter.fromDto;
-import static org.geekhub.kukotin.coursework.controllers.converter.CountryConverter.toDtos;
+import static org.geekhub.kukotin.coursework.controllers.country.CountryConverter.fromDto;
+import static org.geekhub.kukotin.coursework.controllers.country.CountryConverter.toDtos;
 
 @RestController
 @RequestMapping("/api/v1/countries")

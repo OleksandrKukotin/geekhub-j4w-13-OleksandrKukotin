@@ -1,6 +1,4 @@
-package org.geekhub.kukotin.coursework.entity;
-
-import org.geekhub.kukotin.coursework.controllers.dto.CountryDTO;
+package org.geekhub.kukotin.coursework.service.country;
 
 public class Country {
 
@@ -10,11 +8,6 @@ public class Country {
     public Country(int countryId, String countryName) {
         this.countryId = countryId;
         this.countryName = countryName;
-    }
-
-    public Country(CountryDTO dto) {
-        this.countryId = dto.countryId();
-        this.countryName = dto.countryName();
     }
 
     public int getCountryId() {
