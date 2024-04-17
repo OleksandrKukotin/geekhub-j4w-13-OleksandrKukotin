@@ -1,7 +1,10 @@
 package org.geekhub.kukotin.coursework.service;
 
+import org.geekhub.kukotin.coursework.entity.Country;
 import org.geekhub.kukotin.coursework.repository.country.CountryRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CountryService {
@@ -16,15 +19,15 @@ public class CountryService {
         countryRepository.addCountry(countryName);
     }
 
-    public void updateCountry(CountryDTO dto) {
-        countryRepository.updateCountry(dto);
+    public void updateCountry(Country entity) {
+        countryRepository.updateCountry(entity);
     }
 
     public void removeCountry(int id) {
         countryRepository.removeCountry(id);
     }
 
-    public List<CountryDTO> getAllCountries() {
+    public List<Country> getAllCountries() {
         return countryRepository.getAllCountries();
     }
 }

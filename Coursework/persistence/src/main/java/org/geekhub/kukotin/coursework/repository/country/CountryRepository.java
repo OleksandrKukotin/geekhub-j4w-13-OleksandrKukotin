@@ -1,7 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.country;
 
-
-import dto.CountryDTO;
+import org.geekhub.kukotin.coursework.entity.Country;
 
 import java.util.List;
 
@@ -9,9 +8,9 @@ public interface CountryRepository {
 
     void addCountry(String countryName);
 
-    void updateCountry(CountryDTO dto);
+    void updateCountry(Country entity);
 
     void removeCountry(int id);
 
-    List<CountryDTO> getAllCountries();
+    List<Country> getAllCountries();
 }

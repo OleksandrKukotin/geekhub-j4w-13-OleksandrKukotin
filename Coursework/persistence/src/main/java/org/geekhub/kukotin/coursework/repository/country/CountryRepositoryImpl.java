@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.country;
 
-import dto.CountryDTO;
+import org.geekhub.kukotin.coursework.entity.Country;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -28,10 +28,10 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public void updateCountry(CountryDTO dto) {
+    public void updateCountry(Country entity) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("countryId", dto.countryId())
-            .addValue("newCountryName", dto.countryName());
+            .addValue("countryId", entity.getCountryId())
+            .addValue("newCountryName", entity.getCountryName());
         String query = "update countries set country_name = :newCountryName where country_id = :countryId";
         jdbcTemplate.update(query, parameterSource);
     }
@@ -45,7 +45,7 @@ public class CountryRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public List<CountryDTO> getAllCountries() {
+    public List<Country> getAllCountries() {
         String query = "select * from countries";
         return jdbcTemplate.query(query, mapper);
     }
