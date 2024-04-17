@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.documenttype;
 
-import dto.DocumentTypeDTO;
+import org.geekhub.kukotin.coursework.service.documenttype.DocumentType;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -20,32 +20,32 @@ public class DocumentTypeRepositoryImpl implements DocumentTypeRepository{
     }
 
     @Override
-    public void addType(DocumentTypeDTO dto) {
+    public void addType(DocumentType dto) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("typeName", dto.typeName());
+            .addValue("typeName", dto.getTypeName());
         String query = "insert into document_types(type_name) values (:typeName)";
         jdbcTemplate.update(query, parameterSource);
     }
 
     @Override
-    public void updateType(DocumentTypeDTO dto) {
+    public void updateType(DocumentType dto) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("typeId", dto.typeId())
-            .addValue("typeName", dto.typeName());
+            .addValue("typeId", dto.getTypeId())
+            .addValue("typeName", dto.getTypeName());
         String query = "update document_types set type_name = :typeName where type_id = :typeId";
         jdbcTemplate.update(query, parameterSource);
     }
 
     @Override
-    public void deleteType(DocumentTypeDTO dto) {
+    public void deleteType(DocumentType dto) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("typeId", dto.typeId());
+            .addValue("typeId", dto.getTypeId());
         String query = "delete from document_types where type_id = :typeId";
         jdbcTemplate.update(query, parameterSource);
     }
 
     @Override
-    public List<DocumentTypeDTO> getAllTypes() {
+    public List<DocumentType> getAllTypes() {
         String query = "select * from document_types";
         return jdbcTemplate.query(query, mapper);
     }

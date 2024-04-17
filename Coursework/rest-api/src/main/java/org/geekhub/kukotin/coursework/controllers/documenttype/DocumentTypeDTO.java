@@ -1,10 +1,10 @@
-package org.geekhub.kukotin.coursework.controllers.dto;
+package org.geekhub.kukotin.coursework.controllers.documenttype;
 
 import org.springframework.lang.NonNull;
 
 public record DocumentTypeDTO(
 
-    @NonNull long typeId,
+    @NonNull int typeId,
     @NonNull String typeName
 ) {
 }

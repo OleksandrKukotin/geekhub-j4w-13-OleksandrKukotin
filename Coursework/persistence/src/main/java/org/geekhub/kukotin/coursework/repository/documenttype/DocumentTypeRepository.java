@@ -1,16 +1,16 @@
 package org.geekhub.kukotin.coursework.repository.documenttype;
 
-import dto.DocumentTypeDTO;
+import org.geekhub.kukotin.coursework.service.documenttype.DocumentType;
 
 import java.util.List;
 
 public interface DocumentTypeRepository {
 
-    void addType(DocumentTypeDTO dto);
+    void addType(DocumentType documentType);
 
-    void updateType(DocumentTypeDTO dto);
+    void updateType(DocumentType documentType);
 
-    void deleteType(DocumentTypeDTO dto);
+    void deleteType(DocumentType documentType);
 
-    List<DocumentTypeDTO> getAllTypes();
+    List<DocumentType> getAllTypes();
 }
