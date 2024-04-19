@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.author;
 
-import dto.AuthorDTO;
+import org.geekhub.kukotin.coursework.service.author.Author;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -20,20 +20,33 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public void addAuthor(AuthorDTO dto) {
+    public void save(Author author) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("authorName", dto.name())
-            .addValue("authorSurname", dto.surname());
+            .addValue("authorName", author.getAuthorName())
+            .addValue("authorSurname", author.getAuthorSurname());
         String query = "insert into authors(author_name, author_surname) values(:authorName, :authorSurname)";
         jdbcTemplate.update(query, parameterSource);
     }
 
     @Override
-    public void updateAuthor(AuthorDTO dto) {
+    public Author findAuthorById(int authorId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("authorId", dto.authorId())
-            .addValue("authorName", dto.name())
-            .addValue("authorSurname", dto.surname());
+            .addValue("authorId", authorId);
+        String query = "select * from authors where author_id = :authorId";
+        return jdbcTemplate.queryForObject(query, parameterSource, mapper);
+    }
+
+    @Override
+    public List<Author> findAllAuthors() {
+        return jdbcTemplate.query("select * from authors", mapper);
+    }
+
+    @Override
+    public void updateAuthor(Author author) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("authorId", author.getAuthorId())
+            .addValue("authorName", author.getAuthorName())
+            .addValue("authorSurname", author.getAuthorSurname());
         String query = """
             update authors set author_name = :authorName, author_surname = :authorSurname
             where author_id = :authorId
@@ -42,16 +55,10 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public void deleteAuthor(AuthorDTO dto) {
+    public void deleteAuthor(Author author) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("authorId", dto.authorId());
+            .addValue("authorId", author.getAuthorId());
         String query = "delete from authors where author_id  = :authorId";
         jdbcTemplate.update(query, parameterSource);
-    }
-
-    @Override
-    public List<AuthorDTO> getAllAuthors() {
-        String query = "select * from authors";
-        return jdbcTemplate.query(query, mapper);
     }
 }

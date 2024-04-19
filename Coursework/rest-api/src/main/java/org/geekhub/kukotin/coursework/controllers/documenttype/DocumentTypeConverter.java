@@ -1,6 +1,5 @@
 package org.geekhub.kukotin.coursework.controllers.documenttype;
 
-import org.geekhub.kukotin.coursework.controllers.country.CountryConverter;
 import org.geekhub.kukotin.coursework.service.documenttype.DocumentType;
 
 import java.util.List;

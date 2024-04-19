@@ -1,16 +1,18 @@
 package org.geekhub.kukotin.coursework.repository.author;
 
-import dto.AuthorDTO;
+import org.geekhub.kukotin.coursework.service.author.Author;
 
 import java.util.List;
 
 public interface AuthorRepository {
 
-    void addAuthor(AuthorDTO dto);
+    void save(Author author);
 
-    void updateAuthor(AuthorDTO dto);
+    Author findAuthorById(int authorId);
 
-    void deleteAuthor(AuthorDTO dto);
+    List<Author> findAllAuthors();
 
-    List<AuthorDTO> getAllAuthors();
+    void updateAuthor(Author author);
+
+    void deleteAuthor(Author author);
 }

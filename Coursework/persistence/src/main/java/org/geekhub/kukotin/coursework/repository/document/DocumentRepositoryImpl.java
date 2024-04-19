@@ -1,6 +1,6 @@
 package org.geekhub.kukotin.coursework.repository.document;
 
-import dto.DocumentDTO;
+import org.geekhub.kukotin.coursework.service.document.Document;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -22,7 +22,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public void addDocument(DocumentDTO document) {
+    public void addDocument(Document document) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
             .addValue("docType", document.documentTypeId())
             .addValue("docTitle", document.documentTitle())

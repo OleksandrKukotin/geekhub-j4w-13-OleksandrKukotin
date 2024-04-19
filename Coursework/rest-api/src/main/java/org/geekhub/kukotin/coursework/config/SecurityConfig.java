@@ -1,4 +1,4 @@
-package org.geekhub.kukotin.coursework.controllers.config;
+package org.geekhub.kukotin.coursework.config;
 
 import org.springframework.context.annotation.Configuration;
 

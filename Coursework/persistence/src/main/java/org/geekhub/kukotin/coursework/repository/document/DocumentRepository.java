@@ -1,16 +1,16 @@
 package org.geekhub.kukotin.coursework.repository.document;
 
-import dto.DocumentDTO;
+import org.geekhub.kukotin.coursework.service.document.Document;
 
 import java.util.List;
 
 public interface DocumentRepository {
 
-    void addDocument(DocumentDTO dto);
+    void addDocument(Document document);
 
-    void updateDocument(DocumentDTO dto);
+    void updateDocument(Document document);
 
-    void removeDocument(DocumentDTO dto);
+    void removeDocument(Document document);
 
-    List<DocumentDTO> getAllDocuments();
+    List<Document> getAllDocuments();
 }
