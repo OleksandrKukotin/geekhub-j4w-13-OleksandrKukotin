@@ -1,6 +1,5 @@
 package org.geekhub.kukotin.coursework.service.author;
 
-import org.geekhub.kukotin.coursework.repository.author.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

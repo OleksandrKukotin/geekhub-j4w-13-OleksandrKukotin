@@ -1,6 +1,4 @@
-package org.geekhub.kukotin.coursework.repository.documenttype;
-
-import org.geekhub.kukotin.coursework.service.documenttype.DocumentType;
+package org.geekhub.kukotin.coursework.service.documenttype;
 
 import java.util.List;
 

@@ -3,7 +3,6 @@ package org.geekhub.kukotin.coursework.controllers.author;
 import org.geekhub.kukotin.coursework.service.author.Author;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AuthorConverter {
 
@@ -20,7 +19,7 @@ public class AuthorConverter {
     public static List<AuthorDTO> toDtos(List<Author> entities) {
         return entities.stream()
             .map(AuthorConverter::toDto)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static Author fromDto(AuthorDTO dto) {

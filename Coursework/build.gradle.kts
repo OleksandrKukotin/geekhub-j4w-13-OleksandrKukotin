@@ -1,7 +1,3 @@
-plugins {
-    id("org.springframework.boot") version "3.2.4"
-}
-
 allprojects {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web:3.2.4")

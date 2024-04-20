@@ -1,6 +1,5 @@
 package org.geekhub.kukotin.coursework.service.documenttype;
 
-import org.geekhub.kukotin.coursework.repository.documenttype.DocumentTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

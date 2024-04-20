@@ -3,7 +3,6 @@ package org.geekhub.kukotin.coursework.controllers.documenttype;
 import org.geekhub.kukotin.coursework.service.documenttype.DocumentType;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DocumentTypeConverter {
 
@@ -21,6 +20,6 @@ public class DocumentTypeConverter {
     public static List<DocumentTypeDTO> toDtos(List<DocumentType> entities) {
         return entities.stream()
             .map(DocumentTypeConverter::toDto)
-            .collect(Collectors.toList());
+            .toList();
     }
 }

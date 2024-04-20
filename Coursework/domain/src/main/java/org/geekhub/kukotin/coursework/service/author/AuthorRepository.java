@@ -1,6 +1,4 @@
-package org.geekhub.kukotin.coursework.repository.author;
-
-import org.geekhub.kukotin.coursework.service.author.Author;
+package org.geekhub.kukotin.coursework.service.author;
 
 import java.util.List;
 

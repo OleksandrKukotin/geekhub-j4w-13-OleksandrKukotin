@@ -3,7 +3,6 @@ package org.geekhub.kukotin.coursework.controllers.country;
 import org.geekhub.kukotin.coursework.service.country.Country;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CountryConverter {
 
@@ -21,6 +20,6 @@ public class CountryConverter {
     public static List<CountryDTO> toDtos(List<Country> entities) {
         return entities.stream()
             .map(CountryConverter::toDto)
-            .collect(Collectors.toList());
+            .toList();
     }
 }

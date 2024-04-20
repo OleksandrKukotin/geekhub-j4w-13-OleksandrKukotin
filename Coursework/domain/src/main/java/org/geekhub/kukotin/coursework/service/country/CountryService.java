@@ -1,6 +1,5 @@
 package org.geekhub.kukotin.coursework.service.country;
 
-import org.geekhub.kukotin.coursework.repository.country.CountryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

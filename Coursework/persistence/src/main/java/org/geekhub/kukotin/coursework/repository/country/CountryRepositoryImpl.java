@@ -1,6 +1,7 @@
 package org.geekhub.kukotin.coursework.repository.country;
 
 import org.geekhub.kukotin.coursework.service.country.Country;
+import org.geekhub.kukotin.coursework.service.country.CountryRepository;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
