@@ -7,3 +7,7 @@ dependencies {
     implementation(project(":Coursework:domain"))
     implementation(project(":Coursework:persistence"))
 }
+
+tasks.bootJar {
+    enabled = true
+}
