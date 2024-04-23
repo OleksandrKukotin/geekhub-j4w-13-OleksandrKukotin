@@ -36,7 +36,7 @@ public class AuthorController {
 
     @GetMapping
     public ResponseEntity<List<AuthorDTO>> getAllAuthors() {
-        return new ResponseEntity<>(toDtos(authorService.getAllAuthors()), HttpStatus.OK);
+        return new ResponseEntity<>(toDtos(authorService.getAllAuthors(1,10)), HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.OK)

@@ -22,10 +22,9 @@ public class PublisherRepositoryImpl implements PublisherRepository {
 
     @Override
     public void save(Publisher publisher) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
-            .addValue("publisherName", publisher.publisherName())
-            .addValue("countryId", publisher.countryId());
-        String query = "insert into publishers(publisher_name, country_id) values (:publisherName, :countryId)";
+        SqlParameterSource parameterSource = new MapSqlParameterSource(
+            "publisherName", publisher.publisherName());
+        String query = "insert into publishers(publisher_name) values (:publisherName)";
         jdbcTemplate.update(query, parameterSource);
     }
 
@@ -38,11 +37,8 @@ public class PublisherRepositoryImpl implements PublisherRepository {
     public void update(Publisher publisher) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
             .addValue("publisherId", publisher.publisherId())
-            .addValue("newName", publisher.publisherName())
-            .addValue("newCountry", publisher.countryId());
-        String query = """
-            update publishers set publisher_name = :newName, country_id = :newCountry
-            where publisher_id = :publisherId""";
+            .addValue("newName", publisher.publisherName());
+        String query = " update publishers set publisher_name = :newName where publisher_id = :publisherId";
         jdbcTemplate.update(query, parameterSource);
     }
 

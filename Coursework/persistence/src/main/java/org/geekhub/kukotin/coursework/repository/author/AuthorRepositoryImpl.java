@@ -38,8 +38,12 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public List<Author> findAllAuthors() {
-        return jdbcTemplate.query("select * from authors", mapper);
+    public List<Author> findAllAuthors(int pageNumber, int pageSize) {
+        int offset = (pageNumber - 1) * pageSize;
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("pageSize", pageSize)
+            .addValue("offset", offset);
+        return jdbcTemplate.query("select * from authors limit :pageSize offset :offset", parameterSource, mapper);
     }
 
     @Override

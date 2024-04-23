@@ -8,7 +8,7 @@ public interface AuthorRepository {
 
     Author findAuthorById(int authorId);
 
-    List<Author> findAllAuthors();
+    List<Author> findAllAuthors(int pageNumber, int pageSize);
 
     void updateAuthor(Author author);
 

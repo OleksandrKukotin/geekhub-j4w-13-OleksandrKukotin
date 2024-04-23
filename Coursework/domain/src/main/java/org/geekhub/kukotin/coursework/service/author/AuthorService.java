@@ -21,8 +21,8 @@ public class AuthorService {
         return repository.findAuthorById(id);
     }
 
-    public List<Author> getAllAuthors() {
-        return repository.findAllAuthors();
+    public List<Author> getAllAuthors(int pageNumber, int pageSize) {
+        return repository.findAllAuthors(pageNumber, pageSize);
     }
 
     public void deleteAuthor(Author author) {
