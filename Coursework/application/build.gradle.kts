@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(project(":Coursework:rest-api"))
+    implementation(project(":Coursework:web-api"))
     implementation(project(":Coursework:domain"))
     implementation(project(":Coursework:persistence"))
 }
