@@ -1,3 +1,5 @@
+# My second start in the world of Java Software Development
+
 | №  | Topic                                        | Date       | Type           |
 |----|----------------------------------------------|------------|----------------|
 | 1  | Introduction                                 | 17.10.2023 | Offline/Online |
